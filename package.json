@@ -1,0 +1,16 @@
+{
+  "name": "challange",
+  "version": "1.0.0",
+  "description": "Hiring Challange",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "gabrielfr.borges@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.1.2",
+    "tsc": "^2.0.4"
+  }
+}
