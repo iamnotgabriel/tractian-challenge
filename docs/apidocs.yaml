@@ -100,7 +100,7 @@ components:
     Asset:
       type: object
       properties:
-        '_id':
+        id:
           $ref: "#/components/schemas/ObjectId"
         image:
           type: string
@@ -119,7 +119,7 @@ components:
     Company:
       type: object
       properties:
-        '_id':
+        id:
           $ref: "#/components/schemas/ObjectId"
         name:
           type: string
