@@ -1,0 +1,161 @@
+openapi: 3.0.1
+
+info:
+  title: Challenge API 
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/v1
+    description: The local API server
+paths:
+  /assets:
+    get:
+      summary: List paginated assets 
+      parameters:
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/skipParam"
+      responses:
+        '200': 
+          description: Page of assets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Asset'
+    post: {}
+  /assets/{assetId}:
+    get: {}
+    delete: {}
+    patch: {}
+  /units:
+    get: {}
+    post: {}
+  /units/{unitId}:
+    get: {}
+    delete: {}
+    patch: {}
+  /companies:
+    get:
+      summary: Paginated list of companies
+      parameters:
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/skipParam"
+      responses:
+        '200':
+          description: Page of companies
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: "#/components/schemas/Company"
+              
+    post:
+      summary: Create a new company
+      responses:
+        '200':
+          description: Created company object
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Company"
+  /companies/{companyId}:
+    get: {}
+    delete: {}
+    patch: {}
+  /users:
+    get: {}
+    post: {}
+  /users/{userId}:
+    get: {}
+    delete: {}
+    patch: {}
+components:
+  schemas:
+    APIError:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        statusCode:
+          type: integer
+          format: int32
+    ObjectId:
+      type: string
+      example: '645e767cadf2f3d26ce95101'
+    AssetStatus:
+      type: string
+      enum:
+        - RUNNING
+        - ALERTING
+        - STOPPED
+    HealthLevel:
+      type: number
+      minimum: 0
+      maximum: 100
+    Asset:
+      type: object
+      properties:
+        '_id':
+          $ref: "#/components/schemas/ObjectId"
+        image:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        model:
+          type: string
+        owner:
+          type: string
+        status:
+          $ref: '#/components/schemas/AssetStatus'
+        healthLevel:
+          $ref:  '#/components/schemas/HealthLevel'
+    Company:
+      type: object
+      properties:
+        '_id':
+          $ref: "#/components/schemas/ObjectId"
+        name:
+          type: string
+          minLength: 1
+          example: "Industria Freios"
+        document:
+          type: string
+          description: "Legal identifier of the company (CNPJ in Brazil, EIN in USA)"
+          example: "35755699000184"
+  parameters:
+    skipParam:
+      name: skip
+      in: query
+      description: entries to skip in a listing
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        default: 0
+    limitParam:
+      name: limit
+      in: query
+      description: max number of entries to list
+      schema: 
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 50
+        default: 10
+    forceDeleteParam:
+      name: forceDelete
+      in: query
+      description: Hard Delete instead of soft delete a entry
+      schema:
+        type: boolean
+        default: false
+    
+
+    
