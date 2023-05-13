@@ -2,6 +2,7 @@ import { CompanyMongoRepository } from "@/data/company/repository";
 import { MongoClientSingleton } from "@/data/mongo/mongo-client";
 import { ValueObject } from "@/domain/commons/types";
 import { Company } from "@/domain/company/entity";
+import { expectToBeOk } from "../../result";
 
 describe('data/company/company-mongo-repository', () => {
     beforeAll(async () => {
@@ -23,7 +24,9 @@ describe('data/company/company-mongo-repository', () => {
             document: '01234567890',
             createdAt: new Date(),
         };
-        const entity = await repository.save(company);
+        const result = await repository.save(company);
+
+        const entity = expectToBeOk(result);
         expect(entity).toMatchObject(company);
         expect(entity).toHaveProperty('id');
     });
@@ -35,7 +38,7 @@ describe('data/company/company-mongo-repository', () => {
             document: '01234567890',
             createdAt: new Date(),
         };
-        const {id} = await repository.save(company);
+        const {id} = expectToBeOk(await repository.save(company));
         const entity = await repository.findOne(id);
     
         expect(entity).toMatchObject(company);

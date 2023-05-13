@@ -19,7 +19,7 @@ export class CreateCompanyUseCaseImpl implements CreateCompanyUseCase {
             return result as Result.Err;
         }
 
-        return fromPromise(this.companyRepository.save(result.value));
+        return this.companyRepository.save(result.value);
     }
 
 }
