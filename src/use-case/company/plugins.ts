@@ -1,9 +1,10 @@
+import { ValueObject } from "@/domain/commons/types";
 import { Company, CreateCompanyDTO } from "@/domain/company/entity";
 
 export interface SaveCompanyRepository {
-    save(dto: SaveCompanyRepository.Request) : Promise<Company>
+    save(company: SaveCompanyRepository.Request) : Promise<Company>
 }
 
 export namespace SaveCompanyRepository {
-    export type Request = Omit<Company, "id">;
+    export type Request = ValueObject<Company>;
 }

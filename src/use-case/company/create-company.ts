@@ -1,8 +1,9 @@
 import { Company, CreateCompanyDTO, createCompany } from "@/domain/company/entity";
 import { SaveCompanyRepository } from "./plugins";
+import { Result, fromPromise } from "@/use-case/commons";
 
 export interface CreateCompanyUseCase  {
-    create(dto: CreateCompanyDTO): Promise<Company>;
+    create(dto: CreateCompanyDTO): Promise<Result<Company>>;
 }
 
 
@@ -12,11 +13,13 @@ export class CreateCompanyUseCaseImpl implements CreateCompanyUseCase {
 
     constructor(private readonly companyRepository: SaveCompanyRepository) {}
 
-    create(dto: CreateCompanyDTO): Promise<Company> {
-        // TODO: add logger
-        // TODO: add 
-        const company = createCompany(dto);
-        return this.companyRepository.save(company);
+    async create(dto: CreateCompanyDTO): Promise<Result<Company>> {
+        const result = createCompany(dto);
+        if(!result.ok) {
+            return result as Result.Err;
+        }
+
+        return fromPromise(this.companyRepository.save(result.value));
     }
 
 }

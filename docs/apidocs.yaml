@@ -81,9 +81,12 @@ components:
           type: string
         message:
           type: string
-        statusCode:
-          type: integer
-          format: int32
+        details:
+          type: array 
+          items:
+            anyOf:
+              - type: string
+              - type: object
     ObjectId:
       type: string
       example: '645e767cadf2f3d26ce95101'

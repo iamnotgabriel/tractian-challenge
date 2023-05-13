@@ -1,5 +1,8 @@
 import Joi from "joi";
-import { validationSchema, ValidationError } from "@/domain/validation";
+import { validationSchema } from "@/domain/validation";
+import { ValueObject } from "../commons/types";
+import { Result } from "@/use-case/commons";
+import { ValidationError } from "../errors";
 
 export type CreateCompanyDTO = {
     name: string
@@ -13,16 +16,19 @@ export type Company = CreateCompanyDTO & {
 
 const companySchema = validationSchema<CreateCompanyDTO>({
     name: Joi.string().min(1),
-    document: Joi.string().pattern(/\d+/)
+    document: Joi.string(),
 });
 
-export function createCompany(dto : CreateCompanyDTO): Omit<Company, "id"> {
+export function createCompany(dto : CreateCompanyDTO): Result<ValueObject<Company>> {
     const {error, value} = companySchema.validate(dto);
     if (error) {
-        throw new ValidationError(error.details)
+        return new ValidationError(error.details).toResult();
     }
     return {
-        ...value,
-        createdAt: new Date(), 
+        ok: true,
+        value: {
+            ...value,
+            createdAt: new Date()
+        }
     }
 }
