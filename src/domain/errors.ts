@@ -9,11 +9,22 @@ export abstract class ApplicationError extends Error {
     public toResult<T>(): Result.Err {
         return { ok: false, error: this }
     }
+
+    public toJson() {
+        return {
+            message: this.message,
+            errorCode: this.errorCode,
+        }
+    }
 }
 
 export class ValidationError extends ApplicationError {
     constructor(public readonly details: ValidationErrorItem[]) {
         super('Validation Error', ErrorCodes.VALIDATION_ERROR)
+    }
+
+    public toJson() {
+        return { ...super.toJson(), details: this.details}
     }
 }
 
