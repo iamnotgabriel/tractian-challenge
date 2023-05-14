@@ -2,7 +2,9 @@ import { CreateCompanyDTO } from "@/domain/company/entity";
 import { Result } from "@/use-case/commons";
 import { CreateCompanyUseCase } from "@/use-case/company/create-company";
 import {Request, Response} from "express";
-import { Route } from "../route";
+import { Route } from "@/api/route";
+import { StatusCode } from "../http/status-code";
+import { Headers } from "@/api/http/headers";
 
 export class CreateCompanyRoute extends Route {
 
@@ -18,7 +20,11 @@ export class CreateCompanyRoute extends Route {
             res.status(error.errorCode).json(error.toJson())
         } else {
             const { id } = result.value;
-            res.json(result.value).setHeader('location', `/companies/${id}`);
+
+            res.setHeader(Headers.CONTENT_LOCATION, `/api/v1/companies/${id}`)
+                .status(StatusCode.CREATED)
+                .json(result.value);
+
         }
     }
 

@@ -6,9 +6,6 @@ export interface CreateCompanyUseCase  {
     create(dto: CreateCompanyDTO): Promise<Result<Company>>;
 }
 
-
-
-
 export class CreateCompanyUseCaseImpl implements CreateCompanyUseCase {
 
     constructor(private readonly companyRepository: SaveCompanyRepository) {}

@@ -52,9 +52,19 @@ paths:
               
     post:
       summary: Create a new company
+      requestBody:
+        required: true
+        description: Company object to be created
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCompanyDTO"
       responses:
-        '200':
+        '201':
           description: Created company object
+          headers:
+            Content-Location:
+              $ref: "#/components/headers/Content-Location"
           content:
             application/json:
               schema:
@@ -90,6 +100,14 @@ components:
     ObjectId:
       type: string
       example: '645e767cadf2f3d26ce95101'
+    Entity:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/ObjectId"
+        createdAt:
+          type: string
+          format: date-time
     AssetStatus:
       type: string
       enum:
@@ -119,11 +137,9 @@ components:
           $ref: '#/components/schemas/AssetStatus'
         healthLevel:
           $ref:  '#/components/schemas/HealthLevel'
-    Company:
+    CreateCompanyDTO:
       type: object
       properties:
-        id:
-          $ref: "#/components/schemas/ObjectId"
         name:
           type: string
           minLength: 1
@@ -132,6 +148,10 @@ components:
           type: string
           description: "Legal identifier of the company (CNPJ in Brazil, EIN in USA)"
           example: "35755699000184"
+    Company:
+      allOf:
+        - $ref: "#/components/schemas/CreateCompanyDTO"
+        - $ref: "#/components/schemas/Entity"
   parameters:
     skipParam:
       name: skip
@@ -159,6 +179,9 @@ components:
       schema:
         type: boolean
         default: false
-    
-
-    
+  headers:
+    Content-Location:
+      description: Path of the resource created
+      schema:
+        type: string
+        example: /api/v1/companies/646138a43199fe0c5d69e13e
