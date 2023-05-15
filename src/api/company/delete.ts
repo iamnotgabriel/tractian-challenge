@@ -2,7 +2,6 @@ import { Result } from "@/use-case/commons";
 import { Request, Response, Router } from "express";
 import { Route } from "@/api/route";
 import { StatusCode } from "../http/status-code";
-import { NotFoundError } from "@/domain/errors";
 import { DeleteCompanyUseCase } from "@/use-case/company/delete-company";
 
 export class DeleteCompanyRoute extends Route {
