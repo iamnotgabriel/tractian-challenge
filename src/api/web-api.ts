@@ -5,6 +5,8 @@ import { contentType } from "./middlewares/content-type";
 import { bodyParser } from "./middlewares/body-parser";
 import { ApplicationContext } from "@/main/context/application";
 import { Configuration } from "@/main/context/configuration";
+import { loggingMiddleware } from "./middlewares/logger";
+import { logger } from "@/resources/logging";
 
 export class WebAPI {
     public readonly app: Express;
@@ -22,6 +24,7 @@ export class WebAPI {
         this.app.use(bodyParser)
         this.app.use(cors)
         this.app.use(contentType);
+        this.app.use(loggingMiddleware);
     }
     
     private registerRoutes(): void {
@@ -33,7 +36,7 @@ export class WebAPI {
     async start() {
         const {serverPort} = this.config;
         this.app.listen(serverPort, () =>
-            console.log(`Server running on port: ${serverPort}`)
+            logger.info(`Server running on port ${serverPort}`)
         );
     }
 }
