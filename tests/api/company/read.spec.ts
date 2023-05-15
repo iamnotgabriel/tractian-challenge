@@ -5,6 +5,12 @@ import { Express } from "express";
 
 describe('api/company/read', () => {
     let app: Express;
+    const company = {
+        id: "0as9df80a98f08089",
+        name: 'API Testing company',
+        document: '09876543210',
+        createdAt: new Date()
+    }
 
     beforeAll(() => {
         const webApi = TestApplication.create();
@@ -15,19 +21,31 @@ describe('api/company/read', () => {
         await TestApplication.teardown()
     });
 
-    test("read company route", async () => {
-        const company = {
-            id: "0as9df80a98f08089",
-            name: 'API Testing company',
-            document: '09876543210',
-            createdAt: new Date()
-        }
-        TestApplication.context.readCompanyUseCase.find.mockResolvedValueOnce(toOk(company));
-        const res = await request(app).get('/api/v1/companies/'+ company.id).send().expect(200);
+    test("read company route finds company", async () => {
+        TestApplication.context.readCompanyUseCase
+            .find.mockResolvedValueOnce(toOk(company));
+        const res = await request(app).get('/api/v1/companies/'+ company.id)
+            .send().expect(200);
         
         expect(res.body).toMatchObject({
             ...company,
             createdAt: company.createdAt.toISOString()
+        });
+    });
+
+    test("read company route does not find company", async () => {
+        TestApplication.context.readCompanyUseCase.find.mockResolvedValueOnce(toOk(null));
+        const res = await request(app)
+            .get('/api/v1/companies/'+ company.id)
+            .send()
+            .expect(404);
+        
+        expect(res.body).toMatchObject({
+            errorCode: 404,
+            message: "Company Not Found",
+            details: {
+                companyId: company.id
+            }
         });
     });
 });
