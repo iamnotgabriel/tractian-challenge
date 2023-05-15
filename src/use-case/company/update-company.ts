@@ -36,10 +36,11 @@ export class UpdateCompanyUseCaseImpl implements UpdateCompanyUseCase {
             return result;
         }
 
-        result = await this.companyRepository.update(request);
-        if (!result.ok) {
-            result = result as Result.Err;
-            logger.error(result.error.message + `company=${request.id}` );
+        let updateResult  = await this.companyRepository.update(request);
+        if (!updateResult.ok) {
+            updateResult = updateResult as Result.Err;
+            logger.error(updateResult.error.message + `company=${request.id}` );
+            return updateResult;
         }
 
         return result;

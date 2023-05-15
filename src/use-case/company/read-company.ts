@@ -21,10 +21,10 @@ export class ReadCompanyUseCaseImpl implements ReadCompanyUseCase {
     async find(id: ReadCompanyUseCase.Request): Promise<Result<Company>> {
         const result = await this.companyRepository.find(id);
     
-        // if (result.ok && result.value == null) {
-        //     logger.warn(`company=${id} not found`);
-        //     return new NotFoundError('Company', {id}).toResult();
-        // }
+        if (result.ok && result.value == null) {
+            logger.warn(`company=${id} not found`);
+            return new NotFoundError('Company', {id}).toResult();
+        }
 
         return result;
     }

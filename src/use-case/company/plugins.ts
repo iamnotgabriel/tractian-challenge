@@ -39,6 +39,6 @@ export namespace UpdateCompanyRepository {
         id: string,
         patch: UpdateObject<Company>,
     };
-    export type Response = Result<Company>;
+    export type Response = Result<void>;
 }
 

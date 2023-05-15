@@ -1,9 +1,10 @@
 import { companyRepository } from "./stubs";
 import { expectToBeOk } from "@/tests/result";
 import { Result, toOk } from "@/use-case/commons";
-import { ErrorCodes, InternalError } from "@/domain/errors";
+import { DetailedError, ErrorCodes, InternalError } from "@/domain/errors";
 import { ReadCompanyUseCaseImpl } from "@/use-case/company/read-company";
 import crypto from 'crypto';
+import exp from "constants";
 
 
 describe('use-case/read-company', () => {
@@ -42,8 +43,8 @@ describe('use-case/read-company', () => {
         const useCase  = new ReadCompanyUseCaseImpl(companyRepository);
         
         const result = await useCase.find(crypto.randomUUID()) as Result.Err;
-        const entity = expectToBeOk(result);
 
-        expect(entity).toBeNull();
+        expect(result.ok).toBeFalsy();
+        expect(result.error.errorCode).toBe(404);
     });
 });

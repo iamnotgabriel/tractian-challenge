@@ -4,7 +4,12 @@ import { MongoClientSingleton } from "../mongo/mongo-client";
 import { MongoRepository } from "../mongo/mongo-repository";
 import { ObjectId } from "mongodb";
 import { Result, toOk } from "@/use-case/commons";
-import { InternalError } from "@/domain/errors";
+import { InternalError, NotFoundError } from "@/domain/errors";
+
+
+function noAcknowledgment() {
+    return new InternalError(new Error('No acknowledgment received')).toResult();
+}
 
 export class CompanyMongoRepository extends MongoRepository
     implements
@@ -30,11 +35,23 @@ export class CompanyMongoRepository extends MongoRepository
             return toOk(this.map(document));
         }
 
-        return new InternalError(new Error('No acknowledgment received')).toResult();
+        return noAcknowledgment()
     }
 
-    async update(id: UpdateCompanyRepository.Request): Promise<UpdateCompanyRepository.Response> {
-        throw new Error("Method not implemented.");
+    async update({id, patch}: UpdateCompanyRepository.Request): Promise<UpdateCompanyRepository.Response> {
+        const result  = await this.collection.updateOne(
+            { _id: new ObjectId(id )},
+            {"$set": patch}, 
+            { upsert: false }
+        );
+        if (result.acknowledged && result.modifiedCount > 0) {
+            return toOk(null);
+        }
+        if (result.acknowledged && result.matchedCount == 0) {
+            return new NotFoundError('company', {id}).toResult();
+        }
+
+        return noAcknowledgment();
     }
 
     async delete(id: string): Promise<DeleteCompanyRepository.Response> {
@@ -42,7 +59,8 @@ export class CompanyMongoRepository extends MongoRepository
         if (result.acknowledged) {
             return toOk(null);
         }
-        return new InternalError(new Error('No acknowledgment received')).toResult();
+
+        return noAcknowledgment();
     }
 
 }

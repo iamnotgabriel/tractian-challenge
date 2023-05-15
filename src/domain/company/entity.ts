@@ -38,6 +38,6 @@ export function updateCompany(company: Company, patch: UpdateObject<Company>): R
         return new ValidationError(error.details).toResult();
     }
 
-    return toOk(value);
+    return toOk(Object.assign(company, value));
 
 }

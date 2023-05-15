@@ -21,13 +21,7 @@ describe('use-case/update-company', () => {
 
     test('update company', async () => {
         testContext.readCompanyUseCase.find.mockResolvedValueOnce(toOk(company));
-        companyRepository.update.mockImplementationOnce(async ({id, patch}) => (toOk({
-            id: id,
-            name: 'Big Tech Company',
-            document: '94919521000190',
-            createdAt: new Date(), 
-            ...patch,
-        })));
+        companyRepository.update.mockImplementationOnce(async (_) => (toOk(null)));
         const useCase = new UpdateCompanyUseCaseImpl(
             companyRepository, testContext.readCompanyUseCase
         );
