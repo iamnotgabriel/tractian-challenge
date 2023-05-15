@@ -16,15 +16,13 @@ export class CreateCompanyRoute extends Route {
         const body = req.body as CreateCompanyDTO;
         const result = await this.useCase.create(body);
         if (!result.ok) {
-            const error  = (result as Result.Err).error;
-            res.status(error.errorCode).json(error.toJson())
+            Route.respondWithError(res, result as Result.Err);
         } else {
             const { id } = result.value;
 
             res.setHeader(Headers.CONTENT_LOCATION, `/api/v1/companies/${id}`)
                 .status(StatusCode.CREATED)
                 .json(result.value);
-
         }
     }
 

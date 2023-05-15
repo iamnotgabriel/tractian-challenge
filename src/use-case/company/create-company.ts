@@ -1,6 +1,6 @@
 import { Company, CreateCompanyDTO, createCompany } from "@/domain/company/entity";
 import { SaveCompanyRepository } from "./plugins";
-import { Result, fromPromise } from "@/use-case/commons";
+import { Result } from "@/use-case/commons";
 
 export interface CreateCompanyUseCase  {
     create(dto: CreateCompanyDTO): Promise<Result<Company>>;

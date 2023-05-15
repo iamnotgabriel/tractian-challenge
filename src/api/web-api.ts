@@ -3,15 +3,16 @@ import * as company from "./company";
 import { cors } from "./middlewares/cors";
 import { contentType } from "./middlewares/content-type";
 import { bodyParser } from "./middlewares/body-parser";
-import { ApplicationContext } from "@/main/application-context";
-import { Configuration } from "@/main/config";
+import { ApplicationContext } from "@/main/context/application";
+import { Configuration } from "@/main/context/configuration";
 
 export class WebAPI {
-    private app: Express;
+    public readonly app: Express;
 
     constructor(private readonly context: ApplicationContext, private readonly config: Configuration) {
         this.app = express()
     }
+
     setup() {
         this.registerMiddlewares();
         this.registerRoutes();
@@ -29,7 +30,7 @@ export class WebAPI {
         this.app.use('/api/v1', router);
     }
 
-    start() {
+    async start() {
         const {serverPort} = this.config;
         this.app.listen(serverPort, () =>
             console.log(`Server running on port: ${serverPort}`)

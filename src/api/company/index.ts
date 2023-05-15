@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { CreateCompanyRoute } from "./create";
-import { ApplicationContext } from "@/main/application-context";
+import { ApplicationContext } from "@/main/context/application";
 
 
 export function registerRoutes(router: Router, context: ApplicationContext): void {
