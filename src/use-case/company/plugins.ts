@@ -17,5 +17,5 @@ export interface FindCompanyRepository {
 
 export namespace FindCompanyRepository {
     export type Request = string;
-    export type Response = Result<Company>;
+    export type Response = Result<Company | null>;
 }
