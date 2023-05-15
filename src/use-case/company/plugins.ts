@@ -19,3 +19,13 @@ export namespace FindCompanyRepository {
     export type Request = string;
     export type Response = Result<Company | null>;
 }
+
+
+export interface DeleteCompanyRepository {
+    delete(id: DeleteCompanyRepository.Request): Promise<DeleteCompanyRepository.Response>
+}
+
+export namespace DeleteCompanyRepository {
+    export type Request = string;
+    export type Response = Result<void>;
+}

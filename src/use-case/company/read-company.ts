@@ -25,10 +25,14 @@ export class ReadCompanyUseCaseImpl implements ReadCompanyUseCase {
     }
     
     private logResult(id: string, result: Result<Company>): void  {
+        const company = `company id=${id}`;
         if(result.ok && result.value != null) {
-            logger.info(`found company id=${id}`);
+            logger.info(`found ${company}`);
+        } if (result.ok) {
+            logger.info(`${company} not found`);
         } else {
-            logger.info(`company id=${id} not found`);
+            result = result as Result.Err;
+            logger.error(`${result.error.message} finding ${company}`)
         }
     }
 
