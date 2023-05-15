@@ -1,6 +1,6 @@
 import { TestApplication } from "@/tests/main/test-application";
 import { toOk } from "@/use-case/commons";
-import request from "supertest";;
+import request from "supertest";
 import { Express } from "express";
 
 describe('api/company/create', () => {
