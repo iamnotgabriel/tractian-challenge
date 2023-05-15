@@ -29,6 +29,15 @@ describe('use-case/create-company', () => {
         expect(entity).toHaveProperty('id');
     });
 
+    test('use case fails to create new company when name is empty', async () => {
+        const useCase  = new CreateCompanyUseCaseImpl(saveCompanyRepositoryStub);
+        
+        const result = await useCase.create({...companyDTO, name:''}) as Result.Err;
+
+        expect(result.ok).toBeFalsy();
+        expect(result.error.errorCode).toBe(400);
+    });
+
     test('use case fails when a error occurs', async () => {
         saveCompanyRepositoryStub.save.mockResolvedValueOnce(new InternalError(new Error('Bad Entry')).toResult())
         

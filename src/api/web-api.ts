@@ -4,14 +4,14 @@ import { cors } from "./middlewares/cors";
 import { contentType } from "./middlewares/content-type";
 import { bodyParser } from "./middlewares/body-parser";
 import { ApplicationContext } from "@/main/context/application";
-import { Configuration } from "@/main/context/configuration";
+import { configuration } from "@/main/context/configuration";
 import { loggingMiddleware } from "./middlewares/logger";
-import { logger } from "@/resources/logging";
+import { getLogger } from "@/resources/logging";
 
 export class WebAPI {
     public readonly app: Express;
 
-    constructor(private readonly context: ApplicationContext, private readonly config: Configuration) {
+    constructor(private readonly context: ApplicationContext) {
         this.app = express()
     }
 
@@ -34,7 +34,8 @@ export class WebAPI {
     }
 
     async start() {
-        const {serverPort} = this.config;
+        const logger = getLogger('WebAPI');
+        const {serverPort} = configuration
         this.app.listen(serverPort, () =>
             logger.info(`Server running on port ${serverPort}`)
         );

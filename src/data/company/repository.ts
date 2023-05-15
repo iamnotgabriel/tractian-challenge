@@ -24,6 +24,7 @@ export class CompanyMongoRepository extends MongoRepository implements SaveCompa
         if(result.acknowledged) {
             return toOk(this.map(document));
         }
+
         return new InternalError(new Error('No Acknowledgment received')).toResult() as Result.Err;
     }
 
