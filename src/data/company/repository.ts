@@ -1,12 +1,16 @@
 import { Company } from "@/domain/company/entity";
-import { FindCompanyRepository, SaveCompanyRepository } from "@/use-case/company/plugins";
+import { DeleteCompanyRepository, FindCompanyRepository, SaveCompanyRepository } from "@/use-case/company/plugins";
 import { MongoClientSingleton } from "../mongo/mongo-client";
 import { MongoRepository } from "../mongo/mongo-repository";
 import { ObjectId } from "mongodb";
 import { Result, toOk } from "@/use-case/commons";
 import { InternalError } from "@/domain/errors";
 
-export class CompanyMongoRepository extends MongoRepository implements SaveCompanyRepository, FindCompanyRepository {
+export class CompanyMongoRepository extends MongoRepository
+    implements
+        SaveCompanyRepository,
+        FindCompanyRepository,
+        DeleteCompanyRepository {
     constructor() {
         super(MongoClientSingleton.getCollection('companies'))
     }
@@ -26,6 +30,10 @@ export class CompanyMongoRepository extends MongoRepository implements SaveCompa
         }
 
         return new InternalError(new Error('No Acknowledgment received')).toResult() as Result.Err;
+    }
+
+    async delete(id: string): Promise<DeleteCompanyRepository.Response> {
+        throw new Error("Method not implemented.");
     }
 
 }

@@ -16,9 +16,14 @@ export function getTestContext(): TestApplicationContext {
         find: jest.fn()
     };
 
+    const deleteCompanyUseCase = {
+        delete: jest.fn(),
+    };
+
     return  {
         createCompanyUseCase,
         readCompanyUseCase,
+        deleteCompanyUseCase,
     }
 
 }

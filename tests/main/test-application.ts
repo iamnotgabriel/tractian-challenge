@@ -12,7 +12,7 @@ export class TestApplication {
 
     static create(): WebAPI {
         MongoClientSingleton.connect(configuration.mongoUrl);
-        const api  = new WebAPI(TestApplication.context, configuration);
+        const api  = new WebAPI(TestApplication.context);
         api.setup();
 
         return api;
