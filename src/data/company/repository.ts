@@ -29,11 +29,15 @@ export class CompanyMongoRepository extends MongoRepository
             return toOk(this.map(document));
         }
 
-        return new InternalError(new Error('No Acknowledgment received')).toResult() as Result.Err;
+        return new InternalError(new Error('No acknowledgment received')).toResult();
     }
 
     async delete(id: string): Promise<DeleteCompanyRepository.Response> {
-        throw new Error("Method not implemented.");
+        const result = await this.collection.deleteOne({_id: new ObjectId(id)})
+        if (result.acknowledged) {
+            return toOk(null);
+        }
+        return new InternalError(new Error('No acknowledgment received')).toResult();
     }
 
 }

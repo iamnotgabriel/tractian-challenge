@@ -17,7 +17,7 @@ describe('data/company/company-mongo-repository', () => {
         await MongoClientSingleton.getCollection('companies').deleteMany();
     });
 
-    test('find saved company by id', async () => {
+    test('delete company by id', async () => {
         const repository = new CompanyMongoRepository();
         const company: ValueObject<Company> =  {
             name: 'Testing company',
@@ -25,15 +25,15 @@ describe('data/company/company-mongo-repository', () => {
             createdAt: new Date(),
         };
         const {id} = expectToBeOk(await repository.save(company));
-        const entity = expectToBeOk(await repository.find(id));
-    
-        expect(entity).toMatchObject(company);
-    });
-
-    test('returns null when entity does not exist', async () => {
-        const repository = new CompanyMongoRepository();
-        const entity = expectToBeOk(await repository.find("64628225f5b6a1023af42e91"));
+        expectToBeOk(await repository.delete(id));
+        const entity = expectToBeOk(await repository.find(id)); 
 
         expect(entity).toBeNull();
+    });
+
+    test('delete company that does not exist does not lead to error', async () => {
+        const repository = new CompanyMongoRepository();
+
+        expectToBeOk(await repository.delete("64628225f5b6a1023af42e91"));
     });
 });
