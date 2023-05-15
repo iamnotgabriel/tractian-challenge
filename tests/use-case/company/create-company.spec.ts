@@ -1,5 +1,5 @@
 import { CreateCompanyUseCaseImpl } from "@/use-case/company/create-company";
-import { saveCompanyRepositoryStub } from "./stubs";
+import { companyRepository } from "./stubs";
 import { expectToBeOk } from "../../result";
 import { Result, toOk } from "@/use-case/commons";
 import { ErrorCodes, InternalError } from "@/domain/errors";
@@ -7,7 +7,7 @@ import crypto from 'crypto';
 
 
 describe('use-case/create-company', () => {
-    saveCompanyRepositoryStub.save.mockImplementation(async (company) => (toOk({
+    companyRepository.save.mockImplementation(async (company) => (toOk({
         ...company,
         id: crypto.randomUUID(),
     })));
@@ -21,7 +21,7 @@ describe('use-case/create-company', () => {
     })
 
     test('use case creates new company', async () => {
-        const useCase  = new CreateCompanyUseCaseImpl(saveCompanyRepositoryStub);
+        const useCase  = new CreateCompanyUseCaseImpl(companyRepository);
         
         const result = await useCase.create(companyDTO);
         const entity = expectToBeOk(result);
@@ -30,7 +30,7 @@ describe('use-case/create-company', () => {
     });
 
     test('use case fails to create new company when name is empty', async () => {
-        const useCase  = new CreateCompanyUseCaseImpl(saveCompanyRepositoryStub);
+        const useCase  = new CreateCompanyUseCaseImpl(companyRepository);
         
         const result = await useCase.create({...companyDTO, name:''}) as Result.Err;
 
@@ -39,9 +39,9 @@ describe('use-case/create-company', () => {
     });
 
     test('use case fails when a error occurs', async () => {
-        saveCompanyRepositoryStub.save.mockResolvedValueOnce(new InternalError(new Error('Bad Entry')).toResult())
+        companyRepository.save.mockResolvedValueOnce(new InternalError(new Error('Bad Entry')).toResult())
         
-        const useCase  = new CreateCompanyUseCaseImpl(saveCompanyRepositoryStub);
+        const useCase  = new CreateCompanyUseCaseImpl(companyRepository);
         
         const result = await useCase.create(companyDTO) as Result.Err;
         expect(result.ok).toBeFalsy();

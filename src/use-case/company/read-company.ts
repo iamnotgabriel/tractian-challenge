@@ -2,14 +2,15 @@ import { Company } from "@/domain/company/entity";
 import { FindCompanyRepository } from "./plugins";
 import { Result } from "@/use-case/commons";
 import { getLogger } from "@/resources/logging";
+import { NotFoundError } from "@/domain/errors";
 
 export interface ReadCompanyUseCase  {
-    find(id: ReadCompanyUseCase.Request): ReadCompanyUseCase.Response;
+    find(id: ReadCompanyUseCase.Request): Promise<ReadCompanyUseCase.Response>;
 }
 
 export namespace ReadCompanyUseCase {
     export type Request = string;
-    export type Response = Promise<Result<Company>>;
+    export type Response = Result<Company>;
 }
 
 const logger = getLogger('ReadCompanyUseCase');
@@ -19,21 +20,13 @@ export class ReadCompanyUseCaseImpl implements ReadCompanyUseCase {
 
     async find(id: ReadCompanyUseCase.Request): Promise<Result<Company>> {
         const result = await this.companyRepository.find(id);
-        this.logResult(id, result);
+    
+        // if (result.ok && result.value == null) {
+        //     logger.warn(`company=${id} not found`);
+        //     return new NotFoundError('Company', {id}).toResult();
+        // }
 
         return result;
-    }
-    
-    private logResult(id: string, result: Result<Company>): void  {
-        const company = `company id=${id}`;
-        if(result.ok && result.value != null) {
-            logger.info(`found ${company}`);
-        } if (result.ok) {
-            logger.info(`${company} not found`);
-        } else {
-            result = result as Result.Err;
-            logger.error(`${result.error.message} finding ${company}`)
-        }
     }
 
 }

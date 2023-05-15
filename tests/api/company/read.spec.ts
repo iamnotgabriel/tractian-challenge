@@ -2,6 +2,7 @@ import { TestApplication } from "@/tests/main/test-application";
 import { toOk } from "@/use-case/commons";
 import request from "supertest";
 import { Express } from "express";
+import { NotFoundError } from "@/domain/errors";
 
 describe('api/company/read', () => {
     let app: Express;
@@ -34,7 +35,8 @@ describe('api/company/read', () => {
     });
 
     test("read company route does not find company", async () => {
-        TestApplication.context.readCompanyUseCase.find.mockResolvedValueOnce(toOk(null));
+        TestApplication.context.readCompanyUseCase
+            .find.mockResolvedValueOnce(new NotFoundError('Company', {id: company.id}).toResult());
         const res = await request(app)
             .get('/api/v1/companies/'+ company.id)
             .send()
@@ -44,7 +46,7 @@ describe('api/company/read', () => {
             errorCode: 404,
             message: "Company Not Found",
             details: {
-                companyId: company.id
+                id: company.id
             }
         });
     });

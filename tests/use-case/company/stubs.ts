@@ -1,13 +1,15 @@
-import { DeleteCompanyRepository, FindCompanyRepository, SaveCompanyRepository } from "@/use-case/company/plugins";
+import { DeleteCompanyRepository, FindCompanyRepository, SaveCompanyRepository, UpdateCompanyRepository } from "@/use-case/company/plugins";
 
-export const saveCompanyRepositoryStub: jest.Mocked<SaveCompanyRepository> = {
+
+export type CompanyRepository =
+    & jest.Mocked<SaveCompanyRepository>
+    & jest.Mocked<FindCompanyRepository>
+    & jest.Mocked<DeleteCompanyRepository>
+    & jest.Mocked<UpdateCompanyRepository>;
+
+export const companyRepository: CompanyRepository = {
     save: jest.fn(),
-}
-
-export const readCompanyUseCaseStub: jest.Mocked<FindCompanyRepository> = {
     find: jest.fn(),
-} 
-
-export const deleteCompanyRepositoryStub: jest.Mocked<DeleteCompanyRepository> = {
     delete: jest.fn(),
-}
+    update: jest.fn()
+};

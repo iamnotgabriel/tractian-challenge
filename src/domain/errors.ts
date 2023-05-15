@@ -33,8 +33,8 @@ export class ValidationError extends DetailedError<ValidationErrorItem[]> {
     }
 }
 
-export class NotFoundError extends DetailedError<Record<string, string>> {
-    constructor(entity: string, details: Record<string, string>) {
+export class NotFoundError extends DetailedError<Record<string, string | object>> {
+    constructor(entity: string, details: Record<string, string | object>) {
         entity = entity.charAt(0).toUpperCase() + entity.substring(1);
         super(`${entity} Not Found`, ErrorCodes.NOT_FOUND, details);
     }
