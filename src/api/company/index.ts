@@ -4,6 +4,7 @@ import { ApplicationContext } from "@/main/context/application";
 import { ReadCompanyRoute } from "./read";
 import { DeleteCompanyRoute } from "./delete";
 import { Route } from "../route";
+import { UpdateCompanyRoute } from "./update";
 
 
 export function registerRoutes(router: Router, context: ApplicationContext): void {
@@ -11,7 +12,8 @@ export function registerRoutes(router: Router, context: ApplicationContext): voi
         new CreateCompanyRoute(context.createCompanyUseCase),
         new ReadCompanyRoute(context.readCompanyUseCase),
         new DeleteCompanyRoute(context.deleteCompanyUseCase),
-    ]
+        new UpdateCompanyRoute(context.updateCompanyUseCase),
+    ];
     
     routes.forEach(route => route.register(router));
 }
