@@ -5,6 +5,26 @@ Our users, Emerson and Roberta, are maintenance managers at Industria Freios Sup
 
 ## Challenge
 Build a CRUD where the user can register companies, units, assets and users
+[ ] companies
+    [x] create
+    [ ] read
+    [ ] update
+    [ ] delete
+[ ] users
+    [ ] create
+    [ ] read
+    [ ] update
+    [ ] delete
+[ ] units
+    [ ] create
+    [ ] read
+    [ ] update
+    [ ] delete
+[ ] assets
+    [ ] create
+    [ ] read
+    [ ] update
+    [ ] delete
 
 ## Important
 - Each asset must have an image, name, description, model, owner, status and health level;
