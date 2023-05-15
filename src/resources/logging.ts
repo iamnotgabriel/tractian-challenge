@@ -2,7 +2,7 @@ import { configuration } from "@/main/context/configuration";
 import { createLogger, format, transports } from "winston";
 const logger = createLogger({
     transports: [new transports.Console({
-        silent: configuration.logging
+        silent: configuration.silenceLogging
     })],
     format: format.combine(
         format.colorize(),

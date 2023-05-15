@@ -2,11 +2,6 @@ import { TestApplication } from "@/tests/main/test-application";
 import { toOk } from "@/use-case/commons";
 import request from "supertest";;
 import { Express } from "express";
-import { testConfiguration } from "@/tests/main/configuration";
-
-// jest.mock("@/main/context/configuration", () => ({
-//     configuration: testConfiguration, 
-// }));
 
 describe('api/company/create', () => {
     let app: Express;
