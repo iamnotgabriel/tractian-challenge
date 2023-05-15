@@ -15,7 +15,7 @@ describe('api/company/create', () => {
         await TestApplication.teardown()
     });
 
-    test("super test", async () => {
+    test("create companyUseCase", async () => {
         const body = {
             name: 'API Testing company',
             document: '09876543210'
@@ -25,7 +25,7 @@ describe('api/company/create', () => {
             id: "0as9df80a98f08089",
             createdAt: new Date()
         }));
-        const response = await request(app).post('/api/v1/companies').send().expect(201);
+        const response = await request(app).post('/api/v1/companies').send(body).expect(201);
         const { id } = response.body;
         
         const contentLocation =  `/api/v1/companies/${id}`;

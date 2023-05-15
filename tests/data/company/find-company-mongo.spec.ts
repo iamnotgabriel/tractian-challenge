@@ -3,7 +3,6 @@ import { MongoClientSingleton } from "@/data/mongo/mongo-client";
 import { ValueObject } from "@/domain/commons/types";
 import { Company } from "@/domain/company/entity";
 import { expectToBeOk } from "../../result";
-import crypto from "crypto";
 
 describe('data/company/company-mongo-repository', () => {
     beforeAll(async () => {

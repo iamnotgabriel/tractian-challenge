@@ -17,14 +17,26 @@ export abstract class ApplicationError extends Error {
         }
     }
 }
-
-export class ValidationError extends ApplicationError {
-    constructor(public readonly details: ValidationErrorItem[]) {
-        super('Validation Error', ErrorCodes.VALIDATION_ERROR)
+export abstract class DetailedError<T> extends ApplicationError {
+    constructor(message: string, errorCode: ErrorCodes, public readonly details: T) {
+        super(message, errorCode)
     }
-
+    
     public toJson() {
         return { ...super.toJson(), details: this.details}
+    }   
+}
+
+export class ValidationError extends DetailedError<ValidationErrorItem[]> {
+    constructor(details: ValidationErrorItem[]) {
+        super('Validation Error', ErrorCodes.VALIDATION_ERROR, details)
+    }
+}
+
+export class NotFoundError extends DetailedError<Record<string, string>> {
+    constructor(entity: string, details: Record<string, string>) {
+        entity = entity.charAt(0).toUpperCase() + entity.substring(1);
+        super(`${entity} Not Found`, ErrorCodes.NOT_FOUND, details);
     }
 }
 
@@ -36,6 +48,7 @@ export class InternalError extends  ApplicationError {
 
 export enum ErrorCodes {
     VALIDATION_ERROR = 400,
+    NOT_FOUND = 404,
     CONFLICT = 412,
     INTERNAL_ERROR = 500,
 }

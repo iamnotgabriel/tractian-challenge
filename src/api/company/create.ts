@@ -1,7 +1,7 @@
 import { CreateCompanyDTO } from "@/domain/company/entity";
 import { Result } from "@/use-case/commons";
 import { CreateCompanyUseCase } from "@/use-case/company/create-company";
-import {Request, Response} from "express";
+import {Request, Response, Router} from "express";
 import { Route } from "@/api/route";
 import { StatusCode } from "../http/status-code";
 import { Headers } from "@/api/http/headers";
@@ -12,7 +12,11 @@ export class CreateCompanyRoute extends Route {
         super();
     }
 
-    protected async handle(req: Request, res: Response): Promise<void> {
+    public register(router: Router) {
+        router.post('/companies', this.handler);
+    }
+
+    async handle(req: Request, res: Response): Promise<void> {
         const body = req.body as CreateCompanyDTO;
         const result = await this.useCase.create(body);
         if (!result.ok) {
