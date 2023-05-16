@@ -9,6 +9,7 @@ import { PageRequest, UpdateObject } from "@/domain/commons/types";
 import { UpdateByIdRepository } from "@/use-case/commons/plugins";
 import { SaveMongoRepository } from "../mongo/save-repository";
 import { FindMongoRepository } from "../mongo/find-repository";
+import { UpdateMongoRepository } from "../mongo/update-repository";
 
 
 function noAcknowledgment() {
@@ -26,6 +27,7 @@ export class CompanyMongoRepository extends MongoRepository
 
     private readonly saveRepository: SaveMongoRepository<CreateCompanyDTO, Company>;
     private readonly findRepository: FindMongoRepository<Company>;
+    private readonly updateRepository: UpdateMongoRepository<Company>;
 
     constructor() {
         const collection = MongoClientSingleton.getCollection('companies');
@@ -33,6 +35,7 @@ export class CompanyMongoRepository extends MongoRepository
 
         this.saveRepository = new SaveMongoRepository(this.collection)
         this.findRepository = new FindMongoRepository(this.collection)
+        this.updateRepository = new UpdateMongoRepository(this.collection)
     }
 
     async find(id: string): Promise<Result<Company>> {
@@ -43,20 +46,8 @@ export class CompanyMongoRepository extends MongoRepository
         return this.saveRepository.save(document);
     }
 
-    async update({id, patch}: UpdateByIdRepository.Request<Company>): Promise<UpdateByIdRepository.Response> {
-        const result  = await this.collection.updateOne(
-            { _id: new ObjectId(id )},
-            {"$set": patch}, 
-            { upsert: false }
-        );
-        if (result.acknowledged && result.modifiedCount > 0) {
-            return toOk(null);
-        }
-        if (result.acknowledged && result.matchedCount == 0) {
-            return new NotFoundError('company', {id}).toResult();
-        }
-
-        return noAcknowledgment();
+    async update(request: UpdateByIdRepository.Request<Company>): Promise<UpdateByIdRepository.Response> {
+        return this.updateRepository.update(request);
     }
 
     async delete(id: string): Promise<Result<void>> {
