@@ -1,10 +1,11 @@
 import { Company } from "@/domain/company/entity";
-import { DeleteCompanyRepository, FindCompanyRepository, SaveCompanyRepository, UpdateCompanyRepository } from "@/use-case/company/plugins";
+import { DeleteCompanyRepository, FindCompanyRepository, ListCompanyRepository, SaveCompanyRepository, UpdateCompanyRepository } from "@/use-case/company/plugins";
 import { MongoClientSingleton } from "../mongo/mongo-client";
 import { MongoRepository } from "../mongo/mongo-repository";
 import { ObjectId } from "mongodb";
 import { Result, toOk } from "@/use-case/commons";
 import { InternalError, NotFoundError } from "@/domain/errors";
+import { PageRequest } from "@/domain/commons/types";
 
 
 function noAcknowledgment() {
@@ -16,7 +17,10 @@ export class CompanyMongoRepository extends MongoRepository
         SaveCompanyRepository,
         FindCompanyRepository,
         DeleteCompanyRepository,
-        UpdateCompanyRepository {
+        UpdateCompanyRepository,
+        ListCompanyRepository
+    {
+
     constructor() {
         super(MongoClientSingleton.getCollection('companies'))
     }
@@ -62,5 +66,14 @@ export class CompanyMongoRepository extends MongoRepository
 
         return noAcknowledgment();
     }
+
+    async list(request: PageRequest): Promise<ListCompanyRepository.Response> {
+        throw new Error("Method not implemented.");
+    }
+
+    async countAll(): Promise<Result<number>> {
+        throw new Error("Method not implemented.");
+    }
+
 
 }

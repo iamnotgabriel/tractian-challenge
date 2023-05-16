@@ -23,12 +23,17 @@ export function getTestContext(): TestApplicationContext {
     const updateCompanyUseCase = {
         update: jest.fn(),
     }
+    
+    const listCompanyUseCase = {
+        list: jest.fn(),
+    }
 
     return  {
         createCompanyUseCase,
         readCompanyUseCase,
         deleteCompanyUseCase,
         updateCompanyUseCase,
+        listCompanyUseCase,
     }
 
 }

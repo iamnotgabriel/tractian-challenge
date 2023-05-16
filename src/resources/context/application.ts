@@ -3,6 +3,7 @@ import { getDataContext } from "./data";
 import { ReadCompanyUseCase, ReadCompanyUseCaseImpl } from "@/use-case/company/read-company";
 import { DeleteCompanyUseCase, DeleteCompanyUseCaseImpl } from "@/use-case/company/delete-company";
 import { UpdateCompanyUseCase, UpdateCompanyUseCaseImpl } from "@/use-case/company/update-company";
+import { ListCompanyUseCase, ListCompanyUseCaseImpl } from "@/use-case/company/list-company";
 
 export type ApplicationContext = Readonly<ReturnType<typeof loadContext>>;
 
@@ -26,11 +27,14 @@ function loadContext() {
         new UpdateCompanyUseCaseImpl(dataContext.companyRepository, readCompanyUseCase);
     const deleteCompanyUseCase: DeleteCompanyUseCase =
         new DeleteCompanyUseCaseImpl(dataContext.companyRepository);
+    const listCompanyUseCase: ListCompanyUseCase =
+        new ListCompanyUseCaseImpl(dataContext.companyRepository);
 
     return {
         createCompanyUseCase,
         readCompanyUseCase,
         deleteCompanyUseCase,
         updateCompanyUseCase,
+        listCompanyUseCase,
     };
 }
