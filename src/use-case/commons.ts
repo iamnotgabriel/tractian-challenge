@@ -1,4 +1,4 @@
-import { ApplicationError, InternalError } from "@/domain/errors";
+import { ApplicationError } from "@/domain/errors";
 
 
 export type Result<T, E = ApplicationError> =
@@ -13,4 +13,8 @@ export namespace Result {
 
 export function toOk<T>(value: T): Result.Ok<T>{
     return  { ok: true, value };
+}
+
+export function toErr<T= ApplicationError>(error: T) : Result.Err<T> {
+    return { ok: false, error }; 
 }

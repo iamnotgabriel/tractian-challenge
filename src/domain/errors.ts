@@ -10,7 +10,7 @@ export abstract class ApplicationError extends Error {
         return { ok: false, error: this }
     }
 
-    public toJson() {
+    public toJson(): object {
         return {
             message: this.message,
             errorCode: this.errorCode,

@@ -1,10 +1,12 @@
 import { CreateCompanyDTO } from "@/domain/company/entity";
-import { Result } from "@/use-case/commons";
+import { Result, toOk } from "@/use-case/commons";
 import { CreateCompanyUseCase } from "@/use-case/company/create-company";
-import {Request, Response, Router} from "express";
+import { Request, Response, Router} from "express";
 import { Route } from "@/api/route";
 import { StatusCode } from "../http/status-code";
 import { Headers } from "@/api/http/headers";
+import { configuration } from "@/resources/context/configuration";
+import { HttpResponse } from "../http/http-reponse";
 
 export class CreateCompanyRoute extends Route {
 
@@ -16,18 +18,22 @@ export class CreateCompanyRoute extends Route {
         router.post('/companies', this.handler);
     }
 
-    async handle(req: Request, res: Response): Promise<void> {
+    async handle(req: Request): Promise<Result<HttpResponse>> {
         const body = req.body as CreateCompanyDTO;
         const result = await this.useCase.create(body);
-        if (!result.ok) {
-            Route.respondWithError(res, result as Result.Err);
-        } else {
-            const { id } = result.value;
-
-            res.setHeader(Headers.CONTENT_LOCATION, `/api/v1/companies/${id}`)
-                .status(StatusCode.CREATED)
-                .json(result.value);
+        if (result.ok == false) {
+            return result;
         }
+
+        const { id } = result.value;
+        const contentLocation = `${configuration.serverDomain}/api/v1/companies/${id}`;
+        return toOk({
+            status: StatusCode.CREATED,
+            body: result.value,
+            headers: {
+                [Headers.CONTENT_LOCATION]: contentLocation,
+            }
+        })
     }
 
 }

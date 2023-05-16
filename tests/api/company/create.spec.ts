@@ -28,7 +28,7 @@ describe('api/company/create', () => {
         const response = await request(app).post('/api/v1/companies').send(body).expect(201);
         const { id } = response.body;
         
-        const contentLocation =  `/api/v1/companies/${id}`;
+        const contentLocation =  `http://localhost:8080/api/v1/companies/${id}`;
 
         expect(response.headers['content-location']).toBe(contentLocation);
     });
