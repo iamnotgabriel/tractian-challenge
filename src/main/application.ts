@@ -1,6 +1,6 @@
 import { MongoClientSingleton } from "@/data/mongo/mongo-client";
 import { WebAPI } from "@/api/web-api";
-import { ApplicationContext } from "./context/application";
+import { ApplicationContext } from "../resources/context/application";
 
 export class Application {
 

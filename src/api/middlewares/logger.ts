@@ -1,4 +1,4 @@
-import { configuration } from "@/main/context/configuration";
+import { configuration } from "@/resources/context/configuration";
 import { getLogger } from "@/resources/logging";
 import { NextFunction, Request, Response } from "express";
 

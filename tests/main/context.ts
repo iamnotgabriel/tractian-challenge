@@ -1,5 +1,5 @@
 import { CreateCompanyUseCase } from "@/use-case/company/create-company";
-import { ApplicationContext } from "./context/application";
+import { ApplicationContext } from "../resources/context/application";
 import { ReadCompanyUseCase } from "@/use-case/company/read-company";
 
 export type TestApplicationContext = {

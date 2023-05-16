@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { CreateCompanyRoute } from "./create";
-import { ApplicationContext } from "@/main/context/application";
+import { ApplicationContext } from "@/resources/context/application";
 import { ReadCompanyRoute } from "./read";
 import { DeleteCompanyRoute } from "./delete";
 import { Route } from "../route";

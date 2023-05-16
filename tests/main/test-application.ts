@@ -2,7 +2,7 @@ import { Application } from "@/main/application";
 import { getTestContext } from "./context";
 import { WebAPI } from "@/api/web-api";
 import { MongoClientSingleton } from "@/data/mongo/mongo-client";
-import { configuration } from "@/main/context/configuration";
+import { configuration } from "@/resources/context/configuration";
 
 
 export class TestApplication {

@@ -3,8 +3,8 @@ import * as company from "./company";
 import { cors } from "./middlewares/cors";
 import { contentType } from "./middlewares/content-type";
 import { bodyParser } from "./middlewares/body-parser";
-import { ApplicationContext } from "@/main/context/application";
-import { configuration } from "@/main/context/configuration";
+import { ApplicationContext } from "@/resources/context/application";
+import { configuration } from "@/resources/context/configuration";
 import { loggingMiddleware } from "./middlewares/logger";
 import { getLogger } from "@/resources/logging";
 

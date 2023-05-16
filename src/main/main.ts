@@ -1,8 +1,8 @@
 import "module-alias/register";
 import { MongoClientSingleton } from "@/data/mongo/mongo-client";
-import { configuration } from "./context/configuration";
+import { configuration } from "../resources/context/configuration";
 import { Application } from "./application";
-import { getContext } from "./context/application";
+import { getContext } from "../resources/context/application";
 
 async function main() {
     await MongoClientSingleton.connect(configuration.mongoUrl);    

@@ -1,4 +1,4 @@
-import { configuration } from "@/main/context/configuration";
+import { configuration } from "@/resources/context/configuration";
 import { createLogger, format, transports } from "winston";
 const logger = createLogger({
     transports: [new transports.Console({
