@@ -1,13 +1,14 @@
 import { Result, toOk } from "@/use-case/commons";
-import { Request, Response, Router } from "express";
+import { Request, Router } from "express";
 import { Route } from "@/api/route";
 import { StatusCode } from "../http/status-code";
-import { ReadCompanyUseCase } from "@/use-case/company/read-company";
 import { HttpResponse } from "../http/http-reponse";
+import { Company } from "@/domain/company/entity";
+import { ReadUseCase } from "@/use-case/commons/use-case/read";
 
 export class ReadCompanyRoute extends Route {
 
-    constructor(private readonly useCase: ReadCompanyUseCase) {
+    constructor(private readonly useCase: ReadUseCase<Company>) {
         super();
     }
     

@@ -2,13 +2,14 @@ import { Result, toErr, toOk } from "@/use-case/commons";
 import { Request, Response, Router } from "express";
 import { Route } from "@/api/route";
 import { StatusCode } from "../http/status-code";
-import { ListCompanyUseCase } from "@/use-case/company/list-company";
 import { PageRequest } from "@/domain/commons/types";
 import { HttpResponse } from "../http/http-reponse";
+import { ListUseCase } from "@/use-case/commons/use-case/list";
+import { Company } from "@/domain/company/entity";
 
 export class ListCompanyRoute extends Route {
 
-    constructor(private readonly useCase: ListCompanyUseCase) {
+    constructor(private readonly useCase: ListUseCase<Company>) {
         super();
     }
     

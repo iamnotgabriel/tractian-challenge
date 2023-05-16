@@ -1,9 +1,10 @@
-import { CreateCompanyUseCase, CreateCompanyUseCaseImpl } from "@/use-case/company/create-company";
+import { ReadUseCase, ReadUseCaseImpl } from "@/use-case/commons/use-case/read";
 import { getDataContext } from "./data";
-import { ReadCompanyUseCase, ReadCompanyUseCaseImpl } from "@/use-case/company/read-company";
-import { DeleteCompanyUseCase, DeleteCompanyUseCaseImpl } from "@/use-case/company/delete-company";
+import { CreateCompanyUseCase, CreateCompanyUseCaseImpl } from "@/use-case/company/create-company";
 import { UpdateCompanyUseCase, UpdateCompanyUseCaseImpl } from "@/use-case/company/update-company";
-import { ListCompanyUseCase, ListCompanyUseCaseImpl } from "@/use-case/company/list-company";
+import { Company } from "@/domain/company/entity";
+import { DeleteUseCase, DeleteUseCaseImpl } from "@/use-case/commons/use-case/delete";
+import { ListUseCase, ListUseCaseImpl } from "@/use-case/commons/use-case/list";
 
 export type ApplicationContext = Readonly<ReturnType<typeof loadContext>>;
 
@@ -21,14 +22,14 @@ function loadContext() {
     const dataContext = getDataContext()
     const createCompanyUseCase: CreateCompanyUseCase =
         new CreateCompanyUseCaseImpl(dataContext.companyRepository);
-    const readCompanyUseCase: ReadCompanyUseCase =
-        new ReadCompanyUseCaseImpl(dataContext.companyRepository);
+    const readCompanyUseCase: ReadUseCase<Company> =
+        new ReadUseCaseImpl('Company', dataContext.companyRepository);
     const updateCompanyUseCase: UpdateCompanyUseCase =
         new UpdateCompanyUseCaseImpl(dataContext.companyRepository);
-    const deleteCompanyUseCase: DeleteCompanyUseCase =
-        new DeleteCompanyUseCaseImpl(dataContext.companyRepository);
-    const listCompanyUseCase: ListCompanyUseCase =
-        new ListCompanyUseCaseImpl(dataContext.companyRepository);
+    const deleteCompanyUseCase: DeleteUseCase =
+        new DeleteUseCaseImpl('Company', dataContext.companyRepository);
+    const listCompanyUseCase: ListUseCase<Company> =
+        new ListUseCaseImpl(dataContext.companyRepository);
 
     return {
         createCompanyUseCase,

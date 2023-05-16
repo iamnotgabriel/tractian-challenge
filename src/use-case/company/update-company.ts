@@ -2,9 +2,9 @@ import { Company, updateCompany } from "@/domain/company/entity";
 import { FindCompanyRepository, UpdateCompanyRepository } from "./plugins";
 import { Result } from "@/use-case/commons";
 import { UpdateObject } from "@/domain/commons/types";
-import { ReadUseCase, ReadUseCaseImpl } from "../commons/use-case.ts/read";
-import { UpdateUseCase, UpdateUseCaseImpl } from "../commons/use-case.ts/update";
-import { UseCase } from "../commons/use-case.ts";
+import { ReadUseCase, ReadUseCaseImpl } from "../commons/use-case/read";
+import { UpdateUseCase, UpdateUseCaseImpl } from "../commons/use-case/update";
+import { UseCase } from "../commons/use-case";
 
 export type UpdateCompanyUseCase = UseCase<UpdateCompanyUseCase.Request, UpdateCompanyUseCase.Response> 
 
@@ -42,7 +42,7 @@ export class UpdateCompanyUseCaseImpl implements UpdateCompanyUseCase {
         if(update.ok === false) {
             return update;
         }
-        
+
         return result;
     }
 

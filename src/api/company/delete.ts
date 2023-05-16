@@ -2,12 +2,12 @@ import { Result, toOk } from "@/use-case/commons";
 import { Request, Response, Router } from "express";
 import { Route } from "@/api/route";
 import { StatusCode } from "../http/status-code";
-import { DeleteCompanyUseCase } from "@/use-case/company/delete-company";
 import { HttpResponse } from "../http/http-reponse";
+import { DeleteUseCase } from "@/use-case/commons/use-case/delete";
 
 export class DeleteCompanyRoute extends Route {
 
-    constructor(private readonly useCase: DeleteCompanyUseCase) {
+    constructor(private readonly useCase: DeleteUseCase) {
         super();
     }
     

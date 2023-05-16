@@ -2,11 +2,15 @@ import { companyRepository } from "./stubs";
 import { expectToBeOk } from "@/tests/result";
 import { Result, toOk } from "@/use-case/commons";
 import { ErrorCodes, InternalError } from "@/domain/errors";
+import { DeleteUseCaseImpl } from "@/use-case/commons/use-case/delete";
+
 import crypto from 'crypto';
-import { DeleteCompanyUseCaseImpl } from "@/use-case/company/delete-company";
 
 
 describe('use-case/delete-company', () => {
+    function useCase () {
+        return new DeleteUseCaseImpl('Company', companyRepository);
+    }
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -14,9 +18,8 @@ describe('use-case/delete-company', () => {
 
     test('use case deletes company when company exists', async () => {
         companyRepository.delete.mockResolvedValueOnce(toOk(null));
-        const useCase  = new DeleteCompanyUseCaseImpl(companyRepository);
         
-        const result = await useCase.handle(crypto.randomUUID());
+        const result = await useCase().handle(crypto.randomUUID());
         expectToBeOk(result);
 
     });
@@ -25,9 +28,7 @@ describe('use-case/delete-company', () => {
         companyRepository.delete
             .mockResolvedValueOnce(new InternalError(new Error('Bad Entry')).toResult())
         
-        const useCase  = new DeleteCompanyUseCaseImpl(companyRepository);
-        
-        const result = await useCase.handle(crypto.randomUUID()) as Result.Err;
+        const result = await useCase().handle(crypto.randomUUID()) as Result.Err;
     
         expect(result.ok).toBeFalsy();
         expect(result.error.errorCode).toBe(ErrorCodes.INTERNAL_ERROR);

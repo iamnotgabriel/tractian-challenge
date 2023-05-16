@@ -1,7 +1,7 @@
 import { Company, CreateCompanyDTO, createCompany } from "@/domain/company/entity";
 import { SaveCompanyRepository } from "./plugins";
 import { Result } from "@/use-case/commons";
-import { CreateUseCase, CreateUseCaseImpl } from "../commons/use-case.ts/create";
+import { CreateUseCase, CreateUseCaseImpl } from "../commons/use-case/create";
 import { ValueObject } from "@/domain/commons/types";
 
 export type  CreateCompanyUseCase  = CreateUseCase<CreateCompanyDTO, Company>;
