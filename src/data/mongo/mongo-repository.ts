@@ -1,3 +1,4 @@
+import { InternalError } from "@/domain/errors";
 import { WithId } from "mongodb";
 import { Collection } from "mongodb";
 
@@ -15,5 +16,10 @@ export class MongoRepository {
     protected mapAll<T>(documents: WithId<any>[]): T[] {
         return  documents.map(this.map.bind(this));
     }
+    
+    protected noAcknowledgment() {
+        return new InternalError(new Error('No acknowledgment received')).toResult();
+    }
+    
 
 }

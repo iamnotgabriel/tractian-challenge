@@ -7,6 +7,7 @@ import { Result, toOk } from "@/use-case/commons";
 import { InternalError, NotFoundError } from "@/domain/errors";
 import { PageRequest, UpdateObject } from "@/domain/commons/types";
 import { UpdateByIdRepository } from "@/use-case/commons/plugins";
+import { SaveMongoRepository } from "../mongo/save-repository";
 
 
 function noAcknowledgment() {
@@ -22,8 +23,13 @@ export class CompanyMongoRepository extends MongoRepository
         ListCompanyRepository
     {
 
+    private readonly saveRepository: SaveMongoRepository<CreateCompanyDTO, Company>;
+
     constructor() {
-        super(MongoClientSingleton.getCollection('companies'))
+        const collection = MongoClientSingleton.getCollection('companies');
+        super(collection);
+
+        this.saveRepository = new SaveMongoRepository(this.collection)
     }
 
     async find(id: string): Promise<Result<Company>> {
@@ -35,12 +41,7 @@ export class CompanyMongoRepository extends MongoRepository
     }
 
     async save(document: CreateCompanyDTO): Promise<Result<Company>> {
-        const result = await this.collection.insertOne(document);
-        if(result.acknowledged) {
-            return toOk(this.map(document));
-        }
-
-        return noAcknowledgment()
+        return this.saveRepository.save(document);
     }
 
     async update({id, patch}: UpdateByIdRepository.Request<Company>): Promise<UpdateByIdRepository.Response> {
