@@ -1,6 +1,6 @@
 import { Result, toOk } from "@/use-case/commons";
 import { SaveRepository } from "@/use-case/commons/plugins";
-import { MongoRepository } from "./mongo-repository";
+import { MongoRepository } from "../mongo-repository";
 
 export class SaveMongoRepository<T, R> extends MongoRepository implements SaveRepository<T, R> {
     

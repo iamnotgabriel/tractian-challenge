@@ -1,6 +1,6 @@
 import { toOk } from "@/use-case/commons";
 import { UpdateByIdRepository } from "@/use-case/commons/plugins";
-import { MongoRepository } from "./mongo-repository";
+import { MongoRepository } from "../mongo-repository";
 import { NotFoundError } from "@/domain/errors";
 import { ObjectId } from "mongodb";
 

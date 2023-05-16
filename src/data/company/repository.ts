@@ -6,11 +6,11 @@ import { Result } from "@/use-case/commons";
 import { InternalError } from "@/domain/errors";
 import { PageRequest } from "@/domain/commons/types";
 import { UpdateByIdRepository } from "@/use-case/commons/plugins";
-import { SaveMongoRepository } from "../mongo/save-repository";
-import { FindMongoRepository } from "../mongo/find-repository";
-import { UpdateMongoRepository } from "../mongo/update-repository";
-import { DeleteMongoRepository } from "../mongo/delete-repository";
-import { ListMongoRepository } from "../mongo/list-repository";
+import { SaveMongoRepository } from "../mongo/repository/save";
+import { FindMongoRepository } from "../mongo/repository/find";
+import { UpdateMongoRepository } from "../mongo/repository/update";
+import { DeleteMongoRepository } from "../mongo/repository/delete";
+import { ListMongoRepository } from "../mongo/repository/list";
 
 
 function noAcknowledgment() {

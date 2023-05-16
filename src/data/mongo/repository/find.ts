@@ -1,6 +1,6 @@
 import { Result, toOk } from "@/use-case/commons";
 import { FindByIdRepository, SaveRepository } from "@/use-case/commons/plugins";
-import { MongoRepository } from "./mongo-repository";
+import { MongoRepository } from "../mongo-repository";
 import { ObjectId } from "mongodb";
 
 export class FindMongoRepository<T> extends MongoRepository implements FindByIdRepository<T> {

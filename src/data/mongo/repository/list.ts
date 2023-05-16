@@ -1,6 +1,6 @@
 import { Result, toOk } from "@/use-case/commons";
 import { ListRepository } from "@/use-case/commons/plugins";
-import { MongoRepository } from "./mongo-repository";
+import { MongoRepository } from "../mongo-repository";
 import { PageRequest } from "@/domain/commons/types";
 
 export class ListMongoRepository<T> extends MongoRepository implements ListRepository<T> {
