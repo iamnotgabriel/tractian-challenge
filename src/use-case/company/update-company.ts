@@ -1,7 +1,6 @@
 import { Company, updateCompany } from "@/domain/company/entity";
-import { FindCompanyRepository, UpdateCompanyRepository } from "./plugins";
-import { Result, toOk } from "@/use-case/commons";
-import { getLogger } from "@/resources/logging";
+import { UpdateCompanyRepository } from "./plugins";
+import { Result } from "@/use-case/commons";
 import { UpdateObject } from "@/domain/commons/types";
 import { ReadCompanyUseCase } from "./read-company";
 
@@ -17,7 +16,6 @@ export namespace UpdateCompanyUseCase {
     export type Response = Promise<Result<Company>>;
 }
 
-const logger = getLogger('ReadCompanyUseCase');
 export class UpdateCompanyUseCaseImpl implements UpdateCompanyUseCase {
 
     constructor(
@@ -37,9 +35,7 @@ export class UpdateCompanyUseCaseImpl implements UpdateCompanyUseCase {
         }
 
         let updateResult  = await this.companyRepository.update(request);
-        if (!updateResult.ok) {
-            updateResult = updateResult as Result.Err;
-            logger.error(updateResult.error.message + `company=${request.id}` );
+        if (updateResult.ok == false) {
             return updateResult;
         }
 

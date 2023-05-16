@@ -1,53 +1,14 @@
 import { PageRequest, UpdateObject, ValueObject } from "@/domain/commons/types";
-import { Company } from "@/domain/company/entity";
+import { Company, CreateCompanyDTO } from "@/domain/company/entity";
 import { Result } from "../commons";
+import { DeleteByIdRepository, FindByIdRepository, ListRepository, SaveRepository, UpdateByIdRepository } from "../commons/plugins";
 
-export interface SaveCompanyRepository {
-    save(company: SaveCompanyRepository.Request) : Promise<SaveCompanyRepository.Response>
-}
+export type SaveCompanyRepository = SaveRepository<CreateCompanyDTO, Company>;
 
-export namespace SaveCompanyRepository {
-    export type Request = ValueObject<Company>;
-    export type Response = Result<Company>;
-}
+export type FindCompanyRepository = FindByIdRepository<Company>;
 
-export interface FindCompanyRepository {
-    find(id: FindCompanyRepository.Request): Promise<FindCompanyRepository.Response>
-}
+export type DeleteCompanyRepository = DeleteByIdRepository;
 
-export namespace FindCompanyRepository {
-    export type Request = string;
-    export type Response = Result<Company | null>;
-}
+export type UpdateCompanyRepository =  UpdateByIdRepository<Company>;
 
-
-export interface DeleteCompanyRepository {
-    delete(id: DeleteCompanyRepository.Request): Promise<DeleteCompanyRepository.Response>
-}
-
-export namespace DeleteCompanyRepository {
-    export type Request = string;
-    export type Response = Result<void>;
-}
-
-export interface UpdateCompanyRepository {
-    update(id: UpdateCompanyRepository.Request): Promise<UpdateCompanyRepository.Response>
-}
-
-export namespace UpdateCompanyRepository {
-    export type Request = {
-        id: string,
-        patch: UpdateObject<Company>,
-    };
-    export type Response = Result<void>;
-}
-
-export interface ListCompanyRepository {
-    list(request: ListCompanyRepository.Request): Promise<ListCompanyRepository.Response>;
-    countAll(): Promise<Result<number>>;
-}
-
-export namespace ListCompanyRepository {
-    export type Request = PageRequest;
-    export type Response = Result<Company[]>;
-}
+export type ListCompanyRepository = ListRepository<Company>;

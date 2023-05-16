@@ -13,7 +13,6 @@ export namespace ListCompanyUseCase {
     export type Response = Result<Page<Company>>;
 }
 
-const logger = getLogger('ListCompanyUseCase');
 export class ListCompanyUseCaseImpl implements ListCompanyUseCase {
 
     constructor(private readonly companyRepository: ListCompanyRepository) {}
@@ -23,9 +22,8 @@ export class ListCompanyUseCaseImpl implements ListCompanyUseCase {
             this.companyRepository.countAll(),
             this.companyRepository.list(request)
         ]);
-        if (!total.ok || !list.ok) {
-            const result = !total.ok ? total as Result.Err : list as Result.Err;
-            logger.error(result.error.message);
+        if (total.ok == false || list.ok == false) {
+            const result = total.ok == false ? total : list as Result.Err;
             return result;  
         }
 

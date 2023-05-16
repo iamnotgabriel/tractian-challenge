@@ -35,10 +35,6 @@ export abstract class Route {
             }
         }
     }
-    
-    protected static respondWithError(res: Response, {error}: Result.Err): void {
-        res.status(error.errorCode).json(error.toJson())
-    }
 
     abstract register(router: Router);
 }

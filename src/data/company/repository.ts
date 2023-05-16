@@ -1,11 +1,12 @@
-import { Company } from "@/domain/company/entity";
+import { Company, CreateCompanyDTO } from "@/domain/company/entity";
 import { DeleteCompanyRepository, FindCompanyRepository, ListCompanyRepository, SaveCompanyRepository, UpdateCompanyRepository } from "@/use-case/company/plugins";
 import { MongoClientSingleton } from "../mongo/mongo-client";
 import { MongoRepository } from "../mongo/mongo-repository";
 import { ObjectId } from "mongodb";
 import { Result, toOk } from "@/use-case/commons";
 import { InternalError, NotFoundError } from "@/domain/errors";
-import { PageRequest } from "@/domain/commons/types";
+import { PageRequest, UpdateObject } from "@/domain/commons/types";
+import { UpdateByIdRepository } from "@/use-case/commons/plugins";
 
 
 function noAcknowledgment() {
@@ -25,15 +26,15 @@ export class CompanyMongoRepository extends MongoRepository
         super(MongoClientSingleton.getCollection('companies'))
     }
 
-    async find(id: string): Promise<FindCompanyRepository.Response> {
+    async find(id: string): Promise<Result<Company>> {
         const company = await this.collection.findOne({_id: new ObjectId(id)});
         if (company == null) {
             return toOk(null);
         }
-        return toOk(this.map(company));
+        return toOk(this.map<Company>(company));
     }
 
-    async save(document: SaveCompanyRepository.Request): Promise<Result<Company>> {
+    async save(document: CreateCompanyDTO): Promise<Result<Company>> {
         const result = await this.collection.insertOne(document);
         if(result.acknowledged) {
             return toOk(this.map(document));
@@ -42,7 +43,7 @@ export class CompanyMongoRepository extends MongoRepository
         return noAcknowledgment()
     }
 
-    async update({id, patch}: UpdateCompanyRepository.Request): Promise<UpdateCompanyRepository.Response> {
+    async update({id, patch}: UpdateByIdRepository.Request<Company>): Promise<UpdateByIdRepository.Response> {
         const result  = await this.collection.updateOne(
             { _id: new ObjectId(id )},
             {"$set": patch}, 
@@ -58,7 +59,7 @@ export class CompanyMongoRepository extends MongoRepository
         return noAcknowledgment();
     }
 
-    async delete(id: string): Promise<DeleteCompanyRepository.Response> {
+    async delete(id: string): Promise<Result<void>> {
         const result = await this.collection.deleteOne({_id: new ObjectId(id)})
         if (result.acknowledged) {
             return toOk(null);
@@ -67,7 +68,7 @@ export class CompanyMongoRepository extends MongoRepository
         return noAcknowledgment();
     }
 
-    async list(request: PageRequest): Promise<ListCompanyRepository.Response> {
+    async list(request: PageRequest): Promise<Result<Company[]>> {
         const cursor =  this.collection.find();
         cursor.sort(request.sort, 'asc');
         cursor.limit(request.limit);
