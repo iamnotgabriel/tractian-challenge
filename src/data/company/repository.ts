@@ -6,10 +6,11 @@ import { ObjectId } from "mongodb";
 import { Result, toOk } from "@/use-case/commons";
 import { InternalError, NotFoundError } from "@/domain/errors";
 import { PageRequest, UpdateObject } from "@/domain/commons/types";
-import { UpdateByIdRepository } from "@/use-case/commons/plugins";
+import { DeleteByIdRepository, UpdateByIdRepository } from "@/use-case/commons/plugins";
 import { SaveMongoRepository } from "../mongo/save-repository";
 import { FindMongoRepository } from "../mongo/find-repository";
 import { UpdateMongoRepository } from "../mongo/update-repository";
+import { DeleteMongoRepository } from "../mongo/delete-repository";
 
 
 function noAcknowledgment() {
@@ -28,14 +29,15 @@ export class CompanyMongoRepository extends MongoRepository
     private readonly saveRepository: SaveMongoRepository<CreateCompanyDTO, Company>;
     private readonly findRepository: FindMongoRepository<Company>;
     private readonly updateRepository: UpdateMongoRepository<Company>;
+    private readonly deleteRepository: DeleteMongoRepository;
 
     constructor() {
-        const collection = MongoClientSingleton.getCollection('companies');
-        super(collection);
+        super(MongoClientSingleton.getCollection('companies'));
 
         this.saveRepository = new SaveMongoRepository(this.collection)
         this.findRepository = new FindMongoRepository(this.collection)
         this.updateRepository = new UpdateMongoRepository(this.collection)
+        this.deleteRepository = new DeleteMongoRepository(this.collection)
     }
 
     async find(id: string): Promise<Result<Company>> {
@@ -51,12 +53,7 @@ export class CompanyMongoRepository extends MongoRepository
     }
 
     async delete(id: string): Promise<Result<void>> {
-        const result = await this.collection.deleteOne({_id: new ObjectId(id)})
-        if (result.acknowledged) {
-            return toOk(null);
-        }
-
-        return noAcknowledgment();
+        return this.deleteRepository.delete(id);
     }
 
     async list(request: PageRequest): Promise<Result<Company[]>> {
