@@ -1,32 +1,35 @@
 import { Company } from "@/domain/company/entity";
-import { FindCompanyRepository } from "./plugins";
-import { Result } from "@/use-case/commons";
+import { ListCompanyRepository } from "./plugins";
+import { Result, toOk } from "@/use-case/commons";
 import { getLogger } from "@/resources/logging";
-import { NotFoundError } from "@/domain/errors";
+import { Page, PageRequest } from "@/domain/commons/types";
 
-export interface ReadCompanyUseCase  {
-    find(id: ReadCompanyUseCase.Request): Promise<ReadCompanyUseCase.Response>;
+export interface ListCompanyUseCase  {
+    list(request: ListCompanyUseCase.Request): Promise<ListCompanyUseCase.Response>;
 }
 
-export namespace ReadCompanyUseCase {
-    export type Request = string;
-    export type Response = Result<Company>;
+export namespace ListCompanyUseCase {
+    export type Request = PageRequest;
+    export type Response = Result<Page<Company>>;
 }
 
-const logger = getLogger('ReadCompanyUseCase');
-export class ReadCompanyUseCaseImpl implements ReadCompanyUseCase {
+const logger = getLogger('ListCompanyUseCase');
+export class ListCompanyUseCaseImpl implements ListCompanyUseCase {
 
-    constructor(private readonly companyRepository: FindCompanyRepository) {}
+    constructor(private readonly companyRepository: ListCompanyRepository) {}
 
-    async find(id: ReadCompanyUseCase.Request): Promise<Result<Company>> {
-        const result = await this.companyRepository.find(id);
-    
-        if (result.ok && result.value == null) {
-            logger.warn(`company=${id} not found`);
-            return new NotFoundError('Company', {id}).toResult();
+    async list(request: ListCompanyUseCase.Request): Promise<ListCompanyUseCase.Response> {
+        const [total, list] = await Promise.all([
+            this.companyRepository.countAll(),
+            this.companyRepository.list(request)
+        ]);
+        if (!total.ok || !list.ok) {
+            const result = !total.ok ? total as Result.Err : list as Result.Err;
+            logger.error(result.error.message);
+            return result;  
         }
 
-        return result;
+        return toOk(Page.of(total.value, list.value));
     }
 
 }

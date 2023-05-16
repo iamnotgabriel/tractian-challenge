@@ -1,4 +1,4 @@
-import { UpdateObject, ValueObject } from "@/domain/commons/types";
+import { PageRequest, UpdateObject, ValueObject } from "@/domain/commons/types";
 import { Company } from "@/domain/company/entity";
 import { Result } from "../commons";
 
@@ -42,3 +42,12 @@ export namespace UpdateCompanyRepository {
     export type Response = Result<void>;
 }
 
+export interface ListCompanyRepository {
+    list(request: ListCompanyRepository.Request): Promise<ListCompanyRepository.Response>;
+    countAll(): Promise<Result<number>>;
+}
+
+export namespace ListCompanyRepository {
+    export type Request = PageRequest;
+    export type Response = Result<Company[]>;
+}

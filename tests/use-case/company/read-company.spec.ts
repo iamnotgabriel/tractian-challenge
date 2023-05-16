@@ -1,10 +1,9 @@
 import { companyRepository } from "./stubs";
 import { expectToBeOk } from "@/tests/result";
 import { Result, toOk } from "@/use-case/commons";
-import { DetailedError, ErrorCodes, InternalError } from "@/domain/errors";
+import { ErrorCodes, InternalError } from "@/domain/errors";
 import { ReadCompanyUseCaseImpl } from "@/use-case/company/read-company";
 import crypto from 'crypto';
-import exp from "constants";
 
 
 describe('use-case/read-company', () => {
