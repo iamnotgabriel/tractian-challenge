@@ -8,6 +8,7 @@ import { InternalError, NotFoundError } from "@/domain/errors";
 import { PageRequest, UpdateObject } from "@/domain/commons/types";
 import { UpdateByIdRepository } from "@/use-case/commons/plugins";
 import { SaveMongoRepository } from "../mongo/save-repository";
+import { FindMongoRepository } from "../mongo/find-repository";
 
 
 function noAcknowledgment() {
@@ -24,20 +25,18 @@ export class CompanyMongoRepository extends MongoRepository
     {
 
     private readonly saveRepository: SaveMongoRepository<CreateCompanyDTO, Company>;
+    private readonly findRepository: FindMongoRepository<Company>;
 
     constructor() {
         const collection = MongoClientSingleton.getCollection('companies');
         super(collection);
 
         this.saveRepository = new SaveMongoRepository(this.collection)
+        this.findRepository = new FindMongoRepository(this.collection)
     }
 
     async find(id: string): Promise<Result<Company>> {
-        const company = await this.collection.findOne({_id: new ObjectId(id)});
-        if (company == null) {
-            return toOk(null);
-        }
-        return toOk(this.map<Company>(company));
+        return this.findRepository.find(id);
     }
 
     async save(document: CreateCompanyDTO): Promise<Result<Company>> {
