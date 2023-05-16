@@ -1,30 +1,34 @@
 import { Company, updateCompany } from "@/domain/company/entity";
-import { UpdateCompanyRepository } from "./plugins";
+import { FindCompanyRepository, UpdateCompanyRepository } from "./plugins";
 import { Result } from "@/use-case/commons";
 import { UpdateObject } from "@/domain/commons/types";
-import { ReadCompanyUseCase } from "./read-company";
+import { ReadUseCase, ReadUseCaseImpl } from "../commons/use-case.ts/read";
+import { UpdateUseCase, UpdateUseCaseImpl } from "../commons/use-case.ts/update";
+import { UseCase } from "../commons/use-case.ts";
 
-export interface UpdateCompanyUseCase  {
-    update(id: UpdateCompanyUseCase.Request): UpdateCompanyUseCase.Response;
-}
+export type UpdateCompanyUseCase = UseCase<UpdateCompanyUseCase.Request, UpdateCompanyUseCase.Response> 
 
 export namespace UpdateCompanyUseCase {
     export type Request = {
         id: string,
         patch: UpdateObject<Company>
     };
-    export type Response = Promise<Result<Company>>;
+    export type Response = Company;
 }
 
 export class UpdateCompanyUseCaseImpl implements UpdateCompanyUseCase {
+    private readonly readUseCase: ReadUseCase<Company>;
+    private readonly updateUseCase: UpdateUseCase<Company>;
 
     constructor(
-        private readonly companyRepository: UpdateCompanyRepository,
-        private readonly readCompanyUseCase: ReadCompanyUseCase,
-    ) {}
+        companyRepository: UpdateCompanyRepository & FindCompanyRepository,
+    ) {
+        this.readUseCase = new ReadUseCaseImpl('Company', companyRepository);
+        this.updateUseCase = new UpdateUseCaseImpl('Company', companyRepository);
+    }
 
-    async update(request: UpdateCompanyUseCase.Request): Promise<Result<Company>> {
-        let result = await this.readCompanyUseCase.find(request.id);
+    async handle(request: UpdateCompanyUseCase.Request): Promise<Result<Company>> {
+        let result = await this.readUseCase.handle(request.id);
         if (!result.ok) {
             return result;
         }
@@ -33,12 +37,12 @@ export class UpdateCompanyUseCaseImpl implements UpdateCompanyUseCase {
         if (!result.ok) {
             return result;
         }
-
-        let updateResult  = await this.companyRepository.update(request);
-        if (updateResult.ok == false) {
-            return updateResult;
+        
+        const update = await this.updateUseCase.handle(request);
+        if(update.ok === false) {
+            return update;
         }
-
+        
         return result;
     }
 

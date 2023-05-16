@@ -25,7 +25,7 @@ describe('api/company/update', () => {
         const patch = {
             name: 'updated name'
         }
-        TestApplication.context.updateCompanyUseCase.update.mockResolvedValueOnce(toOk({...company, ...patch }));
+        TestApplication.context.updateCompanyUseCase.handle.mockResolvedValueOnce(toOk({...company, ...patch }));
         await request(app).patch('/api/v1/companies/'+ company.id).send(patch).expect(200);
     });
 });

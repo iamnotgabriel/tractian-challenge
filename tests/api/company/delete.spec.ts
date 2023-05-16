@@ -22,7 +22,7 @@ describe('api/company/delete', () => {
             document: '09876543210',
             createdAt: new Date()
         }
-        TestApplication.context.deleteCompanyUseCase.delete.mockResolvedValueOnce(toOk(null));
+        TestApplication.context.deleteCompanyUseCase.handle.mockResolvedValueOnce(toOk(null));
         await request(app).delete('/api/v1/companies/'+ company.id).send().expect(204);
     });
 });

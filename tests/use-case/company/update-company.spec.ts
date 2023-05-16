@@ -20,10 +20,10 @@ describe('use-case/update-company', () => {
     });
 
     test('update company', async () => {
-        testContext.readCompanyUseCase.find.mockResolvedValueOnce(toOk(company));
         companyRepository.update.mockImplementationOnce(async (_) => (toOk(null)));
+        companyRepository.find.mockImplementationOnce(async (_) => (toOk(company)));
         const useCase = new UpdateCompanyUseCaseImpl(
-            companyRepository, testContext.readCompanyUseCase
+            companyRepository
         );
         const request =  {
             id: company.id,
@@ -31,7 +31,7 @@ describe('use-case/update-company', () => {
                 name: 'Small town company',
             }
         };
-        const result = await useCase.update(request);
+        const result = await useCase.handle(request);
         const entity = expectToBeOk(result);
         expect(entity.id).toBe(request.id);
         expect(entity).toMatchObject(request.patch);
@@ -44,12 +44,12 @@ describe('use-case/update-company', () => {
                 name: '',
             }
         };
-        testContext.readCompanyUseCase.find.mockResolvedValueOnce(toOk(company));
+        companyRepository.find.mockImplementationOnce(async (_) => (toOk(company)));
         const useCase = new UpdateCompanyUseCaseImpl(
-            companyRepository, testContext.readCompanyUseCase
+            companyRepository
         );
 
-        const result = await useCase.update(request) as Result.Err;
+        const result = await useCase.handle(request) as Result.Err;
 
         expect(result.ok).toBeFalsy();
         expect(result.error.errorCode).toBe(ErrorCodes.VALIDATION_ERROR);
@@ -63,13 +63,14 @@ describe('use-case/update-company', () => {
                 name: 'Small town company',
             }
         };
-        testContext.readCompanyUseCase.find.mockResolvedValueOnce(toOk(company));
+        companyRepository.find.mockImplementationOnce(async (_) => (toOk(company)));
+
         companyRepository.update.mockResolvedValueOnce(new InternalError(new Error('message')).toResult())
         
         const useCase = new UpdateCompanyUseCaseImpl(
-            companyRepository, testContext.readCompanyUseCase
+            companyRepository,
         );
-        const result = await useCase.update(request) as Result.Err;
+        const result = await useCase.handle(request) as Result.Err;
 
         expect(result.ok).toBeFalsy();
         expect(result.error.errorCode).toBe(500);

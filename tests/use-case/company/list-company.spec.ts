@@ -25,7 +25,7 @@ describe('use-case/list-company', () => {
         companyRepository.countAll.mockResolvedValueOnce(toOk(100));
         const useCase  = new ListCompanyUseCaseImpl(companyRepository);
         const request  = expectToBeOk(PageRequest.from({limit: 10, skip: 0}));
-        const result = await useCase.list(request);
+        const result = await useCase.handle(request);
         const companies = expectToBeOk(result);
 
         expect(companies.data).toHaveLength(10);
@@ -40,7 +40,7 @@ describe('use-case/list-company', () => {
         const useCase  = new ListCompanyUseCaseImpl(companyRepository);
         
         const request  = expectToBeOk(PageRequest.from({limit: 10, skip: 0}));
-        const result = await useCase.list(request) as Result.Err;
+        const result = await useCase.handle(request) as Result.Err;
 
         expect(result.ok).toBeFalsy();
         expect(result.error.errorCode).toBe(ErrorCodes.INTERNAL_ERROR);

@@ -1,4 +1,4 @@
-import { PageRequest, UpdateObject } from "@/domain/commons/types";
+import { Entity, PageRequest, UpdateObject } from "@/domain/commons/types";
 import { Result } from "../commons";
 
 export interface FindByIdRepository<T> {
@@ -6,7 +6,7 @@ export interface FindByIdRepository<T> {
 }
 
 export interface SaveRepository<T, R> {
-    save(company: T) : Promise<Result<R>>
+    save(company: T) : Promise<Result<R & { id: string }>>;
 }
 
 export interface DeleteByIdRepository {

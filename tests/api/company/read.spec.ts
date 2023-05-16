@@ -24,7 +24,7 @@ describe('api/company/read', () => {
 
     test("read company route finds company", async () => {
         TestApplication.context.readCompanyUseCase
-            .find.mockResolvedValueOnce(toOk(company));
+            .handle.mockResolvedValueOnce(toOk(company));
         const res = await request(app).get('/api/v1/companies/'+ company.id)
             .send().expect(200);
         
@@ -36,7 +36,7 @@ describe('api/company/read', () => {
 
     test("read company route does not find company", async () => {
         TestApplication.context.readCompanyUseCase
-            .find.mockResolvedValueOnce(new NotFoundError('Company', {id: company.id}).toResult());
+            .handle.mockResolvedValueOnce(new NotFoundError('Company', {id: company.id}).toResult());
         const res = await request(app)
             .get('/api/v1/companies/'+ company.id)
             .send()

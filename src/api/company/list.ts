@@ -21,7 +21,7 @@ export class ListCompanyRoute extends Route {
         if (request.ok == false ) {
             return request;
         } 
-        const result = await this.useCase.list(request.value);
+        const result = await this.useCase.handle(request.value);
         if (result.ok == false) {
             return result;
         }

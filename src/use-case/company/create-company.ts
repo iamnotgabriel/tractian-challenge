@@ -1,25 +1,24 @@
 import { Company, CreateCompanyDTO, createCompany } from "@/domain/company/entity";
 import { SaveCompanyRepository } from "./plugins";
 import { Result } from "@/use-case/commons";
-import { getLogger } from "@/resources/logging";
+import { CreateUseCase, CreateUseCaseImpl } from "../commons/use-case.ts/create";
+import { ValueObject } from "@/domain/commons/types";
 
-export interface CreateCompanyUseCase  {
-    create(dto: CreateCompanyDTO): Promise<Result<Company>>;
-}
+export type  CreateCompanyUseCase  = CreateUseCase<CreateCompanyDTO, Company>;
 
-const logger = getLogger('CreateCompanyUseCase')
 export class CreateCompanyUseCaseImpl implements CreateCompanyUseCase {
+    private readonly createUseCase: CreateUseCaseImpl<ValueObject<Company>, Company>;
 
-    constructor(private readonly companyRepository: SaveCompanyRepository) {}
+    constructor(companyRepository: SaveCompanyRepository) {
+        this.createUseCase = new CreateUseCaseImpl('Company', companyRepository);
+    }
 
-    async create(dto: CreateCompanyDTO): Promise<Result<Company>> {
-        const result = createCompany(dto);
-        if(!result.ok) {
-            return result as Result.Err;
+    async handle(dto: CreateCompanyDTO): Promise<Result<Company>> {
+        const company = createCompany(dto);
+        if (company.ok === false) {
+            return company;
         }
-        logger.info(`creating company '${result.value.name}'`);        
-
-        return this.companyRepository.save(result.value);
+        return this.createUseCase.handle(company.value);
     }
 
 }

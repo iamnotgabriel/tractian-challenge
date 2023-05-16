@@ -21,7 +21,7 @@ describe('use-case/read-company', () => {
         })));
         const useCase  = new ReadCompanyUseCaseImpl(companyRepository);
         
-        const result = await useCase.find(crypto.randomUUID());
+        const result = await useCase.handle(crypto.randomUUID());
         const entity = expectToBeOk(result);
         expect(entity).toHaveProperty('id');
     });
@@ -31,7 +31,7 @@ describe('use-case/read-company', () => {
         
         const useCase  = new ReadCompanyUseCaseImpl(companyRepository);
         
-        const result = await useCase.find(crypto.randomUUID()) as Result.Err;
+        const result = await useCase.handle(crypto.randomUUID()) as Result.Err;
         expect(result.ok).toBeFalsy();
         expect(result.error.errorCode).toBe(ErrorCodes.INTERNAL_ERROR);
     });
@@ -41,7 +41,7 @@ describe('use-case/read-company', () => {
         
         const useCase  = new ReadCompanyUseCaseImpl(companyRepository);
         
-        const result = await useCase.find(crypto.randomUUID()) as Result.Err;
+        const result = await useCase.handle(crypto.randomUUID()) as Result.Err;
 
         expect(result.ok).toBeFalsy();
         expect(result.error.errorCode).toBe(404);

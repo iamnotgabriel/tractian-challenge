@@ -16,7 +16,7 @@ describe('use-case/delete-company', () => {
         companyRepository.delete.mockResolvedValueOnce(toOk(null));
         const useCase  = new DeleteCompanyUseCaseImpl(companyRepository);
         
-        const result = await useCase.delete(crypto.randomUUID());
+        const result = await useCase.handle(crypto.randomUUID());
         expectToBeOk(result);
 
     });
@@ -27,7 +27,7 @@ describe('use-case/delete-company', () => {
         
         const useCase  = new DeleteCompanyUseCaseImpl(companyRepository);
         
-        const result = await useCase.delete(crypto.randomUUID()) as Result.Err;
+        const result = await useCase.handle(crypto.randomUUID()) as Result.Err;
     
         expect(result.ok).toBeFalsy();
         expect(result.error.errorCode).toBe(ErrorCodes.INTERNAL_ERROR);

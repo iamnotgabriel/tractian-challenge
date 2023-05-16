@@ -20,7 +20,7 @@ export class UpdateCompanyRoute extends Route {
     async handle(req: Request): Promise<Result<HttpResponse>> {
         const id = req.params['companyId'];
         const patch = req.body as UpdateObject<Company>;
-        const result = await this.useCase.update({id, patch});
+        const result = await this.useCase.handle({id, patch});
 
         if (result.ok== false) {
             return result;

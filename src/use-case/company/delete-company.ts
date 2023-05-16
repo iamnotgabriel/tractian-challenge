@@ -1,35 +1,17 @@
 import { DeleteCompanyRepository} from "./plugins";
 import { Result } from "@/use-case/commons";
-import { getLogger } from "@/resources/logging";
+import { DeleteUseCase, DeleteUseCaseImpl } from "../commons/use-case.ts/delete";
 
-export interface DeleteCompanyUseCase  {
-    delete(id: DeleteCompanyUseCase.Request): Promise<DeleteCompanyUseCase.Response>;
-}
+export type DeleteCompanyUseCase = DeleteUseCase;
 
-export namespace DeleteCompanyUseCase {
-    export type Request = string;
-    export type Response = Result<void>;
-}
-
-const logger = getLogger('DeleteCompanyUseCase')
 export class DeleteCompanyUseCaseImpl implements DeleteCompanyUseCase {
+    private readonly deleteUseCase : DeleteUseCase;
 
-    constructor(private readonly companyRepository: DeleteCompanyRepository) {}
-
-    async delete(id: string): Promise<Result<void>> {
-        const result  = await this.companyRepository.delete(id);
-
-        this.logResult(id, result);
-        
-        return result;
+    constructor(companyRepository: DeleteCompanyRepository) {
+        this.deleteUseCase = new DeleteUseCaseImpl('Company', companyRepository);
     }
 
-    logResult(id: string, result: Result<void>) {
-        if (result.ok) {
-            logger.info(`deleted company id=${id}`);
-        } else {
-            logger.error(`error deleting company id=${id}`)
-        }
+    async handle(id: string): Promise<Result<void>> {
+        return this.deleteUseCase.handle(id);
     }
-
 }

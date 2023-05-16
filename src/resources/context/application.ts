@@ -24,7 +24,7 @@ function loadContext() {
     const readCompanyUseCase: ReadCompanyUseCase =
         new ReadCompanyUseCaseImpl(dataContext.companyRepository);
     const updateCompanyUseCase: UpdateCompanyUseCase =
-        new UpdateCompanyUseCaseImpl(dataContext.companyRepository, readCompanyUseCase);
+        new UpdateCompanyUseCaseImpl(dataContext.companyRepository);
     const deleteCompanyUseCase: DeleteCompanyUseCase =
         new DeleteCompanyUseCaseImpl(dataContext.companyRepository);
     const listCompanyUseCase: ListCompanyUseCase =

@@ -20,7 +20,7 @@ describe('api/company/create', () => {
             name: 'API Testing company',
             document: '09876543210'
         }
-        TestApplication.context.createCompanyUseCase.create.mockResolvedValueOnce(toOk({
+        TestApplication.context.createCompanyUseCase.handle.mockResolvedValueOnce(toOk({
             ...body,
             id: "0as9df80a98f08089",
             createdAt: new Date()

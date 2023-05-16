@@ -17,7 +17,7 @@ export class ReadCompanyRoute extends Route {
 
     async handle(req: Request): Promise<Result<HttpResponse>> {
         const id = req.params['companyId'];
-        const result = await this.useCase.find(id);
+        const result = await this.useCase.handle(id);
 
         if (result.ok == false) {
             return result;

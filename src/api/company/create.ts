@@ -20,7 +20,7 @@ export class CreateCompanyRoute extends Route {
 
     async handle(req: Request): Promise<Result<HttpResponse>> {
         const body = req.body as CreateCompanyDTO;
-        const result = await this.useCase.create(body);
+        const result = await this.useCase.handle(body);
         if (result.ok == false) {
             return result;
         }

@@ -1,33 +1,20 @@
 import { Company } from "@/domain/company/entity";
 import { ListCompanyRepository } from "./plugins";
-import { Result, toOk } from "@/use-case/commons";
-import { getLogger } from "@/resources/logging";
+import { Result } from "@/use-case/commons";
 import { Page, PageRequest } from "@/domain/commons/types";
+import { ListUseCase, ListUseCaseImpl } from "../commons/use-case.ts/list";
 
-export interface ListCompanyUseCase  {
-    list(request: ListCompanyUseCase.Request): Promise<ListCompanyUseCase.Response>;
-}
+export type ListCompanyUseCase = ListUseCase<Company> 
 
-export namespace ListCompanyUseCase {
-    export type Request = PageRequest;
-    export type Response = Result<Page<Company>>;
-}
+export class ListCompanyUseCaseImpl implements ListUseCase<Company> {
+    private readonly listUseCase: ListUseCase<Company>;
+    
+    constructor(companyRepository: ListCompanyRepository) {
+        this.listUseCase = new ListUseCaseImpl(companyRepository);
+    }
 
-export class ListCompanyUseCaseImpl implements ListCompanyUseCase {
-
-    constructor(private readonly companyRepository: ListCompanyRepository) {}
-
-    async list(request: ListCompanyUseCase.Request): Promise<ListCompanyUseCase.Response> {
-        const [total, list] = await Promise.all([
-            this.companyRepository.countAll(),
-            this.companyRepository.list(request)
-        ]);
-        if (total.ok == false || list.ok == false) {
-            const result = total.ok == false ? total : list as Result.Err;
-            return result;  
-        }
-
-        return toOk(Page.of(total.value, list.value));
+    async handle(request: PageRequest): Promise<Result<Page<Company>>> {
+        return this.listUseCase.handle(request);
     }
 
 }

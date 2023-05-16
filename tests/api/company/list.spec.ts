@@ -26,7 +26,7 @@ describe('api/company/list', () => {
 
     test("list companies route finds company", async () => {
         TestApplication.context.listCompanyUseCase
-            .list.mockResolvedValueOnce(toOk(companyPage));
+            .handle.mockResolvedValueOnce(toOk(companyPage));
         const res = await request(app).get('/api/v1/companies')
             .send().expect(200);
 
@@ -39,7 +39,7 @@ describe('api/company/list', () => {
 
     test("list companies route does not find company", async () => {
         TestApplication.context.listCompanyUseCase
-            .list.mockImplementationOnce(async ({limit, skip}) => toOk({
+            .handle.mockImplementationOnce(async ({limit, skip}) => toOk({
                 data: Array(limit).fill(companyPage.data[0]),
                 total: 100 - skip
             }));

@@ -10,6 +10,7 @@ describe('use-case/create-company', () => {
     companyRepository.save.mockImplementation(async (company) => (toOk({
         ...company,
         id: crypto.randomUUID(),
+        createdAt: new Date()
     })));
     const companyDTO = {
         name: 'Big Tech Company',
@@ -23,7 +24,7 @@ describe('use-case/create-company', () => {
     test('use case creates new company', async () => {
         const useCase  = new CreateCompanyUseCaseImpl(companyRepository);
         
-        const result = await useCase.create(companyDTO);
+        const result = await useCase.handle(companyDTO);
         const entity = expectToBeOk(result);
 
         expect(entity).toHaveProperty('id');
@@ -32,7 +33,7 @@ describe('use-case/create-company', () => {
     test('use case fails to create new company when name is empty', async () => {
         const useCase  = new CreateCompanyUseCaseImpl(companyRepository);
         
-        const result = await useCase.create({...companyDTO, name:''}) as Result.Err;
+        const result = await useCase.handle({...companyDTO, name:''}) as Result.Err;
 
         expect(result.ok).toBeFalsy();
         expect(result.error.errorCode).toBe(400);
@@ -43,7 +44,7 @@ describe('use-case/create-company', () => {
         
         const useCase  = new CreateCompanyUseCaseImpl(companyRepository);
         
-        const result = await useCase.create(companyDTO) as Result.Err;
+        const result = await useCase.handle(companyDTO) as Result.Err;
         expect(result.ok).toBeFalsy();
         expect(result.error.errorCode).toBe(ErrorCodes.INTERNAL_ERROR);
     });
