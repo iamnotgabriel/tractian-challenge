@@ -22,6 +22,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Asset'
+        '4XX':
+          $ref: "#/components/responses/UserError"
+        '5XX':
+          $ref: "#/components/responses/ServerError"
     post: {}
   /assets/{assetId}:
     get: {}
@@ -40,15 +44,30 @@ paths:
       parameters:
         - $ref: "#/components/parameters/limitParam"
         - $ref: "#/components/parameters/skipParam"
+        - name: sort
+          in: query
+          description: Sort result always ASC
+          schema:
+            type: string
+            enum:
+              - id
+              - createAt
+              - name
+              - document
       responses:
         '200':
           description: Page of companies
           content:
             application/json:
               schema:
-                type: array
-                items: 
-                  $ref: "#/components/schemas/Company"
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Company"
+                  total: 
+                    type: number
               
     post:
       summary: Create a new company
@@ -71,10 +90,50 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Company"
+        '4XX':
+          $ref: "#/components/responses/UserError"
+        '5XX':
+          $ref: "#/components/responses/ServerError"
   /companies/{companyId}:
-    get: {}
-    delete: {}
-    patch: {}
+    get:
+      summary: Read company by id
+      responses:
+        '200':
+          description: Company object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Company"
+        '4XX':
+          $ref: "#/components/responses/UserError"
+        '5XX':
+          $ref: "#/components/responses/ServerError"
+    delete:
+      summary: Delete company by id
+      responses:
+        '204':
+          description: No body return
+        '4XX':
+          $ref: "#/components/responses/UserError"
+        '5XX':
+          $ref: "#/components/responses/ServerError"
+    patch:
+      summary: Update company by id
+      requestBody:
+        required: true
+        description: Partial object of company to update
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCompanyDTO"
+      responses:
+        '204':
+          description: No body return
+        '4XX':
+          $ref: "#/components/responses/UserError"
+        '5XX':
+          $ref: "#/components/responses/ServerError"
+
   /users:
     get: {}
     post: {}
@@ -87,7 +146,7 @@ components:
     APIError:
       type: object
       properties:
-        code:
+        errorCode:
           type: string
         message:
           type: string
@@ -97,6 +156,11 @@ components:
             anyOf:
               - type: string
               - type: object
+              - type: array
+                items:
+                  anyOf:
+                    - type: string
+                    - type: object
     ObjectId:
       type: string
       example: '645e767cadf2f3d26ce95101'
@@ -172,16 +236,23 @@ components:
         minimum: 1
         maximum: 50
         default: 10
-    forceDeleteParam:
-      name: forceDelete
-      in: query
-      description: Hard Delete instead of soft delete a entry
-      schema:
-        type: boolean
-        default: false
   headers:
     Content-Location:
       description: Path of the resource created
       schema:
         type: string
         example: /api/v1/companies/646138a43199fe0c5d69e13e
+  responses:
+    UserError:
+      description: User error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/APIError"
+    ServerError:
+      description: Server error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/APIError"
+
