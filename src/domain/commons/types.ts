@@ -25,7 +25,6 @@ export class PageRequest {
         skip: Joi.number().default(0),
         sort: Joi.string()
             .optional()
-            .valid('id', 'createdAt', 'name', 'document')
             .default('id'),
     });
 
