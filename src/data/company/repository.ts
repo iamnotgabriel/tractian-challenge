@@ -68,11 +68,19 @@ export class CompanyMongoRepository extends MongoRepository
     }
 
     async list(request: PageRequest): Promise<ListCompanyRepository.Response> {
-        throw new Error("Method not implemented.");
+        const cursor =  this.collection.find();
+        cursor.sort(request.sort, 'asc');
+        cursor.limit(request.limit);
+        cursor.skip(request.skip);
+        const entities = this.mapAll<Company>(await cursor.toArray());
+
+        return toOk(entities);
     }
 
     async countAll(): Promise<Result<number>> {
-        throw new Error("Method not implemented.");
+        const total = await this.collection.countDocuments();
+
+        return toOk(total);
     }
 
 

@@ -12,4 +12,8 @@ export class MongoRepository {
         return document;
     }
 
+    protected mapAll<T>(documents: WithId<any>[]): T[] {
+        return  documents.map(this.map.bind(this));
+    }
+
 }
