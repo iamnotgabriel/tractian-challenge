@@ -6,7 +6,7 @@ import { getContext } from "./context/application";
 
 async function main() {
     await MongoClientSingleton.connect(configuration.mongoUrl);    
-    const app = new Application(configuration, getContext());
+    const app = new Application(getContext());
     try {
         await app.start()
     } catch {
