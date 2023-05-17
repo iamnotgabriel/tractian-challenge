@@ -1,7 +1,7 @@
 import { companyRepository } from "./stubs";
 import { expectToBeOk } from "@/tests/result";
 import { Result, toOk } from "@/use-case/commons";
-import { ErrorCodes, InternalError } from "@/domain/errors";
+import { ErrorCodes, InternalError, NotFoundError } from "@/domain/errors";
 import { UpdateCompanyUseCaseImpl } from "@/use-case/company/update-company";
 import { getTestContext } from "@/tests/main/context";
 
@@ -35,6 +35,27 @@ describe('use-case/update-company', () => {
         const entity = expectToBeOk(result);
         expect(entity.id).toBe(request.id);
         expect(entity).toMatchObject(request.patch);
+    });
+
+    test('fails when user is not found', async () => {
+        const request =  {
+            id: "64628225f5b6a1023af42e91",
+            patch: {
+                name: 'Small town company',
+            }
+        };
+        companyRepository.find
+            .mockImplementationOnce(async (_) => 
+                new NotFoundError('User', {id: company.id}).toResult()
+            );
+        const useCase = new UpdateCompanyUseCaseImpl(
+            companyRepository
+        );
+        const result = await useCase.handle(request) as Result.Err;
+
+        expect(result.ok).toBeFalsy();
+        expect(result.error.errorCode).toBe(ErrorCodes.NOT_FOUND);
+        expect(companyRepository.update).not.toBeCalled();
     });
 
     test('fails when patch is invalid', async () => {
