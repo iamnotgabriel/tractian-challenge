@@ -4,7 +4,7 @@ import { MongoRepository } from "../mongo-repository";
 
 export class SaveMongoRepository<R> extends MongoRepository implements SaveRepository<any, R> {
     
-    async save(document: any): Promise<Result<R & { id: string; }>> {
+    async save(document: any): Promise<Result<R extends { id: string; }? R : never>> {
         const result = await this.collection.insertOne(document);
         if(result.acknowledged) {
             return toOk(this.map(document));

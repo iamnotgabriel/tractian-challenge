@@ -1,21 +1,21 @@
 import { MongoClientSingleton } from "../mongo/mongo-client";
-import { SaveUserRepository } from "@/use-case/user/plugins";
+import { SaveUnitRepository } from "@/use-case/unit/plugins";
 import { ValueObject } from "@/domain/commons/types";
-import { User } from "@/domain/user/entity";
+import { Unit } from "@/domain/unit/entity";
 import { Result } from "@/use-case/commons";
 
 import { ObjectId } from "mongodb";
 import { MongoEntityRepository } from "../mongo/mongo-entity-repository";
 
-export class UserMongoRepository extends MongoEntityRepository<User>
+export class UnitMongoRepository extends MongoEntityRepository<Unit>
     implements
-        SaveUserRepository {
+        SaveUnitRepository {
 
     constructor() {
-        super(MongoClientSingleton.getCollection('users'));
+        super(MongoClientSingleton.getCollection('units'));
     }
 
-    save(entity: ValueObject<User>): Promise<Result<User>> {
+    save(entity: ValueObject<Unit>): Promise<Result<Unit>> {
         return this.saveMongoRepository.save({...entity, companyId: new ObjectId(entity.companyId)});
     }
 }

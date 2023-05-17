@@ -31,6 +31,4 @@ export class MongoRepository {
     protected noAcknowledgment() {
         return new InternalError(new Error('No acknowledgment received')).toResult();
     }
-    
-
 }
