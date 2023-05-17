@@ -1,15 +1,17 @@
-import { Result, toOk } from "@/use-case/commons";
+import { Result } from "@/use-case/commons";
 import { Request, Router } from "express";
 import { Route } from "@/api/route";
-import { StatusCode } from "../http/status-code";
 import { HttpResponse } from "../http/http-response";
 import { Company } from "@/domain/company/entity";
 import { ReadUseCase } from "@/use-case/commons/use-case/read";
+import { ReadRoute } from "../route/read";
 
 export class ReadCompanyRoute extends Route {
+    private readonly route: ReadRoute<Company>;
 
-    constructor(private readonly useCase: ReadUseCase<Company>) {
+    constructor(useCase: ReadUseCase<Company>) {
         super();
+        this.route = new ReadRoute(useCase);
     }
     
     register(router: Router) {
@@ -18,16 +20,7 @@ export class ReadCompanyRoute extends Route {
 
     async handle(req: Request): Promise<Result<HttpResponse>> {
         const id = req.params['companyId'];
-        const result = await this.useCase.handle(id);
-
-        if (result.ok == false) {
-            return result;
-        }
-    
-        return toOk({
-            status: StatusCode.OK,
-            body: result.value
-        })
+        return this.route.handle(id);
     }
 
 }
