@@ -27,8 +27,8 @@ export abstract class DetailedError<T> extends ApplicationError {
     }   
 }
 
-export class ValidationError extends DetailedError<ValidationErrorItem[]> {
-    constructor(details: ValidationErrorItem[]) {
+export class ValidationError extends DetailedError<object[] | object> {
+    constructor(details: object[]| object) {
         super('Validation Error', ErrorCodes.VALIDATION_ERROR, details)
     }
 }

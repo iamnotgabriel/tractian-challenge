@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { Entity, ValueObject } from "../commons/types";
+import { Entity, UpdateObject, ValueObject } from "../commons/types";
 import { validationSchema } from "../validation";
 import { Result, toOk } from "@/use-case/commons";
 import { ValidationError } from "../errors";
@@ -32,4 +32,18 @@ export function createUser(dto: CreateUserDTO): Result<ValueObject<User>> {
         createdAt: new Date(),
     })
 
+}
+
+
+export function updateUser(user: User, patch: UpdateObject<User>): Result<User> {
+    const patchedCompany = Object.assign(user, patch);
+    const {error, value} = userSchema.validate(patchedCompany);
+    if (error) {
+        return new ValidationError(error.details).toResult();
+    }
+    if ( patch.companyId ) {
+        return new ValidationError({ value: patch,message: 'user.companyId is an immutable field'}).toResult()
+    }
+
+    return toOk(Object.assign(user, value));
 }
