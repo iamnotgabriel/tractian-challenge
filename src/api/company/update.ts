@@ -1,16 +1,18 @@
-import { Result, toOk } from "@/use-case/commons";
-import { Request, Response, Router } from "express";
+import { Result } from "@/use-case/commons";
+import { Request, Router } from "express";
 import { Route } from "@/api/route";
-import { StatusCode } from "../http/status-code";
 import { UpdateCompanyUseCase } from "@/use-case/company/update-company";
 import { UpdateObject } from "@/domain/commons/types";
 import { Company } from "@/domain/company/entity";
 import { HttpResponse } from "../http/http-response";
+import { UpdateRoute } from "../route/update";
 
 export class UpdateCompanyRoute extends Route {
+    private readonly route: UpdateRoute<UpdateCompanyUseCase.Request, Company>;
 
-    constructor(private readonly useCase: UpdateCompanyUseCase) {
+    constructor(useCase: UpdateCompanyUseCase) {
         super();
+        this.route = new UpdateRoute(useCase); 
     }
     
     register(router: Router) {
@@ -20,16 +22,7 @@ export class UpdateCompanyRoute extends Route {
     async handle(req: Request): Promise<Result<HttpResponse>> {
         const id = req.params['companyId'];
         const patch = req.body as UpdateObject<Company>;
-        const result = await this.useCase.handle({id, patch});
-
-        if (result.ok== false) {
-            return result;
-        }
-
-        return toOk({
-            status: StatusCode.OK,
-            body: result.value,
-        });
+        return this.route.handle({id, patch});
     }
 
 }
