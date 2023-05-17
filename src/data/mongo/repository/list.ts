@@ -6,13 +6,13 @@ import { PageRequest } from "@/domain/commons/types";
 export class ListMongoRepository<T> extends MongoRepository implements ListRepository<T> {
     
     async list(request: PageRequest): Promise<Result<T[]>> {
-        const cursor =  this.collection.find();
-        cursor.sort(request.sort, 'asc');
-        cursor.limit(request.limit);
-        cursor.skip(request.skip);
-        const entities = this.mapAll<T>(await cursor.toArray());
+        const documents = await this.collection.aggregate([
+            { "$sort": { [request.sort]: 1}},
+            { "$skip": request.skip },
+            { "$limit" : request.limit },
+        ]).toArray();
 
-        return toOk(entities);
+        return toOk(this.mapAll(documents));
     }
 
     async countAll(): Promise<Result<number>> {

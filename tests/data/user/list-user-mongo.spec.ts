@@ -14,7 +14,7 @@ describe('data/user/user-mongo-repository', () => {
     });
 
     afterEach(async () => {
-        await MongoClientSingleton.getCollection('companies').deleteMany();
+        await MongoClientSingleton.getCollection('users').deleteMany();
     });
 
     test('list saved users by id', async () => {
@@ -28,9 +28,9 @@ describe('data/user/user-mongo-repository', () => {
 
         expectToBeOk(await repository.save(user('3')));
         expectToBeOk(await repository.save(user('2')));
-        const { id: firstId } =expectToBeOk(await repository.save(user('1')));
+        const { id: firstId } = expectToBeOk(await repository.save(user('1')));
 
-        const entities = expectToBeOk(await repository.list(new PageRequest(1, 1, "name")));
+        const entities = expectToBeOk(await repository.list(new PageRequest(1, 0, "name")));
         const total = expectToBeOk(await repository.countAll());
 
         expect(entities).toHaveLength(1);
