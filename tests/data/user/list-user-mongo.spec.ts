@@ -13,7 +13,7 @@ describe('data/user/user-mongo-repository', () => {
         await MongoClientSingleton.disconnect();
     });
 
-    afterEach(async () => {
+    beforeEach(async () => {
         await MongoClientSingleton.getCollection('users').deleteMany();
     });
 

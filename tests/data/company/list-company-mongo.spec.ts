@@ -13,7 +13,7 @@ describe('data/company/company-mongo-repository', () => {
         await MongoClientSingleton.disconnect();
     });
 
-    afterEach(async () => {
+    beforeEach(async () => {
         await MongoClientSingleton.getCollection('companies').deleteMany();
     });
 
