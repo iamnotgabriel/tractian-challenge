@@ -31,7 +31,7 @@ describe('data/user/user-mongo-repository', () => {
         const { id: firstId } = expectToBeOk(await repository.save(user('1')));
 
         const entities = expectToBeOk(await repository.list(new PageRequest(1, 0, "name")));
-        const total = expectToBeOk(await repository.countAll());
+        const total = expectToBeOk(await repository.count());
 
         expect(entities).toHaveLength(1);
         expect(entities[0].id).toEqual(firstId);
@@ -41,7 +41,7 @@ describe('data/user/user-mongo-repository', () => {
     test('returns empty list when collection is empty', async () => {
         const repository = new UserMongoRepository();
         const entities = expectToBeOk(await repository.list(new PageRequest(10, 10, "id")));
-        const total = expectToBeOk(await repository.countAll());
+        const total = expectToBeOk(await repository.count());
 
         expect(entities).toHaveLength(0);
         expect(total).toEqual(0);

@@ -10,6 +10,7 @@ function mockedUseCase () {
         handle: jest.fn()
     }
 }
+
 export function getTestContext(): TestApplicationContext {
     return  {
         createCompanyUseCase: mockedUseCase(),
@@ -23,5 +24,8 @@ export function getTestContext(): TestApplicationContext {
         listUserUseCase: mockedUseCase(),
         updateUserUseCase: mockedUseCase(),
         createUnitUseCase: mockedUseCase(),
+        readUnitUseCase: mockedUseCase(),
+        deleteUnitUseCase: mockedUseCase(),
+        listUnitUseCase: mockedUseCase(),
     }
 }

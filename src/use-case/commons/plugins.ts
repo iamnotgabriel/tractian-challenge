@@ -27,5 +27,5 @@ export namespace UpdateByIdRepository {
 
 export interface ListRepository<T> {
     list(request: PageRequest): Promise<Result<T[]>>;
-    countAll(): Promise<Result<number>>;
+    count(filters?: Record<string, any>): Promise<Result<number>>;
 }

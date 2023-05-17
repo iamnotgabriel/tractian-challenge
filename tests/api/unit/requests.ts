@@ -13,3 +13,7 @@ export async function readUnit(app: Express, id: string, status: number = 200) {
 
     return res;
 }
+
+export async function deleteUnit(app: Express, id: string): Promise<void> {
+    await request(app).delete(`/api/v1/units/${id}`).send().expect(204);
+}

@@ -8,7 +8,7 @@ import { InternalError } from "@/domain/errors";
 describe('api/user/create', () => {
     let app: Express;
 
-    beforeAll(() => {
+    beforeAll(async () => {
         const webApi = await TestApplication.create();
         app = webApi.app; 
     });

@@ -11,7 +11,7 @@ export class ListUseCaseImpl<T> implements ListUseCase<T> {
 
     async handle(request: PageRequest): Promise<Result<Page<T>>> {
         const [total, list] = await Promise.all([
-            this.repository.countAll(),
+            this.repository.count(request.filters),
             this.repository.list(request)
         ]);
         if (total.ok === false) {

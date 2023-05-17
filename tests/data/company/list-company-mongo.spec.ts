@@ -30,7 +30,7 @@ describe('data/company/company-mongo-repository', () => {
         expectToBeOk(await repository.save(company('3')));
 
         const entities = expectToBeOk(await repository.list(new PageRequest(1, 1, "createdAt")));
-        const total = expectToBeOk(await repository.countAll());
+        const total = expectToBeOk(await repository.count());
 
         expect(entities).toHaveLength(1);
         expect(entities[0].id).toEqual(secondId);
@@ -40,7 +40,7 @@ describe('data/company/company-mongo-repository', () => {
     test('returns empty list when collection is empty', async () => {
         const repository = new CompanyMongoRepository();
         const entities = expectToBeOk(await repository.list(new PageRequest(10, 10, "id")));
-        const total = expectToBeOk(await repository.countAll());
+        const total = expectToBeOk(await repository.count());
 
         expect(entities).toHaveLength(0);
         expect(total).toEqual(0);

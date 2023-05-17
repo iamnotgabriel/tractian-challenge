@@ -43,8 +43,8 @@ export class MongoEntityRepository<T> extends MongoRepository
         return this.listMongoRepository.list(request);
     }
 
-    countAll(): Promise<Result<number>> {
-        return this.listMongoRepository.countAll();
+    count(filters?: Record<string, any>): Promise<Result<number>> {
+        return this.listMongoRepository.count(filters);
     }
 
     update(request: UpdateByIdRepository.Request<T>): Promise<Result<void>> {

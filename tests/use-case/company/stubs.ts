@@ -14,5 +14,5 @@ export const companyRepository: CompanyRepository = {
     delete: jest.fn(),
     update: jest.fn(),
     list: jest.fn(),
-    countAll: jest.fn(),
+    count: jest.fn(),
 };

@@ -6,7 +6,7 @@ import { CreateUnitDTO } from "@/domain/unit/entity";
 import { createCompany } from "../company/requests";
 import { createUnit, readUnit } from "./requests";
 
-describe('api/unit/create', () => {
+describe('api/unit/delete', () => {
     let app: Express;
 
     beforeAll(async () => {
@@ -18,7 +18,7 @@ describe('api/unit/create', () => {
         await TestApplication.teardown()
     });
 
-    test("create unit", async () => {
+    test("delete unit", async () => {
         const { id: companyId } = await createCompany(app);
         const body: CreateUnitDTO = {
             name: 'API Testing company',

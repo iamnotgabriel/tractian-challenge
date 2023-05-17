@@ -20,26 +20,29 @@ export class Page<T> {
 };
 
 export class PageRequest {
-    private static readonly schema = validationSchema({
+    private static readonly schema = Joi.object({
         limit: Joi.number().default(10).min(1).max(100),
         skip: Joi.number().default(0).min(0),
         sort: Joi.string()
             .optional()
             .default('id'),
-    });
+    }).options({allowUnknown: true});
 
     constructor(
         public readonly limit: number,
         public readonly skip: number,
-        public readonly sort: string
+        public readonly sort: string,
+        public readonly filters?: Record<string, string>
     ) {}
 
     static from(request: Record<string, any>): Result<PageRequest> {
         const {error, value} = PageRequest.schema.validate(request);
         if ( error ) {
+            console.log('page request =', request);
             return new ValidationError(error.details).toResult();
         }
+        const { limit, skip, sort, ...filters } = value;
 
-        return toOk(new PageRequest(value.limit, value.skip, value.sort));
+        return toOk(new PageRequest(limit, skip, sort, filters));
     }
 }

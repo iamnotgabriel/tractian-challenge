@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { Entity, ValueObject } from "../commons/types"
+import { Entity, PageRequest, ValueObject } from "../commons/types"
 import { validationSchema } from "../validation";
 import { Result, toOk } from "@/use-case/commons";
 import { ValidationError } from "../errors";
@@ -26,4 +26,22 @@ export function createUnit(dto: CreateUnitDTO): Result<ValueObject<Unit>> {
         ...unit,
         createdAt: new Date()
     });
+}
+
+export class UnitPageRequest extends PageRequest {
+    static filterSchema = Joi.object({
+        name: Joi.string().min(1).max(32),
+        companyId: Joi.string(),
+        createdAt: Joi.date(),
+    });
+
+    static from(request: Record<string, any>): Result<PageRequest> {
+        const {error, value} = UnitPageRequest.filterSchema.validate(request);
+        if ( error ) {
+            console.log(request);
+            return new ValidationError(error.details).toResult();
+        }
+        
+        return super.from(value);
+    }
 }

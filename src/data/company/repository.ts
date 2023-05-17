@@ -4,66 +4,35 @@ import { MongoClientSingleton } from "../mongo/mongo-client";
 import { MongoRepository } from "../mongo/mongo-repository";
 import { Result } from "@/use-case/commons";
 import { InternalError } from "@/domain/errors";
-import { PageRequest } from "@/domain/commons/types";
+import { PageRequest, ValueObject } from "@/domain/commons/types";
 import { UpdateByIdRepository } from "@/use-case/commons/plugins";
 import { SaveMongoRepository } from "../mongo/repository/save";
 import { FindMongoRepository } from "../mongo/repository/find";
 import { UpdateMongoRepository } from "../mongo/repository/update";
 import { DeleteMongoRepository } from "../mongo/repository/delete";
 import { ListMongoRepository } from "../mongo/repository/list";
+import { MongoEntityRepository } from "../mongo/mongo-entity-repository";
 
 
 function noAcknowledgment() {
     return new InternalError(new Error('No acknowledgment received')).toResult();
 }
 
-export class CompanyMongoRepository extends MongoRepository
+export class CompanyMongoRepository extends MongoEntityRepository<Company>
     implements
-        SaveCompanyRepository,
-        FindCompanyRepository,
-        DeleteCompanyRepository,
-        UpdateCompanyRepository,
-        ListCompanyRepository
+        SaveCompanyRepository
     {
 
-    private readonly saveRepository: SaveMongoRepository<CreateCompanyDTO, Company>;
-    private readonly findRepository: FindMongoRepository<Company>;
-    private readonly updateRepository: UpdateMongoRepository<Company>;
-    private readonly deleteRepository: DeleteMongoRepository;
-    private readonly listRepository: ListMongoRepository<Company>;
+    protected readonly saveRepository: SaveMongoRepository<Company>;
 
     constructor() {
         super(MongoClientSingleton.getCollection('companies'));
 
         this.saveRepository = new SaveMongoRepository(this.collection);
-        this.findRepository = new FindMongoRepository(this.collection);
-        this.updateRepository = new UpdateMongoRepository(this.collection);
-        this.deleteRepository = new DeleteMongoRepository(this.collection);
-        this.listRepository = new ListMongoRepository(this.collection);
-    }
-
-    async find(id: string): Promise<Result<Company>> {
-        return this.findRepository.find(id);
     }
 
     async save(document: CreateCompanyDTO): Promise<Result<Company>> {
         return this.saveRepository.save(document);
-    }
-
-    async update(request: UpdateByIdRepository.Request<Company>): Promise<UpdateByIdRepository.Response> {
-        return this.updateRepository.update(request);
-    }
-
-    async delete(id: string): Promise<Result<void>> {
-        return this.deleteRepository.delete(id);
-    }
-
-    async list(request: PageRequest): Promise<Result<Company[]>> {
-        return this.listRepository.list(request);
-    }
-
-    async countAll(): Promise<Result<number>> {
-        return this.listRepository.countAll();
     }
 
 
