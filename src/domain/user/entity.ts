@@ -17,7 +17,7 @@ export type User = Entity<CreateUserDTO>;
 const userSchema = validationSchema<CreateUserDTO>({
     name: Joi.string().min(1).required(),
     email: Joi.string().email().required(),
-    companyId: Joi.string(),
+    companyId: Joi.string().required(),
 });
 
 export function createUser(dto: CreateUserDTO): Result<ValueObject<User>> {
@@ -41,7 +41,7 @@ export function updateUser(user: User, patch: UpdateObject<User>): Result<User> 
     if (error) {
         return new ValidationError(error.details).toResult();
     }
-    if ( patch.companyId ) {
+    if (patch.companyId) {
         return new ValidationError({ value: patch,message: 'user.companyId is an immutable field'}).toResult()
     }
 
