@@ -20,7 +20,6 @@ export class CreateUserRoute extends Route {
         const result = await this.createUserUseCase.handle(dto)
         if (result.ok) {
             const contentLocation = `${configuration.serverDomain}/api/v1/users/${result.value.id}`;
-
             return toOk({
                 status: StatusCode.CREATED,
                 body: result.value,
@@ -28,7 +27,9 @@ export class CreateUserRoute extends Route {
                     [Headers.CONTENT_LOCATION]: contentLocation 
                 }
             })
-        } 
+        }
+
+        return result as Result.Err;
     }
 
     register(router: Router) {

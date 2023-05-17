@@ -1,8 +1,9 @@
 import { TestApplication } from "@/tests/main/test-application";
-import { toOk } from "@/use-case/commons";
+import { toErr, toOk } from "@/use-case/commons";
 import request from "supertest";
 import { Express } from "express";
 import crypto from "crypto";
+import { InternalError } from "@/domain/errors";
 
 describe('api/user/create', () => {
     let app: Express;
@@ -16,7 +17,7 @@ describe('api/user/create', () => {
         await TestApplication.teardown()
     });
 
-    test("create companyUseCase", async () => {
+    test("creates user", async () => {
         const body = {
             name: 'API Testing user',
             email: 'tester@company.com',
@@ -35,4 +36,21 @@ describe('api/user/create', () => {
         expect(response.headers['content-location']).toBe(contentLocation);
         expect(TestApplication.context.createUserUseCase.handle).toBeCalledTimes(1);
     });
+
+    test("create fails and returns error", async () => {
+        const user = {
+            name: 'API Testing user',
+            email: 'tester@company.com',
+            companyId: crypto.randomUUID(),
+        }
+        TestApplication.context.createUserUseCase
+            .handle.mockResolvedValueOnce(toErr(new InternalError(new Error('testing'))));
+        const { body: res } = await request(app).post('/api/v1/users').send(user).expect(500);
+
+        expect(res).toEqual({
+            errorCode: 500,
+            message: 'Internal Error',
+        })
+    });
+
 });
