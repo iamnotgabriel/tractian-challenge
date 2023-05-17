@@ -4,8 +4,6 @@ import { HttpResponse } from "../http/http-response";
 import { Route } from "../route";
 import { User } from "@/domain/user/entity";
 import { StatusCode } from "../http/status-code";
-import { configuration } from "@/resources/context/configuration";
-import { Headers } from "../http/headers";
 import { ReadUseCase } from "@/use-case/commons/use-case/read";
 
 

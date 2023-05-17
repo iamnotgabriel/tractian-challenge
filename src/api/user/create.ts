@@ -1,35 +1,27 @@
-import { Result, toOk } from "@/use-case/commons";
+import { Result } from "@/use-case/commons";
 import { Request, Router } from "express";
 import { HttpResponse } from "../http/http-response";
 import { Route } from "../route";
 import { CreateUserUseCase } from "@/use-case/user/create-user";
-import { CreateUserDTO } from "@/domain/user/entity";
-import { StatusCode } from "../http/status-code";
 import { configuration } from "@/resources/context/configuration";
-import { Headers } from "../http/headers";
+import { CreateRoute } from "../route/create";
+import { CreateUserDTO, User } from "@/domain/user/entity";
 
 
 export class CreateUserRoute extends Route {
+    private readonly createRoute: CreateRoute<CreateUserDTO, User>;
 
-    constructor(private readonly createUserUseCase: CreateUserUseCase) {
+    constructor(createUserUseCase: CreateUserUseCase) {
         super();
+        this.createRoute = new CreateRoute(
+            createUserUseCase,
+            `${configuration.serverDomain}/api/v1/users/:id`
+        );
     }
 
     async handle(req: Request): Promise<Result<HttpResponse>> {
         const dto = req.body as CreateUserDTO;
-        const result = await this.createUserUseCase.handle(dto)
-        if (result.ok) {
-            const contentLocation = `${configuration.serverDomain}/api/v1/users/${result.value.id}`;
-            return toOk({
-                status: StatusCode.CREATED,
-                body: result.value,
-                headers: {
-                    [Headers.CONTENT_LOCATION]: contentLocation 
-                }
-            })
-        }
-
-        return result as Result.Err;
+        return this.createRoute.handle(dto);
     }
 
     register(router: Router) {
