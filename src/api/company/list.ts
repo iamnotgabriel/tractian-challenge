@@ -1,16 +1,18 @@
-import { Result, toErr, toOk } from "@/use-case/commons";
-import { Request, Response, Router } from "express";
+import { Result } from "@/use-case/commons";
+import { Request, Router } from "express";
 import { Route } from "@/api/route";
-import { StatusCode } from "../http/status-code";
-import { PageRequest } from "@/domain/commons/types";
 import { HttpResponse } from "../http/http-response";
 import { ListUseCase } from "@/use-case/commons/use-case/list";
 import { Company } from "@/domain/company/entity";
+import { ListRoute } from "../route/list";
 
 export class ListCompanyRoute extends Route {
 
-    constructor(private readonly useCase: ListUseCase<Company>) {
+    private readonly route: ListRoute<Company>;
+
+    constructor(useCase: ListUseCase<Company>) {
         super();
+        this.route = new ListRoute(useCase);
     }
     
     register(router: Router) {
@@ -18,20 +20,7 @@ export class ListCompanyRoute extends Route {
     }
 
     async handle(req: Request): Promise<Result<HttpResponse>> {
-        const request = PageRequest.from(req.query);
-        if (request.ok == false ) {
-            return request;
-        } 
-        const result = await this.useCase.handle(request.value);
-        if (result.ok == false) {
-            return result;
-        }
-        
-        return toOk({
-            status: StatusCode.OK,
-            body: result.value 
-        });
-    
+        return this.route.handle(req.query);
     }
 
 }
