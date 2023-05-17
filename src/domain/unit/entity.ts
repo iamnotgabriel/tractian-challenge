@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { Entity, PageRequest, ValueObject } from "../commons/types"
+import { Entity, PageRequest, UpdateObject, ValueObject } from "../commons/types"
 import { validationSchema } from "../validation";
 import { Result, toOk } from "@/use-case/commons";
 import { ValidationError } from "../errors";
@@ -26,6 +26,19 @@ export function createUnit(dto: CreateUnitDTO): Result<ValueObject<Unit>> {
         ...unit,
         createdAt: new Date()
     });
+}
+
+export function updateUnit(unit: Unit, patch: UpdateObject<Unit>) {
+    const patchedUnit = Object.assign(unit, patch);
+    const { error, value } = unitSchema.validate(patchedUnit);
+    if (error) {
+        return new ValidationError(error.details).toResult();
+    }
+    if (patch.companyId) {
+        return new ValidationError({ value: patch,message: 'unit.companyId is an immutable field'}).toResult()
+    }
+
+    return toOk(Object.assign(unit, value));
 }
 
 export class UnitPageRequest extends PageRequest {

@@ -36,8 +36,8 @@ export function createUser(dto: CreateUserDTO): Result<ValueObject<User>> {
 
 
 export function updateUser(user: User, patch: UpdateObject<User>): Result<User> {
-    const patchedCompany = Object.assign(user, patch);
-    const {error, value} = userSchema.validate(patchedCompany);
+    const patchedUser = Object.assign(user, patch);
+    const {error, value} = userSchema.validate(patchedUser);
     if (error) {
         return new ValidationError(error.details).toResult();
     }
