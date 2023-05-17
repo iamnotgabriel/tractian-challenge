@@ -38,7 +38,6 @@ export class PageRequest {
     static from(request: Record<string, any>): Result<PageRequest> {
         const {error, value} = PageRequest.schema.validate(request);
         if ( error ) {
-            console.log('page request =', request);
             return new ValidationError(error.details).toResult();
         }
         const { limit, skip, sort, ...filters } = value;

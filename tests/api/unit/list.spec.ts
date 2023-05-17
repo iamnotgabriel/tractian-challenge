@@ -19,7 +19,8 @@ describe('api/unit/list', () => {
     });
 
     beforeEach(async () => {
-        MongoClientSingleton.getCollection('units').deleteMany({});
+        await MongoClientSingleton.getCollection('units').deleteMany({});
+        await MongoClientSingleton.getCollection('companies').deleteMany({});
     });
 
     test("list units", async () => {

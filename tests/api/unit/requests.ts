@@ -2,16 +2,15 @@ import { CreateUnitDTO, Unit } from "@/domain/unit/entity";
 import { Express } from "express";
 import request from "supertest";
 
-export async function createUnit(app: Express, body: CreateUnitDTO): Promise<Unit> {
-    const { body: res } = await request(app).post('/api/v1/units').send(body).expect(201);
+export async function createUnit(app: Express, payload: CreateUnitDTO): Promise<Unit> {
+    const { body } = await request(app).post('/api/v1/units').send(payload).expect(201);
 
-    return res
+    return body;
 }
 
 export async function readUnit(app: Express, id: string, status: number = 200) {
-    const { body:res } = await request(app).get(`/api/v1/units/${id}`).expect(status);
-
-    return res;
+    const { body } = await request(app).get(`/api/v1/units/${id}`).expect(status);
+    return body;
 }
 
 export async function deleteUnit(app: Express, id: string): Promise<void> {
