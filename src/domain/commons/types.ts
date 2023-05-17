@@ -21,8 +21,8 @@ export class Page<T> {
 
 export class PageRequest {
     private static readonly schema = validationSchema({
-        limit: Joi.number().default(10),
-        skip: Joi.number().default(0),
+        limit: Joi.number().default(10).min(1).max(100),
+        skip: Joi.number().default(0).min(0),
         sort: Joi.string()
             .optional()
             .default('id'),
