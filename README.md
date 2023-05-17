@@ -23,6 +23,7 @@ Build a CRUD where the user can register companies, units, assets and users
     [ ] update
     [ ] delete
     [ ] list
+    [ ] list assets
 [ ] assets
     [ ] create
     [ ] read
