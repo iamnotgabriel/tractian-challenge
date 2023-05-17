@@ -33,5 +33,6 @@ describe('api/user/create', () => {
         const contentLocation =  `http://localhost:8080/api/v1/users/${id}`;
 
         expect(response.headers['content-location']).toBe(contentLocation);
+        expect(TestApplication.context.createUserUseCase.handle).toBeCalledTimes(1);
     });
 });
