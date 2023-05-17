@@ -9,7 +9,7 @@ import { Company } from "@/domain/company/entity";
 export type CreateUserUseCase  = CreateUseCase<CreateUserDTO, User>;
 
 export class CreateUserUseCaseImpl implements CreateUserUseCase {
-    private readonly createUseCase: CreateUseCaseImpl<ValueObject<CreateUserDTO>, User>;
+    private readonly createUseCase: CreateUseCaseImpl<ValueObject<User>, User>;
 
     constructor(private readonly readCompanyUseCase: ReadUseCase<Company>, userRepository: SaveUserRepository, ) {
         this.createUseCase = new CreateUseCaseImpl('User', userRepository);

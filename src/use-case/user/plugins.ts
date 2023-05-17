@@ -1,4 +1,4 @@
-import { CreateUserDTO, User } from "@/domain/user/entity";
+import { User } from "@/domain/user/entity";
 import { FindByIdRepository, SaveRepository } from "../commons/plugins";
 import { ValueObject } from "@/domain/commons/types";
 
