@@ -37,6 +37,8 @@ function loadContext() {
         new CreateUserUseCaseImpl(readCompanyUseCase, dataContext.userRepository);
     const readUserUseCase: ReadUseCase<User> =
         new ReadUseCaseImpl('User', dataContext.userRepository);
+    const deleteUserUseCase: DeleteUseCase =
+        new DeleteUseCaseImpl('User', dataContext.userRepository);
 
     return {
         createCompanyUseCase,
@@ -46,5 +48,6 @@ function loadContext() {
         listCompanyUseCase,
         createUserUseCase,
         readUserUseCase,
+        deleteUserUseCase,
     };
 }

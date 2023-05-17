@@ -17,7 +17,7 @@ describe('data/user/user-mongo-repository', () => {
         await MongoClientSingleton.getCollection('companies').deleteMany();
     });
 
-    test('find saved user by id', async () => {
+    test('deletes saved user by id', async () => {
         const repository = new UserMongoRepository();
         const user: ValueObject<User> =  {
             name: 'Testing guy',
@@ -26,15 +26,22 @@ describe('data/user/user-mongo-repository', () => {
             createdAt: new Date(),
         };
         const {id} = expectToBeOk(await repository.save(user));
-        const entity = expectToBeOk(await repository.find(id));
-    
-        expect(entity).toMatchObject(user);
+        expectToBeOk(await repository.delete(id));
+        const result  = await repository.find(id);
+
+        expect(result).toMatchObject({
+            ok: true,
+            value: null,
+        });
     });
 
-    test('returns null when entity does not exist', async () => {
+    test('deletes user not saved', async () => {
         const repository = new UserMongoRepository();
-        const entity = expectToBeOk(await repository.find("64628225f5b6a1023af42e91"));
+        const result = await repository.delete("64628225f5b6a1023af42e91");
 
-        expect(entity).toBeNull();
+        expect(result).toMatchObject({
+            ok: true,
+            value: null
+        });
     });
 });

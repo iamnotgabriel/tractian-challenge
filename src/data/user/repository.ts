@@ -7,19 +7,24 @@ import { Result } from "@/use-case/commons";
 import { SaveMongoRepository } from "../mongo/repository/save";
 import { ObjectId } from "mongodb";
 import { FindMongoRepository } from "../mongo/repository/find";
+import { DeleteByIdRepository } from "@/use-case/commons/plugins";
+import { DeleteMongoRepository } from "../mongo/repository/delete";
 
 export class UserMongoRepository extends MongoRepository
     implements
         SaveUserRepository,
-        FindUserRepository
+        FindUserRepository,
+        DeleteByIdRepository
 {
     private readonly saveMongoRepository: SaveMongoRepository<User>; 
-    private readonly findMongoRepository: FindMongoRepository<User>; 
+    private readonly findMongoRepository: FindMongoRepository<User>;
+    private readonly deleteMongoRepository: DeleteByIdRepository;
 
     constructor() {
         super(MongoClientSingleton.getCollection('users'));
         this.saveMongoRepository = new SaveMongoRepository(this.collection);
         this.findMongoRepository = new FindMongoRepository(this.collection);
+        this.deleteMongoRepository = new DeleteMongoRepository(this.collection);
         
     }
 
@@ -29,5 +34,9 @@ export class UserMongoRepository extends MongoRepository
 
     find(id: string): Promise<Result<User>> {
         return this.findMongoRepository.find(id);
+    }
+
+    delete(id: string): Promise<Result<void>> {
+        return this.deleteMongoRepository.delete(id);
     }
 }
