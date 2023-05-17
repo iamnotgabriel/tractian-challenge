@@ -1,3 +1,5 @@
+import { Company } from "@/domain/company/entity";
+import { randomId } from "@/tests/commons";
 import { DeleteCompanyRepository, FindCompanyRepository, ListCompanyRepository, SaveCompanyRepository, UpdateCompanyRepository } from "@/use-case/company/plugins";
 
 
@@ -15,4 +17,11 @@ export const companyRepository: CompanyRepository = {
     update: jest.fn(),
     list: jest.fn(),
     count: jest.fn(),
+};
+
+export const company: Company = {
+    id: randomId(),
+    name: 'Super company',
+    document: '0987654321',
+    createdAt: new Date(),
 };

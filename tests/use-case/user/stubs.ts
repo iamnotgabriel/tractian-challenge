@@ -1,6 +1,7 @@
 import { SaveUserRepository } from "@/use-case/user/plugins";
 import { FindByIdRepository, UpdateByIdRepository } from "@/use-case/commons/plugins";
 import { User } from "@/domain/user/entity";
+import { randomId } from "@/tests/commons";
 
 export type UserRepository =
     & jest.Mocked<SaveUserRepository>
@@ -11,4 +12,12 @@ export const userRepository: UserRepository = {
     save: jest.fn(),
     find: jest.fn(),
     update: jest.fn(),
+};
+
+export const user: User = {
+    id: randomId(),
+    name: 'Admin',
+    email: 'admin@company.com',
+    createdAt: new Date(),
+    companyId: randomId(),
 };

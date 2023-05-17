@@ -40,16 +40,21 @@ export class NotFoundError extends DetailedError<Record<string, string | object>
     }
 }
 
-export class InternalError extends  ApplicationError {
+export class InternalError extends ApplicationError {
     constructor(public readonly error: Error) {
         super('Internal Error', ErrorCodes.INTERNAL_ERROR);
+    }
+}
+
+export class ConflictError extends DetailedError<string> {
+    constructor(detail: string) {
+        super('Conflict Error', ErrorCodes.VALIDATION_ERROR, detail)
     }
 }
 
 export enum ErrorCodes {
     VALIDATION_ERROR = 400,
     NOT_FOUND = 404,
-    CONFLICT = 412,
     INTERNAL_ERROR = 500,
 }
 
