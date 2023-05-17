@@ -1,4 +1,5 @@
 import { CompanyMongoRepository } from "@/data/company/repository";
+import { UserMongoRepository } from "@/data/user/repository";
 
 export type DataContext = Readonly<ReturnType<typeof loadContext>>;
 
@@ -14,8 +15,10 @@ export function getDataContext() {
 
 function loadContext() {
     const companyRepository = new CompanyMongoRepository();
+    const userRepository = new UserMongoRepository();
 
     return {
-        companyRepository
+        companyRepository,
+        userRepository,
     };
 }

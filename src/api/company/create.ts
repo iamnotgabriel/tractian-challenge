@@ -6,7 +6,7 @@ import { Route } from "@/api/route";
 import { StatusCode } from "../http/status-code";
 import { Headers } from "@/api/http/headers";
 import { configuration } from "@/resources/context/configuration";
-import { HttpResponse } from "../http/http-reponse";
+import { HttpResponse } from "../http/http-response";
 
 export class CreateCompanyRoute extends Route {
 

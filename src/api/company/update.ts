@@ -5,7 +5,7 @@ import { StatusCode } from "../http/status-code";
 import { UpdateCompanyUseCase } from "@/use-case/company/update-company";
 import { UpdateObject } from "@/domain/commons/types";
 import { Company } from "@/domain/company/entity";
-import { HttpResponse } from "../http/http-reponse";
+import { HttpResponse } from "../http/http-response";
 
 export class UpdateCompanyRoute extends Route {
 

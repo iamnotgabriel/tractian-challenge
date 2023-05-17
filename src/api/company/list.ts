@@ -3,7 +3,7 @@ import { Request, Response, Router } from "express";
 import { Route } from "@/api/route";
 import { StatusCode } from "../http/status-code";
 import { PageRequest } from "@/domain/commons/types";
-import { HttpResponse } from "../http/http-reponse";
+import { HttpResponse } from "../http/http-response";
 import { ListUseCase } from "@/use-case/commons/use-case/list";
 import { Company } from "@/domain/company/entity";
 

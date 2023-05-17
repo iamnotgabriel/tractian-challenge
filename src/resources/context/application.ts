@@ -1,10 +1,11 @@
 import { ReadUseCase, ReadUseCaseImpl } from "@/use-case/commons/use-case/read";
-import { getDataContext } from "./data";
+import { DataContext, getDataContext } from "./data";
 import { CreateCompanyUseCase, CreateCompanyUseCaseImpl } from "@/use-case/company/create-company";
 import { UpdateCompanyUseCase, UpdateCompanyUseCaseImpl } from "@/use-case/company/update-company";
 import { Company } from "@/domain/company/entity";
 import { DeleteUseCase, DeleteUseCaseImpl } from "@/use-case/commons/use-case/delete";
 import { ListUseCase, ListUseCaseImpl } from "@/use-case/commons/use-case/list";
+import { CreateUserUseCase, CreateUserUseCaseImpl } from "@/use-case/user/create-user";
 
 export type ApplicationContext = Readonly<ReturnType<typeof loadContext>>;
 
@@ -31,11 +32,15 @@ function loadContext() {
     const listCompanyUseCase: ListUseCase<Company> =
         new ListUseCaseImpl(dataContext.companyRepository);
 
+    const createUserUseCase: CreateUserUseCase =
+        new CreateUserUseCaseImpl(readCompanyUseCase, dataContext.userRepository)
+
     return {
         createCompanyUseCase,
         readCompanyUseCase,
         deleteCompanyUseCase,
         updateCompanyUseCase,
         listCompanyUseCase,
+        createUserUseCase,
     };
 }

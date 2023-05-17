@@ -1,3 +1,4 @@
+import { mock } from "node:test";
 import { ApplicationContext } from "../resources/context/application";
 
 
@@ -17,5 +18,6 @@ export function getTestContext(): TestApplicationContext {
         deleteCompanyUseCase: mockedUseCase(),
         updateCompanyUseCase: mockedUseCase(),
         listCompanyUseCase: mockedUseCase(),
+        createUserUseCase: mockedUseCase(),
     }
 }
