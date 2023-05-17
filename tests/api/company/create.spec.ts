@@ -6,7 +6,7 @@ import { Express } from "express";
 describe('api/company/create', () => {
     let app: Express;
 
-    beforeAll(() => {
+    beforeAll(async () => {
         const webApi = await TestApplication.create();
         app = webApi.app; 
     });

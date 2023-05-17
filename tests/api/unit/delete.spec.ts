@@ -4,6 +4,7 @@ import { Express } from "express";
 import { getContext } from "@/resources/context/application";
 import { CreateUnitDTO } from "@/domain/unit/entity";
 import { createCompany } from "../company/requests";
+import { createUnit, readUnit } from "./requests";
 
 describe('api/unit/create', () => {
     let app: Express;
@@ -23,13 +24,8 @@ describe('api/unit/create', () => {
             name: 'API Testing company',
             companyId,
         };
-        const {body: res, headers} = await request(app).post('/api/v1/units').send(body).expect(201);
-        
-        const contentLocation =  `http://localhost:8080/api/v1/units/${res.id}`;
-
-        expect(headers['content-location']).toBe(contentLocation);
-        expect(res).toMatchObject({
-            ...body
-        });
+        const { id } = await createUnit(app, body);
+        await request(app).delete(`/api/v1/units/${id}`).send().expect(204);
+        await readUnit(app, id, 404);
     });
 });
