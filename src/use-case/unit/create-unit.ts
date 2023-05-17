@@ -1,7 +1,7 @@
 import { CreateUnitDTO, Unit, createUnit } from "@/domain/unit/entity";
 import { CreateUseCase, CreateUseCaseImpl } from "../commons/use-case/create";
 import { UseCase } from "../commons/use-case";
-import { SaveUnitRepository } from "./plugings";
+import { SaveUnitRepository } from "./plugins";
 import { ReadUseCase } from "../commons/use-case/read";
 import { Company } from "@/domain/company/entity";
 import { ValueObject } from "@/domain/commons/types";

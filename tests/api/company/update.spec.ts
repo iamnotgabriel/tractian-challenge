@@ -6,8 +6,8 @@ import { Express } from "express";
 describe('api/company/update', () => {
     let app: Express;
 
-    beforeAll(() => {
-        const webApi = TestApplication.create();
+    beforeAll(async () => {
+        const webApi = await TestApplication.create();
         app = webApi.app; 
     });
 

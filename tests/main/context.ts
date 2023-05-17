@@ -22,5 +22,6 @@ export function getTestContext(): TestApplicationContext {
         deleteUserUseCase: mockedUseCase(),
         listUserUseCase: mockedUseCase(),
         updateUserUseCase: mockedUseCase(),
+        createUnitUseCase: mockedUseCase(),
     }
 }

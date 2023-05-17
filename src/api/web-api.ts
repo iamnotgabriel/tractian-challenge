@@ -1,6 +1,7 @@
 import express, { Express, Router } from "express";
 import * as company from "./company";
 import * as user from "./user";
+import * as unit from "./unit";
 import { cors } from "./middlewares/cors";
 import { contentType } from "./middlewares/content-type";
 import { bodyParser } from "./middlewares/body-parser";
@@ -32,6 +33,7 @@ export class WebAPI {
         const router  = Router();
         company.registerRoutes(router, this.context);
         user.registerRoutes(router, this.context);
+        unit.registerRoutes(router, this.context);
         this.app.use('/api/v1', router);
     }
 

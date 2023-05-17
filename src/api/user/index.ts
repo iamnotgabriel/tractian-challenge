@@ -8,13 +8,11 @@ import { ListUserRoute } from "./list";
 import { UpdateUserRoute } from "./update";
 
 export function registerRoutes(router: Router, context: ApplicationContext): void {
-    const routes: Route[] = [
+    Route.registerRoutes(router, [
         new CreateUserRoute(context.createUserUseCase),
         new ReadUserRoute(context.readUserUseCase),
         new DeleteUserRoute(context.deleteUserUseCase),
         new ListUserRoute(context.listUserUseCase),
         new UpdateUserRoute(context.updateUserUseCase), 
-    ];
-    
-    routes.forEach(route => route.register(router));
+    ]);
 }

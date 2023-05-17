@@ -13,8 +13,8 @@ describe('api/company/read', () => {
         createdAt: new Date()
     }
 
-    beforeAll(() => {
-        const webApi = TestApplication.create();
+    beforeAll(async () => {
+        const webApi = await TestApplication.create();
         app = webApi.app; 
     });
 

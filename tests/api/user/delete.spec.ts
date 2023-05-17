@@ -8,7 +8,7 @@ describe('api/user/delete', () => {
     let app: Express;
 
     beforeAll(() => {
-        const webApi = TestApplication.create();
+        const webApi = await TestApplication.create();
         app = webApi.app; 
     });
 

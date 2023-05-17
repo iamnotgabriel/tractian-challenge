@@ -17,7 +17,7 @@ describe('api/user/list', () => {
         total: 10
     };
     beforeAll(() => {
-        const webApi = TestApplication.create();
+        const webApi = await TestApplication.create();
         app = webApi.app; 
     });
 

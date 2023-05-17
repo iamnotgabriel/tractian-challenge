@@ -15,8 +15,8 @@ describe('api/company/list', () => {
         }],
         total: 10
     };
-    beforeAll(() => {
-        const webApi = TestApplication.create();
+    beforeAll(async () => {
+        const webApi = await TestApplication.create();
         app = webApi.app; 
     });
 

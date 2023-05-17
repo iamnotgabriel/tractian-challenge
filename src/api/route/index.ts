@@ -37,4 +37,9 @@ export abstract class Route {
     }
 
     abstract register(router: Router);
+
+
+    static registerRoutes(router: Router, routes: Route[]) {
+        routes.forEach(route => route.register(router))
+    }
 }

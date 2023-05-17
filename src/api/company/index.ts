@@ -9,13 +9,11 @@ import { ListCompanyRoute } from "./list";
 
 
 export function registerRoutes(router: Router, context: ApplicationContext): void {
-    const routes: Route[] = [
+    Route.registerRoutes(router, [
         new CreateCompanyRoute(context.createCompanyUseCase),
         new ReadCompanyRoute(context.readCompanyUseCase),
         new DeleteCompanyRoute(context.deleteCompanyUseCase),
         new UpdateCompanyRoute(context.updateCompanyUseCase),
         new ListCompanyRoute(context.listCompanyUseCase),
-    ];
-    
-    routes.forEach(route => route.register(router));
+    ]);
 }
