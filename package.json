@@ -6,7 +6,8 @@
     "start": "node dist/main/main.js",
     "clear": "rimraf dist",
     "build": "npm run clear && tsc -p tsconfig.build.json",
-    "test": "jest",
+    "test": "jest --runInBand",
+    "test:cov": "jest --runInBand --coverage",
     "dev": "npm run build  && npm run start"
   },
   "author": "gabrielfr.borges@gmail.com",

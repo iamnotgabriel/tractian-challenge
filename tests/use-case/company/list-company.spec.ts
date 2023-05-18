@@ -36,9 +36,21 @@ describe('use-case/list-company', () => {
         expect(companies.total).toBe(100);
     });
 
-    test('fails when a error occurs', async () => {
-        companyRepository.list.mockResolvedValueOnce(new InternalError(new Error('Bad Entry')).toResult())
+    test('fails when a error occurs on count', async () => {
+        companyRepository.list.mockResolvedValueOnce(toOk([]))
         companyRepository.count.mockResolvedValueOnce(new InternalError(new Error('Bad Entry')).toResult())
+        
+        
+        const request  = expectToBeOk(PageRequest.from({limit: 10, skip: 0}));
+        const result = await useCase().handle(request) as Result.Err;
+
+        expect(result.ok).toBeFalsy();
+        expect(result.error.errorCode).toBe(ErrorCodes.INTERNAL_ERROR);
+    });
+
+    test('fails when a error occurs on list', async () => {
+        companyRepository.list.mockResolvedValueOnce(new InternalError(new Error('Bad Entry')).toResult())
+        companyRepository.count.mockResolvedValueOnce(toOk(0))
         
         
         const request  = expectToBeOk(PageRequest.from({limit: 10, skip: 0}));

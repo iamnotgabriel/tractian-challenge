@@ -1,8 +1,9 @@
 import { randomId } from "@/tests/commons";
-import { AssetStatus, CreateAssetDTO, createAsset } from "@/domain/asset/entity";
+import { AssetStatus, CreateAssetDTO, createAsset, updateAsset } from "@/domain/asset/entity";
 import { unit } from "@/tests/use-case/unit/stubs";
 import { Result } from "@/use-case/commons";
 import { expectToBeOk } from "@/tests/result";
+import { asset } from "@/tests/use-case/asset/stubs";
 
 describe('domain/asset', () => {
 
@@ -39,6 +40,15 @@ describe('domain/asset', () => {
 
         expect(asset.ok).toBeFalsy();
         expect(asset.error.errorCode).toBe(400);
+    });
+
+    test('update asset fails when patch contains a different companyId', () => {
+        expectToBeOk(updateAsset(asset, {companyId: asset.companyId}));
+        expectToBeOk(updateAsset(asset, {}));
+        const result = updateAsset(asset, {companyId: randomId()}) as Result.Err;
+
+        expect(result.ok).toBeFalsy();
+        expect(result.error.errorCode).toBe(400);
     });
 
 

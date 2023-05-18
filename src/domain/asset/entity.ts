@@ -51,10 +51,10 @@ export function createAsset(dto: CreateAssetDTO, unit: Unit): Result<ValueObject
 
 
 export function updateAsset(asset:Asset, patch: UpdateObject<Asset>): Result<Asset> {
-    const patchedAsset = Object.assign(asset, patch);
-    if (patch.companyId) {
+    if (patch.companyId && asset.companyId != patch.companyId) {
         return new ConflictError("Can't change asset to another company").toResult();
     }
+    const patchedAsset = Object.assign(asset, patch);
     const {error, value} = assetSchema.validate(patchedAsset);
     if (error) {
         return new ValidationError(error.details).toResult();

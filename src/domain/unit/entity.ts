@@ -29,13 +29,13 @@ export function createUnit(dto: CreateUnitDTO): Result<ValueObject<Unit>> {
 }
 
 export function updateUnit(unit: Unit, patch: UpdateObject<Unit>) {
+    if (patch.companyId && unit.companyId != patch.companyId) {
+        return new ValidationError({ value: patch,message: 'unit.companyId is an immutable field'}).toResult()
+    }
     const patchedUnit = Object.assign(unit, patch);
     const { error, value } = unitSchema.validate(patchedUnit);
     if (error) {
         return new ValidationError(error.details).toResult();
-    }
-    if (patch.companyId) {
-        return new ValidationError({ value: patch,message: 'unit.companyId is an immutable field'}).toResult()
     }
 
     return toOk(Object.assign(unit, value));
