@@ -2,7 +2,7 @@ import { Result, toOk } from "@/use-case/commons";
 import { Entity, PageRequest, UpdateObject, ValueObject } from "../commons/types";
 import { validationSchema } from "../validation";
 import Joi from "joi";
-import { ValidationError } from "../errors";
+import { ConflictError, ValidationError } from "../errors";
 import { Unit } from "../unit/entity";
 
 export enum AssetStatus {
@@ -51,7 +51,16 @@ export function createAsset(dto: CreateAssetDTO, unit: Unit): Result<ValueObject
 
 
 export function updateAsset(asset:Asset, patch: UpdateObject<Asset>): Result<Asset> {
-    return toOk(asset);
+    const patchedAsset = Object.assign(asset, patch);
+    if (patch.companyId) {
+        return new ConflictError("Can't change asset to another company").toResult();
+    }
+    const {error, value} = assetSchema.validate(patchedAsset);
+    if (error) {
+        return new ValidationError(error.details).toResult();
+    }
+
+    return toOk(Object.assign(asset, value));
 }
 
 export class AssetPageRequest extends PageRequest {
