@@ -32,13 +32,13 @@ export function createUser (dto: CreateUserDTO): Result<ValueObject<User>> {
 }
 
 export function updateUser (user: User, patch: UpdateObject<User>): Result<User> {
+  if (patch.companyId && user.companyId !== patch.companyId) {
+    return new ValidationError({ value: patch,message: 'user.companyId is an immutable field' }).toResult()
+  }
   const patchedUser = Object.assign(user, patch)
   const { error, value } = userSchema.validate(patchedUser)
   if (error) {
     return new ValidationError(error.details).toResult()
-  }
-  if (patch.companyId) {
-    return new ValidationError({ value: patch,message: 'user.companyId is an immutable field' }).toResult()
   }
 
   return toOk(Object.assign(user, value))
