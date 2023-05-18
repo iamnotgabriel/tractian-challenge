@@ -1,4 +1,6 @@
 import { InternalError } from "@/domain/errors";
+import { ObjectEncodingOptions } from "fs";
+import { object } from "joi";
 import { ObjectId, WithId } from "mongodb";
 import { Collection } from "mongodb";
 
@@ -22,6 +24,16 @@ export class MongoRepository {
                 document[key] = id;
             }
         }
+    }
+
+    protected mapIdsToObjectIds(entity: object): object {
+        for(const [key, value] of Object.entries(entity)) {
+            if (ObjectId.isValid(value) && key.match(/id/i) && typeof value === 'string') {
+                entity[key] = new ObjectId(value);
+            }
+        }
+        
+        return entity; 
     }
 
     protected mapAll<T>(documents: WithId<any>[]): T[] {

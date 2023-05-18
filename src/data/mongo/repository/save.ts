@@ -2,10 +2,10 @@ import { Result, toOk } from "@/use-case/commons";
 import { SaveRepository } from "@/use-case/commons/plugins";
 import { MongoRepository } from "../mongo-repository";
 
-export class SaveMongoRepository<R> extends MongoRepository implements SaveRepository<any, R> {
+export class SaveMongoRepository<R extends { id: string }> extends MongoRepository implements SaveRepository<any, R> {
     
-    async save(document: any): Promise<Result<R extends { id: string; }? R : never>> {
-        const result = await this.collection.insertOne(document);
+    async save(document: any): Promise<Result<R>> {
+        const result = await this.collection.insertOne(this.mapIdsToObjectIds(document));
         if(result.acknowledged) {
             return toOk(this.map(document));
         }

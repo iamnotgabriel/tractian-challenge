@@ -9,7 +9,7 @@ export class UpdateMongoRepository<T> extends MongoRepository implements UpdateB
     async update({id, patch}: UpdateByIdRepository.Request<T>): Promise<UpdateByIdRepository.Response> {
         const result  = await this.collection.updateOne(
             { _id: new ObjectId(id )},
-            {"$set": patch}, 
+            {"$set": this.mapIdsToObjectIds(patch)}, 
             { upsert: false }
         );
         if (result.acknowledged && result.modifiedCount > 0) {

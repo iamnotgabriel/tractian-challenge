@@ -1,5 +1,5 @@
 import { MongoRepository } from "../mongo/mongo-repository";
-import { PageRequest,  } from "@/domain/commons/types";
+import { PageRequest, ValueObject,  } from "@/domain/commons/types";
 import { Result } from "@/use-case/commons";
 import { SaveMongoRepository } from "../mongo/repository/save";
 import { Collection } from "mongodb";
@@ -9,12 +9,13 @@ import { DeleteMongoRepository } from "../mongo/repository/delete";
 import { ListMongoRepository } from "../mongo/repository/list";
 import { UpdateMongoRepository } from "../mongo/repository/update";
 
-export class MongoEntityRepository<T> extends MongoRepository
+export class MongoEntityRepository<T extends {id: string }> extends MongoRepository
     implements
         FindByIdRepository<T>,
         DeleteByIdRepository,
         ListRepository<T>,
-        UpdateByIdRepository<T>
+        UpdateByIdRepository<T>,
+        SaveMongoRepository<T>
 {
     protected readonly saveMongoRepository: SaveMongoRepository<T>; 
     protected readonly findMongoRepository: FindMongoRepository<T>;
@@ -29,6 +30,10 @@ export class MongoEntityRepository<T> extends MongoRepository
         this.deleteMongoRepository = new DeleteMongoRepository(this.collection);
         this.listMongoRepository = new ListMongoRepository(this.collection);
         this.updateMongoRepository = new UpdateMongoRepository(this.collection);
+    }
+
+    save(document: ValueObject<T>) {
+        return this.saveMongoRepository.save(document);
     }
 
     find(id: string): Promise<Result<T>> {

@@ -7,7 +7,7 @@ import { createUnit } from "../unit/requests";
 import { createUser } from "../user/requests";
 import request from "supertest";
 
-describe('api/unit/create', () => {
+describe('api/asset/create', () => {
     let app: Express;
 
     beforeAll(async () => {
@@ -24,7 +24,7 @@ describe('api/unit/create', () => {
         await MongoClientSingleton.getCollection('companies').deleteMany({});
     });
 
-    test("create unit", async () => {
+    test("create asset", async () => {
         const { id: companyId } = await createCompany(app);
         const { id: assigneeId } = await createUser(app, {
             name: 'Emerson',

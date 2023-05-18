@@ -28,5 +28,6 @@ export function getTestContext(): TestApplicationContext {
         deleteUnitUseCase: mockedUseCase(),
         listUnitUseCase: mockedUseCase(),
         updateUnitUseCase: mockedUseCase(),
+        createAssetUseCase: mockedUseCase(),
     }
 }

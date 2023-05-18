@@ -11,6 +11,7 @@ import { UpdateUserUseCase, UpdateUserUseCaseImpl } from "@/use-case/user/update
 import { CreateUnitUseCase, CreateUnitUseCaseImpl } from "@/use-case/unit/create-unit";
 import { Unit } from "@/domain/unit/entity";
 import { UpdateUnitUseCase, UpdateUnitUseCaseImpl } from "@/use-case/unit/update-unit";
+import { CreateAssetUseCase, CreateAssetUseCaseImpl } from "@/use-case/asset/create-asset";
 
 export type ApplicationContext = Readonly<ReturnType<typeof loadContext>>;
 
@@ -59,6 +60,13 @@ function loadContext() {
     const listUnitUseCase: ListUseCase<Unit> =
         new ListUseCaseImpl(dataContext.unitRepository);
 
+    const createAssetUseCase: CreateAssetUseCase =
+        new CreateAssetUseCaseImpl(
+            dataContext.assetRepository,
+            readUnitUseCase,
+            readUserUseCase,
+        );
+
     return {
         createCompanyUseCase,
         readCompanyUseCase,
@@ -75,5 +83,6 @@ function loadContext() {
         updateUnitUseCase,
         deleteUnitUseCase,
         listUnitUseCase,
+        createAssetUseCase,
     };
 }

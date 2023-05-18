@@ -18,22 +18,12 @@ function noAcknowledgment() {
     return new InternalError(new Error('No acknowledgment received')).toResult();
 }
 
-export class CompanyMongoRepository extends MongoEntityRepository<Company>
-    implements
-        SaveCompanyRepository
-    {
+export class CompanyMongoRepository extends MongoEntityRepository<Company> {
 
     protected readonly saveRepository: SaveMongoRepository<Company>;
 
     constructor() {
         super(MongoClientSingleton.getCollection('companies'));
-
-        this.saveRepository = new SaveMongoRepository(this.collection);
     }
-
-    async save(document: CreateCompanyDTO): Promise<Result<Company>> {
-        return this.saveRepository.save(document);
-    }
-
 
 }

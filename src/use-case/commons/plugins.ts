@@ -5,8 +5,8 @@ export interface FindByIdRepository<T> {
     find(id: string): Promise<Result<T | null>>
 }
 
-export interface SaveRepository<T, R> {
-    save(entity: T) : Promise<Result<R & { id: string }>>;
+export interface SaveRepository<T, R extends { id: string }> {
+    save(entity: T) : Promise<Result<R>>;
 }
 
 export interface DeleteByIdRepository {
