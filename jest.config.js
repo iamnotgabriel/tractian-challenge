@@ -10,9 +10,9 @@ module.exports = {
   transform: {
     '.+\\.ts$': '@swc/jest'
   },
-  setupFiles: ["./jest.setup.js"],
+  setupFiles: ['./jest.setup.js'],
   moduleNameMapper: {
     '@/tests/(.*)': '<rootDir>/tests/$1',
     '@/(.*)': '<rootDir>/src/$1'
-  },
+  }
 }

@@ -1,3 +1,3 @@
 export enum Headers {
-    CONTENT_LOCATION = "Content-Location"
+  CONTENT_LOCATION = 'Content-Location'
 }

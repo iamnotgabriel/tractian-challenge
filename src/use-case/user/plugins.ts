@@ -1,6 +1,6 @@
-import { User } from "@/domain/user/entity";
-import { FindByIdRepository, SaveRepository } from "../commons/plugins";
-import { ValueObject } from "@/domain/commons/types";
+import { type User } from '@/domain/user/entity'
+import { type FindByIdRepository, type SaveRepository } from '../commons/plugins'
+import { type ValueObject } from '@/domain/commons/types'
 
-export type FindUserRepository = FindByIdRepository<User>;
-export type SaveUserRepository = SaveRepository<ValueObject<User>, User>;
+export type FindUserRepository = FindByIdRepository<User>
+export type SaveUserRepository = SaveRepository<ValueObject<User>, User>

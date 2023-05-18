@@ -1,5 +1,5 @@
-import { ObjectId } from "mongodb";
+import { ObjectId } from 'mongodb'
 
-export function randomId(): string {
-    return new ObjectId().toHexString(); 
+export function randomId (): string {
+  return new ObjectId().toHexString()
 }

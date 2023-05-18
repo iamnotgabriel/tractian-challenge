@@ -1,31 +1,31 @@
-import { PageRequest, UpdateObject } from "@/domain/commons/types";
-import { Result } from "../commons";
+import { type PageRequest, type UpdateObject } from '@/domain/commons/types'
+import { type Result } from '../commons'
 
 export interface FindByIdRepository<T> {
-    find(id: string): Promise<Result<T | null>>
+  find: (id: string) => Promise<Result<T | null>>
 }
 
 export interface SaveRepository<T, R extends { id: string }> {
-    save(entity: T) : Promise<Result<R>>;
+  save: (entity: T) => Promise<Result<R>>
 }
 
 export interface DeleteByIdRepository {
-    delete(id: string): Promise<Result<void>>
+  delete: (id: string) => Promise<Result<void>>
 }
 
 export interface UpdateByIdRepository<T> {
-    update(request: UpdateByIdRepository.Request<T>): Promise<UpdateByIdRepository.Response>
+  update: (request: UpdateByIdRepository.Request<T>) => Promise<UpdateByIdRepository.Response>
 }
 
 export namespace UpdateByIdRepository {
-    export type Request<T> = {
-        id: string,
-        patch: UpdateObject<T>,
-    };
-    export type Response = Result<void>;
+  export type Request<T> = {
+    id: string
+    patch: UpdateObject<T>
+  }
+  export type Response = Result<void>
 }
 
 export interface ListRepository<T> {
-    list(request: PageRequest): Promise<Result<T[]>>;
-    count(filters?: Record<string, any>): Promise<Result<number>>;
+  list: (request: PageRequest) => Promise<Result<T[]>>
+  count: (filters?: Record<string, any>) => Promise<Result<number>>
 }

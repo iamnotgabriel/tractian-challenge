@@ -1,31 +1,31 @@
-import { TestApplication } from "@/tests/main/test-application";
-import request from "supertest";
-import { Express } from "express";
-import { getContext } from "@/resources/context/application";
-import { createCompany } from "../company/requests";
-import { createUnit } from "./requests";
+import { TestApplication } from '@/tests/main/test-application'
+import request from 'supertest'
+import { type Express } from 'express'
+import { getContext } from '@/resources/context/application'
+import { createCompany } from '../company/requests'
+import { createUnit } from './requests'
 
 describe('api/unit/read', () => {
-    let app: Express;
+  let app: Express
 
-    beforeAll(async () => {
-        const webApi = await TestApplication.create(getContext);
-        app = webApi.app; 
-    });
+  beforeAll(async () => {
+    const webApi = await TestApplication.create(getContext)
+    app = webApi.app
+  })
 
-    afterAll(async () => {
-        await TestApplication.teardown()
-    });
+  afterAll(async () => {
+    await TestApplication.teardown()
+  })
 
-    test("read unit by", async () => {
-        const {id : companyId} = await createCompany(app);
-        const unit = await createUnit(app, {
-            name: 'The Unit',
-            companyId,
-        });
+  test('read unit by', async () => {
+    const { id: companyId } = await createCompany(app)
+    const unit = await createUnit(app, {
+      name: 'The Unit',
+      companyId
+    })
 
-        const { body:res } = await request(app).get(`/api/v1/units/${unit.id}`).expect(200);
+    const { body: res } = await request(app).get(`/api/v1/units/${unit.id}`).expect(200)
 
-        expect(res).toMatchObject(unit);
-    });
-});
+    expect(res).toMatchObject(unit)
+  })
+})
