@@ -1,5 +1,6 @@
 # CHALLENGE
 
+Explanation on youtube video
 [![youtube image](https://github.com/iamnotgabriel/tractian-challenge/blob/main/screenshot.png?raw=true)](https://www.youtube.com/watch?v=pzetH5bFmgk)
 
 ## Context
