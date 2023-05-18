@@ -13,6 +13,7 @@ import { Unit } from "@/domain/unit/entity";
 import { UpdateUnitUseCase, UpdateUnitUseCaseImpl } from "@/use-case/unit/update-unit";
 import { CreateAssetUseCase, CreateAssetUseCaseImpl } from "@/use-case/asset/create-asset";
 import { Asset } from "@/domain/asset/entity";
+import { UpdateAssetUseCase, UpdateAssetUseCaseImpl } from "@/use-case/asset/update-asset";
 
 export type ApplicationContext = Readonly<ReturnType<typeof loadContext>>;
 
@@ -69,8 +70,8 @@ function loadContext() {
         );
     const readAssetUseCase: ReadUseCase<Asset> =
         new ReadUseCaseImpl('Asset', dataContext.assetRepository);
-    // const updateAssetUseCase: UpdateAssetUseCase =
-    //     new UpdateAssetUseCaseImpl(dataContext.assetRepository);
+    const updateAssetUseCase: UpdateAssetUseCase =
+        new UpdateAssetUseCaseImpl(dataContext.assetRepository, readUnitUseCase, readUserUseCase);
     const deleteAssetUseCase: DeleteUseCase =
         new DeleteUseCaseImpl('Asset', dataContext.assetRepository);
     const listAssetUseCase: ListUseCase<Asset> =
@@ -94,7 +95,7 @@ function loadContext() {
         listUnitUseCase,
         createAssetUseCase,
         readAssetUseCase,
-        // updateAssetUseCase,
+        updateAssetUseCase,
         deleteAssetUseCase,
         listAssetUseCase,
     };
