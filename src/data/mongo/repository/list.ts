@@ -5,7 +5,7 @@ import { type PageRequest } from '@/domain/commons/types'
 import { ObjectId } from 'mongodb'
 
 function isEmpty (obj: object): boolean {
-  return obj != null && Object.keys(obj).length == 0
+  return obj != null && Object.keys(obj).length === 0
 }
 
 function transform (doc: object): object {

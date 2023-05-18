@@ -9,16 +9,16 @@ export class Application {
     this.server = new WebAPI(context)
   }
 
-  async start () {
+  async start (): Promise<void> {
     this.setup()
-    this.server.start()
+    await this.server.start()
   }
 
-  private setup () {
+  private setup (): void {
     this.server.setup()
   }
 
-  async teardown () {
+  async teardown (): Promise<void> {
     await MongoClientSingleton.disconnect()
   }
 }

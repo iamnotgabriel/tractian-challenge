@@ -1,6 +1,6 @@
 import { type Result } from '@/use-case/commons'
 import { type UseCase } from '.'
-import { type DeleteByIdRepository, UpdateByIdRepository } from '../plugins'
+import { type DeleteByIdRepository } from '../plugins'
 import { type Logger } from 'winston'
 import { getLogger } from '@/resources/logging'
 

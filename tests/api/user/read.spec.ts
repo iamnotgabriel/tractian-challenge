@@ -1,5 +1,5 @@
 import { TestApplication } from '@/tests/main/test-application'
-import { toErr, toOk } from '@/use-case/commons'
+import { toOk } from '@/use-case/commons'
 import request from 'supertest'
 import { type Express } from 'express'
 import crypto from 'crypto'

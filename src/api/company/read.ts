@@ -14,7 +14,7 @@ export class ReadCompanyRoute extends Route {
     this.route = new ReadRoute(useCase)
   }
 
-  register (router: Router) {
+  register (router: Router): void {
     router.get('/companies/:companyId', this.handler)
   }
 

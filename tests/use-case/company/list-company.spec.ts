@@ -4,11 +4,12 @@ import { type Result, toOk } from '@/use-case/commons'
 import { ErrorCodes, InternalError } from '@/domain/errors'
 import { PageRequest } from '@/domain/commons/types'
 import { ListUseCaseImpl } from '@/use-case/commons/use-case/list'
+import { type Company } from '@/domain/company/entity'
 
 import crypto from 'crypto'
 
 describe('use-case/list-company', () => {
-  function useCase () {
+  function useCase (): ListUseCaseImpl<Company> {
     return new ListUseCaseImpl(companyRepository)
   }
 

@@ -14,7 +14,7 @@ export class ReadAssetRoute extends Route {
     this.route = new ReadRoute(useCase)
   }
 
-  register (router: Router) {
+  register (router: Router): void {
     router.get('/assets/:assetId', this.handler)
   }
 

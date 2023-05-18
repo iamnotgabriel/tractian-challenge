@@ -4,7 +4,7 @@ import { type Result, toOk } from '@/use-case/commons'
 import { ErrorCodes, InternalError, NotFoundError } from '@/domain/errors'
 import { UpdateAssetUseCaseImpl } from '@/use-case/asset/update-asset'
 import { getTestContext } from '@/tests/main/context'
-import { unit, unitRepository } from '../unit/stubs'
+import { unit } from '../unit/stubs'
 import { user } from '../user/stubs'
 
 describe('use-case/update-asset', () => {
@@ -14,7 +14,7 @@ describe('use-case/update-asset', () => {
     jest.clearAllMocks()
   })
 
-  function useCase () {
+  function useCase (): UpdateAssetUseCaseImpl {
     return new UpdateAssetUseCaseImpl(assetRepository, readUnitUseCase, readUserUseCase)
   }
 

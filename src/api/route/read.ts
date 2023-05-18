@@ -9,7 +9,7 @@ export class ReadRoute<T> {
   async handle (id: string): Promise<Result<HttpResponse<T>>> {
     const result = await this.useCase.handle(id)
 
-    if (!result.ok) {
+    if (result.ok === false) {
       return result
     }
 

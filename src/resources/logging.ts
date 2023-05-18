@@ -1,5 +1,5 @@
 import { configuration } from '@/resources/context/configuration'
-import { createLogger, format, transports } from 'winston'
+import { type Logger, createLogger, format, transports } from 'winston'
 const logger = createLogger({
   transports: [new transports.Console({
     silent: configuration.silenceLogging
@@ -11,6 +11,6 @@ const logger = createLogger({
   )
 })
 
-export function getLogger (service: string) {
+export function getLogger (service: string): Logger {
   return logger.child({ service })
 }

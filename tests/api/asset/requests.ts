@@ -29,13 +29,13 @@ export async function createAsset (app: Express, dto: Partial<CreateAssetDTO>): 
   }
   return createAssetOnly(app, asset)
 }
-export async function createAssetOnly (app: Express, dto: CreateAssetDTO) {
+export async function createAssetOnly (app: Express, dto: CreateAssetDTO): Promise<Asset> {
   const { body } = await request(app).post('/api/v1/assets').send(dto).expect(201)
 
   return body
 }
 
-export async function readAsset (app: Express, id: string, status: number = 200) {
+export async function readAsset<T = Asset> (app: Express, id: string, status: number = 200): Promise<T> {
   const { body } = await request(app).get('/api/v1/assets/' + id).expect(status)
 
   return body

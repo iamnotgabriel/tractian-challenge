@@ -13,7 +13,7 @@ export class DeleteAssetRoute extends Route {
     this.route = new DeleteRoute(useCase)
   }
 
-  register (router: Router) {
+  register (router: Router): void {
     router.delete('/assets/:assetId', this.handler)
   }
 

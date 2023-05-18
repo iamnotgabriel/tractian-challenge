@@ -18,7 +18,7 @@ export class DeleteUserRoute extends Route {
     return this.route.handle(id)
   }
 
-  register (router: Router) {
+  register (router: Router): void {
     router.delete('/users/:userId', this.handler)
   }
 }

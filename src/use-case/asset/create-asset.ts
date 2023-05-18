@@ -23,21 +23,21 @@ export class CreateAssetUseCaseImpl implements CreateAssetUseCase {
 
   async handle (dto: CreateAssetDTO): UseCase.Response<Asset> {
     const unit = await this.readUnitUseCase.handle(dto.unitId)
-    if (!unit.ok) {
+    if (unit.ok === false) {
       return unit
     }
 
     const user = await this.readUserUseCase.handle(dto.assigneeId)
-    if (!user.ok) {
+    if (user.ok === false) {
       return user
     }
 
-    if (user.value.companyId != unit.value.companyId) {
+    if (user.value.companyId !== unit.value.companyId) {
       return new ConflictError('Assignee can only register asset in the same company').toResult()
     }
 
     const asset = createAsset(dto, unit.value)
-    if (!asset.ok) {
+    if (asset.ok === false) {
       return asset
     }
 

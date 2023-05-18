@@ -1,6 +1,5 @@
 import { type Result, toOk } from '@/use-case/commons'
 import { ValidationError } from '../errors'
-import { validationSchema } from '../validation'
 import Joi from 'joi'
 
 export type ValueObject<T> = Omit<T, 'id'>

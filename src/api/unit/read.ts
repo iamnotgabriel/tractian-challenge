@@ -14,7 +14,7 @@ export class ReadUnitRoute extends Route {
     this.route = new ReadRoute(useCase)
   }
 
-  register (router: Router) {
+  register (router: Router): void {
     router.get('/units/:unitId', this.handler)
   }
 

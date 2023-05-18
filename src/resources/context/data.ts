@@ -7,14 +7,15 @@ export type DataContext = Readonly<ReturnType<typeof loadContext>>
 
 let dataContext: DataContext
 
-export function getDataContext () {
-  if (dataContext == undefined) {
+export function getDataContext (): DataContext {
+  if (dataContext === undefined) {
     dataContext = Object.freeze(loadContext())
   }
 
   return dataContext
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function loadContext () {
   const companyRepository = new CompanyMongoRepository()
   const userRepository = new UserMongoRepository()

@@ -4,6 +4,7 @@ export type Result<T, E = ApplicationError> =
     | Result.Ok<T>
     | Result.Err<E>
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export namespace Result {
   export type Ok<T> = { ok: true, value: T }
   export type Err<E = ApplicationError> = { ok: false, error: E }

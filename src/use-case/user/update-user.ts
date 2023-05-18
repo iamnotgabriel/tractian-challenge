@@ -8,6 +8,7 @@ import { type Result } from '../commons'
 
 export type UpdateUserUseCase = UseCase<UpdateUserUseCase.Request, UpdateUserUseCase.Response>
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export namespace UpdateUserUseCase {
   export type Request = {
     id: string
@@ -36,7 +37,7 @@ export class UpdateUserUseCaseImpl implements UpdateUserUseCase {
     }
 
     const update = await this.updateUseCase.handle(request)
-    if (!update.ok) {
+    if (update.ok === false) {
       return update
     }
 

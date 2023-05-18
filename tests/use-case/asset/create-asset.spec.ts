@@ -13,7 +13,7 @@ import { randomId } from '@/tests/commons'
 describe('use-case/asset/create-asset', () => {
   const { readUnitUseCase, readUserUseCase } = getTestContext()
 
-  function useCase () {
+  function useCase (): CreateAssetUseCaseImpl {
     return new CreateAssetUseCaseImpl(assetRepository, readUnitUseCase, readUserUseCase)
   }
   const assetDTO: CreateAssetDTO = {

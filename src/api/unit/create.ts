@@ -23,7 +23,7 @@ export class CreateUnitRoute extends Route {
     return this.createRoute.handle(dto)
   }
 
-  public register (router: Router) {
+  public register (router: Router): void {
     router.post('/units', this.handler)
   }
 }

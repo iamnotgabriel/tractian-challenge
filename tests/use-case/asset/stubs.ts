@@ -1,7 +1,6 @@
 import { type Asset, AssetStatus } from '@/domain/asset/entity'
 import { type FindByIdRepository, type SaveRepository, type UpdateByIdRepository } from '../commons/plugins'
 import { type ValueObject } from '@/domain/commons/types'
-import crypto from 'crypto'
 import { randomId } from '@/tests/commons'
 
 export type AssetRepository =

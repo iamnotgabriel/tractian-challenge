@@ -4,7 +4,7 @@ import { configuration } from '../resources/context/configuration'
 import { Application } from './application'
 import { getContext } from '../resources/context/application'
 
-async function main () {
+async function main (): Promise<void> {
   await MongoClientSingleton.connect(configuration.mongoUrl)
   const app = new Application(getContext())
   try {
@@ -14,4 +14,4 @@ async function main () {
   }
 }
 
-main()
+void main()

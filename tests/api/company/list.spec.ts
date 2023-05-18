@@ -2,7 +2,6 @@ import { TestApplication } from '@/tests/main/test-application'
 import { toOk } from '@/use-case/commons'
 import request from 'supertest'
 import { type Express } from 'express'
-import { NotFoundError } from '@/domain/errors'
 
 describe('api/company/list', () => {
   let app: Express

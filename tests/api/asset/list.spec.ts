@@ -8,6 +8,9 @@ import { createUnit } from '../unit/requests'
 import { createCompany } from '../company/requests'
 import { createUser } from '../user/requests'
 import { type AssetStatus } from '@/domain/asset/entity'
+import { type Unit } from '@/domain/unit/entity'
+import { type User } from '@/domain/user/entity'
+import { type Company } from '@/domain/company/entity'
 
 describe('api/asset/list', () => {
   let app: Express
@@ -28,7 +31,7 @@ describe('api/asset/list', () => {
     await MongoClientSingleton.getCollection('users').deleteMany({})
   })
 
-  async function createCompanyMarvel () {
+  async function createCompanyMarvel (): Promise<{ marvel: Company, antMan: User, avengers: Unit }> {
     const marvel = await createCompany(app)
     const avengers = await createUnit(app, {
       name: 'avengers',

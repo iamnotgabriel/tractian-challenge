@@ -7,7 +7,7 @@ function env (variable: string, defaultValue: string): string {
 export const configuration = Object.freeze({
   mongoUrl: env('MONGO_URL', 'mongodb://localhost:27017/db'),
   serverPort: Number(env('SERVER_PORT', '8080')),
-  httpLogging: env('HTTP_LOGGING', 'true') == 'true',
-  silenceLogging: env('SILENCE_LOGGING', 'false') == 'true',
+  httpLogging: env('HTTP_LOGGING', 'true') === 'true',
+  silenceLogging: env('SILENCE_LOGGING', 'false') === 'true',
   serverDomain: env('SERVER_DOMAIN', 'http://localhost:8080')
 })

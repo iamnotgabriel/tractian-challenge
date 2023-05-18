@@ -13,7 +13,7 @@ export class DeleteUnitRoute extends Route {
     this.route = new DeleteRoute(useCase)
   }
 
-  register (router: Router) {
+  register (router: Router): void {
     router.delete('/units/:unitId', this.handler)
   }
 

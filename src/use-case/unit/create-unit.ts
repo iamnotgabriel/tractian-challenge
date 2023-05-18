@@ -20,12 +20,12 @@ export class CreateUnitUseCaseImpl implements CreateUnitUseCase {
 
   async handle (dto: CreateUnitDTO): UseCase.Response<Unit> {
     const unit = createUnit(dto)
-    if (!unit.ok) {
+    if (unit.ok === false) {
       return unit
     }
 
     const company = await this.readCompanyUseCase.handle(unit.value.companyId)
-    if (!company.ok) {
+    if (company.ok === false) {
       return company
     }
 

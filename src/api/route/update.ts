@@ -9,7 +9,7 @@ export class UpdateRoute<T, R> {
   async handle (request: T): Promise<Result<HttpResponse<R>>> {
     const result = await this.useCase.handle(request)
 
-    if (!result.ok) {
+    if (result.ok === false) {
       return result
     }
 

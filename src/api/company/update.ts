@@ -15,7 +15,7 @@ export class UpdateCompanyRoute extends Route {
     this.route = new UpdateRoute(useCase)
   }
 
-  register (router: Router) {
+  register (router: Router): void {
     router.patch('/companies/:companyId', this.handler)
   }
 

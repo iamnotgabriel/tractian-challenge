@@ -18,12 +18,12 @@ export class WebAPI {
     this.app = express()
   }
 
-  setup () {
+  setup (): void {
     this.registerMiddlewares()
     this.registerRoutes()
   }
 
-  private registerMiddlewares () {
+  private registerMiddlewares (): void {
     this.app.use(bodyParser)
     this.app.use(cors)
     this.app.use(contentType)
@@ -39,7 +39,7 @@ export class WebAPI {
     this.app.use('/api/v1', router)
   }
 
-  async start () {
+  async start (): Promise<void> {
     const logger = getLogger('WebAPI')
     const { serverPort } = configuration
     this.app.listen(serverPort, () =>

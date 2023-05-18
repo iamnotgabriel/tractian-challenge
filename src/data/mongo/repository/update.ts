@@ -14,7 +14,7 @@ export class UpdateMongoRepository<T> extends MongoRepository implements UpdateB
     if (result.acknowledged && result.modifiedCount > 0) {
       return toOk(null)
     }
-    if (result.acknowledged && result.matchedCount == 0) {
+    if (result.acknowledged && result.matchedCount === 0) {
       return new NotFoundError(this.collection.namespace, { id }).toResult()
     }
 

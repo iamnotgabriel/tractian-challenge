@@ -31,7 +31,7 @@ export class MongoEntityRepository<T extends { id: string }> extends MongoReposi
     this.updateMongoRepository = new UpdateMongoRepository(this.collection)
   }
 
-  async save (document: ValueObject<T>) {
+  async save (document: ValueObject<T>): Promise<Result<T>> {
     return this.saveMongoRepository.save(document)
   }
 

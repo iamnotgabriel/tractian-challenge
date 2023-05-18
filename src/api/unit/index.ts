@@ -7,7 +7,7 @@ import { DeleteUnitRoute } from './delete'
 import { ListUnitRoute } from './list'
 import { UpdateUnitRoute } from './update'
 
-export function registerRoutes (router: Router, context: ApplicationContext) {
+export function registerRoutes (router: Router, context: ApplicationContext): void {
   Route.registerRoutes(router, [
     new CreateUnitRoute(context.createUnitUseCase),
     new ReadUnitRoute(context.readUnitUseCase),

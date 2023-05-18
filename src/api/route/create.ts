@@ -26,7 +26,7 @@ export class CreateRoute<T, R extends { id: string }> {
     return result as Result.Err
   }
 
-  private getContentLocation (id: string) {
+  private getContentLocation (id: string): string {
     return this.contentLocation.replace(':id', id)
   }
 }

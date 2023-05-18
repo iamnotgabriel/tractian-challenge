@@ -19,14 +19,15 @@ export type ApplicationContext = Readonly<ReturnType<typeof loadContext>>
 
 let context: ApplicationContext
 
-export function getContext () {
-  if (context == undefined) {
+export function getContext (): ApplicationContext {
+  if (context === undefined) {
     context = Object.freeze(loadContext())
   }
 
   return context
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function loadContext () {
   const dataContext = getDataContext()
   const createCompanyUseCase: CreateCompanyUseCase =

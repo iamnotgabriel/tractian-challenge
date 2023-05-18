@@ -17,11 +17,11 @@ export class CreateUserUseCaseImpl implements CreateUserUseCase {
 
   async handle (dto: CreateUserDTO): Promise<Result<User>> {
     const user = createUser(dto)
-    if (!user.ok) {
+    if (user.ok === false) {
       return user
     }
     const company = await this.readCompanyUseCase.handle(user.value.companyId)
-    if (!company.ok) {
+    if (company.ok === false) {
       return company
     }
 

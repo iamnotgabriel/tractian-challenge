@@ -9,7 +9,7 @@ export class DeleteRoute {
   async handle (id: string): Promise<Result<HttpResponse<void>>> {
     const result = await this.useCase.handle(id)
 
-    if (!result.ok) {
+    if (result.ok === false) {
       return result
     }
 

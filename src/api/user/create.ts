@@ -23,7 +23,7 @@ export class CreateUserRoute extends Route {
     return this.createRoute.handle(dto)
   }
 
-  register (router: Router) {
+  register (router: Router): void {
     router.post('/users', this.handler)
   }
 }

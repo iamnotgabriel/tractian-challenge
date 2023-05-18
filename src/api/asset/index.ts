@@ -7,7 +7,7 @@ import { ListAssetRoute } from './list'
 import { DeleteAssetRoute } from './delete'
 import { UpdateAssetRoute } from './update'
 
-export function registerRoutes (router: Router, context: ApplicationContext) {
+export function registerRoutes (router: Router, context: ApplicationContext): void {
   Route.registerRoutes(router, [
     new CreateAssetRoute(context.createAssetUseCase),
     new ReadAssetRoute(context.readAssetUseCase),

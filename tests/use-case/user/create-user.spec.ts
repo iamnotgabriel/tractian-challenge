@@ -9,7 +9,7 @@ import { NotFoundError } from '@/domain/errors'
 describe('use-case/create-user', () => {
   const testContext = getTestContext()
 
-  function useCase () {
+  function useCase (): CreateUserUseCaseImpl {
     return new CreateUserUseCaseImpl(testContext.readCompanyUseCase, userRepository)
   }
 

@@ -27,7 +27,7 @@ export abstract class Route {
     }
   }
 
-  private setHeaders (res: Response, headers: HttpResponse['headers']) {
+  private setHeaders (res: Response, headers: HttpResponse['headers']): void {
     if (headers) {
       for (const header in headers) {
         res.setHeader(header, headers[header])
@@ -35,9 +35,11 @@ export abstract class Route {
     }
   }
 
-  abstract register (router: Router)
+  abstract register (router: Router): void
 
-  static registerRoutes (router: Router, routes: Route[]) {
-    routes.forEach(route => route.register(router))
+  static registerRoutes (router: Router, routes: Route[]): void {
+    routes.forEach(route => {
+      route.register(router)
+    })
   }
 }

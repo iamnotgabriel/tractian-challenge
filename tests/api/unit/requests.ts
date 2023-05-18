@@ -8,7 +8,7 @@ export async function createUnit (app: Express, payload: CreateUnitDTO): Promise
   return body
 }
 
-export async function readUnit (app: Express, id: string, status: number = 200) {
+export async function readUnit<T= Unit> (app: Express, id: string, status: number = 200): Promise<T> {
   const { body } = await request(app).get(`/api/v1/units/${id}`).expect(status)
   return body
 }

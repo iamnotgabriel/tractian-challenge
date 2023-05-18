@@ -4,9 +4,9 @@ import { type SaveRepository } from '../plugins'
 import { type Logger } from 'winston'
 import { getLogger } from '@/resources/logging'
 
-export type CreateUseCase<Req, Res> = UseCase<Req, Res>
+export type CreateUseCase<Req, Res extends { id: string }> = UseCase<Req, Res>
 
-export class CreateUseCaseImpl<Req, Res> implements CreateUseCase<Req, Res> {
+export class CreateUseCaseImpl<Req, Res extends { id: string }> implements CreateUseCase<Req, Res> {
   private readonly logger: Logger
 
   constructor (

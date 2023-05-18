@@ -7,7 +7,7 @@ import { DeleteUseCaseImpl } from '@/use-case/commons/use-case/delete'
 import crypto from 'crypto'
 
 describe('use-case/delete-company', () => {
-  function useCase () {
+  function useCase (): DeleteUseCaseImpl {
     return new DeleteUseCaseImpl('Company', companyRepository)
   }
 

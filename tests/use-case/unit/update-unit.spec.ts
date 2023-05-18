@@ -3,7 +3,6 @@ import { expectToBeOk } from '@/tests/result'
 import { type Result, toOk } from '@/use-case/commons'
 import { ErrorCodes, InternalError, NotFoundError } from '@/domain/errors'
 import { UpdateUnitUseCaseImpl } from '@/use-case/unit/update-unit'
-import { getTestContext } from '@/tests/main/context'
 import { type Unit } from '@/domain/unit/entity'
 
 describe('use-case/update-unit', () => {
@@ -18,7 +17,7 @@ describe('use-case/update-unit', () => {
     jest.clearAllMocks()
   })
 
-  function useCase () {
+  function useCase (): UpdateUnitUseCaseImpl {
     return new UpdateUnitUseCaseImpl(unitRepository)
   }
 

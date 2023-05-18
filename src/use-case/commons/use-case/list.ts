@@ -13,10 +13,10 @@ export class ListUseCaseImpl<T> implements ListUseCase<T> {
       this.repository.count(request.filters),
       this.repository.list(request)
     ])
-    if (!total.ok) {
+    if (total.ok === false) {
       return total
     }
-    if (!list.ok) {
+    if (list.ok === false) {
       return list
     }
 

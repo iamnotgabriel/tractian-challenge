@@ -15,7 +15,7 @@ export class ListCompanyRoute extends Route {
     this.route = new ListRoute(useCase)
   }
 
-  register (router: Router) {
+  register (router: Router): void {
     router.get('/companies', this.handler)
   }
 

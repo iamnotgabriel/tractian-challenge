@@ -1,12 +1,11 @@
 import { type Result } from '@/use-case/commons'
-import { ValidationErrorItem } from 'joi'
 
 export abstract class ApplicationError extends Error {
   constructor (message: string, public readonly errorCode: ErrorCodes) {
     super(message)
   }
 
-  public toResult<T>(): Result.Err {
+  public toResult (): Result.Err<this> {
     return { ok: false, error: this }
   }
 
@@ -22,7 +21,7 @@ export abstract class DetailedError<T> extends ApplicationError {
     super(message, errorCode)
   }
 
-  public toJson () {
+  public toJson (): object {
     return { ...super.toJson(), details: this.details }
   }
 }
@@ -41,6 +40,7 @@ export class NotFoundError extends DetailedError<Record<string, string | object>
 }
 
 export class InternalError extends ApplicationError {
+  // eslint-disable-next-line n/handle-callback-err
   constructor (public readonly error: Error) {
     super('Internal Error', ErrorCodes.INTERNAL_ERROR)
   }

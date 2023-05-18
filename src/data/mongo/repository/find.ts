@@ -1,5 +1,5 @@
 import { type Result, toOk } from '@/use-case/commons'
-import { type FindByIdRepository, SaveRepository } from '@/use-case/commons/plugins'
+import { type FindByIdRepository } from '@/use-case/commons/plugins'
 import { MongoRepository } from '../mongo-repository'
 import { ObjectId } from 'mongodb'
 

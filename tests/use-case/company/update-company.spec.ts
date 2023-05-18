@@ -3,10 +3,8 @@ import { expectToBeOk } from '@/tests/result'
 import { type Result, toOk } from '@/use-case/commons'
 import { ErrorCodes, InternalError, NotFoundError } from '@/domain/errors'
 import { UpdateCompanyUseCaseImpl } from '@/use-case/company/update-company'
-import { getTestContext } from '@/tests/main/context'
 
 describe('use-case/update-company', () => {
-  const testContext = getTestContext()
   const company = {
     id: '64628225f5b6a1023af42e91',
     name: 'Big Tech Company',

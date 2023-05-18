@@ -50,7 +50,7 @@ export function createAsset (dto: CreateAssetDTO, unit: Unit): Result<ValueObjec
 }
 
 export function updateAsset (asset: Asset, patch: UpdateObject<Asset>): Result<Asset> {
-  if (patch.companyId && asset.companyId != patch.companyId) {
+  if (patch.companyId && asset.companyId !== patch.companyId) {
     return new ConflictError("Can't change asset to another company").toResult()
   }
   const patchedAsset = Object.assign(asset, patch)

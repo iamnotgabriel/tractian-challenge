@@ -19,7 +19,7 @@ export class ReadUserRoute extends Route {
     return this.route.handle(id)
   }
 
-  register (router: Router) {
+  register (router: Router): void {
     router.get('/users/:userId', this.handler)
   }
 }

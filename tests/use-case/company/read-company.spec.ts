@@ -3,10 +3,11 @@ import { expectToBeOk } from '@/tests/result'
 import { type Result, toOk } from '@/use-case/commons'
 import { ErrorCodes, InternalError } from '@/domain/errors'
 import { ReadUseCaseImpl } from '@/use-case/commons/use-case/read'
+import { type Company } from '@/domain/company/entity'
 import crypto from 'crypto'
 
 describe('use-case/read-company', () => {
-  function useCase () {
+  function useCase (): ReadUseCaseImpl<Company> {
     return new ReadUseCaseImpl('Company', companyRepository)
   }
 

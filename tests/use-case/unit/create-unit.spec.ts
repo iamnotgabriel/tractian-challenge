@@ -11,7 +11,7 @@ import crypto from 'crypto'
 describe('use-case/unit/create-unit', () => {
   const { readCompanyUseCase } = getTestContext()
 
-  function useCase () {
+  function useCase (): CreateUnitUseCaseImpl {
     return new CreateUnitUseCaseImpl(unitRepository, readCompanyUseCase)
   }
   const unitDTO: CreateUnitDTO = {

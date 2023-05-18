@@ -3,11 +3,9 @@ import { expectToBeOk } from '@/tests/result'
 import { type Result, toOk } from '@/use-case/commons'
 import { ErrorCodes, InternalError, NotFoundError } from '@/domain/errors'
 import { UpdateUserUseCaseImpl } from '@/use-case/user/update-user'
-import { getTestContext } from '@/tests/main/context'
 import { type User } from '@/domain/user/entity'
 
 describe('use-case/update-user', () => {
-  const testContext = getTestContext()
   const user: User = {
     id: '64628225f5b6a1023af42e91',
     name: 'Big Tech Engineer',
@@ -20,7 +18,7 @@ describe('use-case/update-user', () => {
     jest.clearAllMocks()
   })
 
-  function useCase () {
+  function useCase (): UpdateUserUseCaseImpl {
     return new UpdateUserUseCaseImpl(userRepository)
   }
 

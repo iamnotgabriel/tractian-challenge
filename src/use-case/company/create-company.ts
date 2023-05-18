@@ -15,7 +15,7 @@ export class CreateCompanyUseCaseImpl implements CreateCompanyUseCase {
 
   async handle (dto: CreateCompanyDTO): Promise<Result<Company>> {
     const company = createCompany(dto)
-    if (!company.ok) {
+    if (company.ok === false) {
       return company
     }
     return this.createUseCase.handle(company.value)

@@ -21,7 +21,7 @@ export class UpdateUserRoute extends Route {
     return this.route.handle({ id, patch })
   }
 
-  register (router: Router) {
+  register (router: Router): void {
     router.patch('/users/:userId', this.handler)
   }
 }
