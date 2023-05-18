@@ -17,19 +17,19 @@ Build a CRUD where the user can register companies, units, assets and users
     [x] update
     [x] delete
     [x] list
-[ ] units
+[x] units
     [x] create
     [x] read
     [x] update
     [x] delete
     [x] list
-    [ ] list assets
+    [x] list assets
 [ ] assets
     [x] create
-    [ ] read
+    [x] read
     [ ] update
-    [ ] delete
-    [ ] list
+    [x] delete
+    [x] list
 
 ## Important
 - Each asset must have an image, name, description, model, owner, status and health level;

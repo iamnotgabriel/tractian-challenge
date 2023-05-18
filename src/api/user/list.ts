@@ -5,6 +5,7 @@ import { HttpResponse } from "../http/http-response";
 import { ListUseCase } from "@/use-case/commons/use-case/list";
 import { User } from "@/domain/user/entity";
 import { ListRoute } from "../route/list";
+import { PageRequest } from "@/domain/commons/types";
 
 export class ListUserRoute extends Route {
 
@@ -20,7 +21,7 @@ export class ListUserRoute extends Route {
     }
 
     async handle(req: Request): Promise<Result<HttpResponse>> {
-        return this.route.handle(req.query);
+        return this.route.handle(PageRequest.from(req.query));
     }
 
 }

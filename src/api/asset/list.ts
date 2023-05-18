@@ -3,24 +3,24 @@ import { Request, Router } from "express";
 import { Route } from "@/api/route";
 import { HttpResponse } from "../http/http-response";
 import { ListUseCase } from "@/use-case/commons/use-case/list";
-import { Unit, UnitPageRequest } from "@/domain/unit/entity";
+import { Asset, AssetPageRequest } from "@/domain/asset/entity";
 import { ListRoute } from "../route/list";
 
-export class ListUnitRoute extends Route {
+export class ListAssetRoute extends Route {
 
-    private readonly route: ListRoute<Unit>;
+    private readonly route: ListRoute<Asset>;
 
-    constructor(useCase: ListUseCase<Unit>) {
+    constructor(useCase: ListUseCase<Asset>) {
         super();
         this.route = new ListRoute(useCase);
     }
     
     register(router: Router) {
-        router.get('/units', this.handler);
+        router.get('/assets', this.handler);
     }
 
     async handle(req: Request): Promise<Result<HttpResponse>> {
-        return this.route.handle(UnitPageRequest.from(req.query));
+        return this.route.handle(AssetPageRequest.from(req.query));
     }
 
 }

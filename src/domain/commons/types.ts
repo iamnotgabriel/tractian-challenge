@@ -20,7 +20,7 @@ export class Page<T> {
 };
 
 export class PageRequest {
-    private static readonly schema = Joi.object({
+    static readonly schema = Joi.object({
         limit: Joi.number().default(10).min(1).max(100),
         skip: Joi.number().default(0).min(0),
         sort: Joi.string()

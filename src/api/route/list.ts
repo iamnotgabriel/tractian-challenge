@@ -8,8 +8,7 @@ export class ListRoute<T> {
 
     constructor(private readonly useCase: ListUseCase<T> ) {}
 
-    async handle(query: object): Promise<Result<HttpResponse>> {
-        const request = PageRequest.from(query);
+    async handle(request: Result<PageRequest>): Promise<Result<HttpResponse>> {
         if (request.ok == false ) {
             return request;
         } 

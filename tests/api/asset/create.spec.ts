@@ -22,6 +22,8 @@ describe('api/asset/create', () => {
     beforeEach(async () => {
         await MongoClientSingleton.getCollection('units').deleteMany({});
         await MongoClientSingleton.getCollection('companies').deleteMany({});
+        await MongoClientSingleton.getCollection('users').deleteMany({});
+        await MongoClientSingleton.getCollection('assets').deleteMany({});
     });
 
     test("create asset", async () => {
@@ -47,7 +49,7 @@ describe('api/asset/create', () => {
         };
         const {body: res, headers} = await request(app).post('/api/v1/assets').send(asset).expect(201);
         
-        const contentLocation =  `http://localhost:8080/api/v1/assets/${res.id}`;
+        const contentLocation = `http://localhost:8080/api/v1/assets/${res.id}`;
 
         expect(headers['content-location']).toBe(contentLocation);
         expect(res).toMatchObject({

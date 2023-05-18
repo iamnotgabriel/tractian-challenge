@@ -2,9 +2,15 @@ import { ApplicationContext } from "@/resources/context/application";
 import { Router } from "express";
 import { Route } from "../route";
 import { CreateAssetRoute } from "./create";
+import { ReadAssetRoute } from "./read";
+import { ListAssetRoute } from "./list";
+import { DeleteAssetRoute } from "./delete";
 
 export function registerRoutes(router: Router, context: ApplicationContext) {
     Route.registerRoutes(router, [
         new CreateAssetRoute(context.createAssetUseCase),
+        new ReadAssetRoute(context.readAssetUseCase),
+        new DeleteAssetRoute(context.deleteAssetUseCase),
+        new ListAssetRoute(context.listAssetUseCase),
     ]);
 }

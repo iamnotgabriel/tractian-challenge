@@ -42,7 +42,7 @@ export function updateUnit(unit: Unit, patch: UpdateObject<Unit>) {
 }
 
 export class UnitPageRequest extends PageRequest {
-    static filterSchema = Joi.object({
+    static readonly filterSchema = PageRequest.schema.keys({
         name: Joi.string().min(1).max(32),
         companyId: Joi.string(),
         createdAt: Joi.date(),

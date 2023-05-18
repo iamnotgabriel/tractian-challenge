@@ -10,6 +10,7 @@ import { ApplicationContext } from "@/resources/context/application";
 import { configuration } from "@/resources/context/configuration";
 import { loggingMiddleware } from "./middlewares/logger";
 import { getLogger } from "@/resources/logging";
+import * as notFound from "@/api/http/not-found";
 
 export class WebAPI {
     public readonly app: Express;
@@ -36,6 +37,7 @@ export class WebAPI {
         user.registerRoutes(router, this.context);
         unit.registerRoutes(router, this.context);
         asset.registerRoutes(router, this.context);
+        notFound.registerRoute(router);
         this.app.use('/api/v1', router);
     }
 

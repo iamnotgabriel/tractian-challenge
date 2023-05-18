@@ -1,5 +1,5 @@
 import { Result, toOk } from "@/use-case/commons";
-import { Entity, ValueObject } from "../commons/types";
+import { Entity, PageRequest, UpdateObject, ValueObject } from "../commons/types";
 import { validationSchema } from "../validation";
 import Joi from "joi";
 import { ValidationError } from "../errors";
@@ -37,14 +37,42 @@ const assetSchema = validationSchema<CreateAssetDTO>({
 
 export function createAsset(dto: CreateAssetDTO, unit: Unit): Result<ValueObject<Asset>> {
     const { error, value } = assetSchema.validate(dto);
-
     if (error) {
         return new ValidationError(error.details).toResult();
     }
+
     dto = value as CreateAssetDTO;
     return toOk({
         ...dto,
         createdAt: new Date(),
         companyId: unit.companyId,
     })
+}
+
+
+export function updateAsset(asset:Asset, patch: UpdateObject<Asset>): Result<Asset> {
+    return toOk(asset);
+}
+
+export class AssetPageRequest extends PageRequest {
+    static readonly filterSchema = PageRequest.schema.keys({
+        name: Joi.string().min(1),
+        companyId: Joi.string().hex().length(24),
+        unitId: Joi.string().hex().length(24),
+        assigneeId: Joi.string().hex().length(24),
+        createdAt: Joi.date(),
+        model: Joi.string().min(1),
+        healthLevel: Joi.number().min(0).max(100),
+        status: Joi.string().valid(...Object.values(AssetStatus))
+    }).options({ stripUnknown: true });
+
+    static from(request: Record<string, any>): Result<PageRequest> {
+        const {error, value} = AssetPageRequest.filterSchema.validate(request);
+        if ( error ) {
+            console.log(request);
+            return new ValidationError(error.details).toResult();
+        }
+        
+        return super.from(value);
+    }
 }
