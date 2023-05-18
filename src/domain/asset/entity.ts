@@ -25,14 +25,14 @@ export type CreateAssetDTO = {
 export type Asset = Entity<CreateAssetDTO> & { companyId: string };
 
 const assetSchema = validationSchema<CreateAssetDTO>({
-    image: Joi.string().min(1),
-    name: Joi.string().min(1),
-    description: Joi.string().min(1),
-    model: Joi.string().min(1),
-    assigneeId: Joi.string().hex().length(24),
-    status: Joi.string().valid(...Object.values(AssetStatus)),
-    healthLevel: Joi.number().min(0).max(100),
-    unitId: Joi.string().hex().length(24),
+    image: Joi.string().min(1).required(),
+    name: Joi.string().min(1).required(),
+    description: Joi.string().min(1).required(),
+    model: Joi.string().min(1).required(),
+    assigneeId: Joi.string().hex().length(24).required(),
+    status: Joi.string().valid(...Object.values(AssetStatus)).required(),
+    healthLevel: Joi.number().min(0).max(100).required(),
+    unitId: Joi.string().hex().length(24).required(),
 });
 
 export function createAsset(dto: CreateAssetDTO, unit: Unit): Result<ValueObject<Asset>> {
